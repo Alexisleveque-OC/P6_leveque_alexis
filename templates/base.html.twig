@@ -10,7 +10,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="{{ path('home') }}">Snowtricks</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -22,20 +23,28 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Tricks</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('registration') }}">Inscription</a>
-            </li>
+            {% if not app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">Connection</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('registration') }}">Inscription</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Déconnection</a>
+                </li>
+                <h4 style="position: absolute; right: 5%">Bonjour {{ app.user.username }}</h4>
+            {% endif %}
+
         </ul>
     </div>
 </nav>
 {% block body %}{% endblock %}
 {% block javascripts %}{% endblock %}
 </body>
-<footer >
-    <p >Copyright : Alexis leveque - Pour le projet 6 du parcours developpeur php/symfony de Openclassrooms.com</p>
+<footer>
+    <p>Copyright : Alexis leveque - Pour le projet 6 du parcours developpeur php/symfony de Openclassrooms.com</p>
     {% block footer %}{% endblock %}
 </footer>
 </html>
