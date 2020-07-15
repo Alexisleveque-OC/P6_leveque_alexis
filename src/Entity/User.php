@@ -46,10 +46,6 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @Assert\EqualTo(propertyPath="password", message="Votre message doit être le même dans les deux champs.")
-     */
-    public $confirm_password;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,7 +56,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $validation;
+    private $validation = false;
 
     /**
      * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")

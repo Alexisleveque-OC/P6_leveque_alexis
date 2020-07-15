@@ -34,12 +34,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
                 </li>
+{#                TODO virer le css inline#}
                 <h4 style="position: absolute; right: 5%">Bonjour {{ app.user.username }}</h4>
             {% endif %}
 
         </ul>
     </div>
 </nav>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 {% block body %}{% endblock %}
 {% block javascripts %}{% endblock %}
 </body>

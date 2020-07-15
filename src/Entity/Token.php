@@ -28,6 +28,11 @@ class Token
      */
     private $user;
 
+    public function __construct()
+    {
+        $this->token = $this->generateToken();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,5 +60,10 @@ class Token
         $this->user = $user;
 
         return $this;
+    }
+
+    public function generateToken(): string
+    {
+        return bin2hex(random_bytes(8));
     }
 }
