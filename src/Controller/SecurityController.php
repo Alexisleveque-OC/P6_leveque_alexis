@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Token;
 use App\Entity\User;
 use App\Form\UserLoginType;
-use App\Form\UserType;
-use App\Service\Mail\SendTokenByMail;
+use App\Form\RegisterUserType;
+use App\Service\Mail\Mailer;
+use App\Service\User\RegisterService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,45 +22,32 @@ class SecurityController extends AbstractController
 {
     /**
      * @Route("/inscription", name="registration")
+     * @param Request $request
+     * @param Mailer $mailer
+     * @param RegisterService $registerService
+     * @return RedirectResponse|Response
      */
-    public function registration(User $user = null, Token $token = null, Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function registration(Request $request ,Mailer $mailer,RegisterService $registerService)
     {
-        $user = new User();
-        $token = new Token();
 
-        $form = $this->createForm(UserType::class, $user);
-
+        $form = $this->createForm(RegisterUserType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $token = $registerService->register($form);
 
-            $user->setPassword($hash);
+            $mailer->sendUserTokenMail($token);
 
-            $user->setValidation(0);
-
-            $manager->persist($user);
-            $manager->flush();
-
-            $tempToken = random_bytes(8);
-            $token->setToken(bin2hex($tempToken));
-            $token->setUser($user);
-
-            $manager->persist($token);
-            $manager->flush();
-
-            $mail = new SendTokenByMail();
-//            $mail->sendEmail($mail,$user, $token );
-            return $this->redirectToRoute('email', ['email' => $user->getEmail(), 'token' => $token->getToken()]);
-
-//            return $this->render('main/home.html.twig');
+            $this->addFlash('success', 'Vous avez été enregistré, vérifiez vos email pour valideer votre compte !');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('security/registration.html.twig', [
             'formUser' => $form->createView()
         ]);
     }
+
 
     /**
      * @Route("/login", name="app_login")
