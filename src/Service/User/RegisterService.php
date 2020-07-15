@@ -37,6 +37,6 @@ class RegisterService
         $this->manager->persist($token);
         $this->manager->flush();
 
-        return ($token);
+        return $token;
     }
 }

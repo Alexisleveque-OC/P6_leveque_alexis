@@ -6,8 +6,11 @@ use App\Entity\Token;
 use App\Entity\User;
 use App\Form\UserLoginType;
 use App\Form\RegisterUserType;
+use App\Repository\TokenRepository;
+use App\Repository\UserRepository;
 use App\Service\Mail\Mailer;
 use App\Service\User\RegisterService;
+use App\Service\User\ValidationService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +30,7 @@ class SecurityController extends AbstractController
      * @param RegisterService $registerService
      * @return RedirectResponse|Response
      */
-    public function registration(Request $request ,Mailer $mailer,RegisterService $registerService)
+    public function registration(Request $request, Mailer $mailer, RegisterService $registerService)
     {
 
         $form = $this->createForm(RegisterUserType::class);
@@ -46,6 +49,20 @@ class SecurityController extends AbstractController
         return $this->render('security/registration.html.twig', [
             'formUser' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/validateUser/{token}", name="validation")
+     * @param $token
+     * @param ValidationService $validationService
+     */
+    public function validation($token, ValidationService $validationService)
+    {
+        $validationService->validateUser($token);
+
+        $this->addFlash('success','Votre compte a été correctement validé !!!');
+
+        return $this->render('security/accountValidated.html.twig');
     }
 
 
