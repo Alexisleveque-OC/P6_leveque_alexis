@@ -34,7 +34,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
                 </li>
-{#                TODO virer le css inline#}
+                {#                TODO virer le css inline#}
                 <h4 style="position: absolute; right: 5%">Bonjour {{ app.user.username }}</h4>
             {% endif %}
 
@@ -48,7 +48,11 @@
         </div>
     {% endfor %}
 {% endfor %}
-{% block body %}{% endblock %}
+{% if (app.user) and (app.user.validation == false) %}
+    <h4>Vous n'avez pas encore validé votre compte. Allez voir vos mails et actualisez cette page.</h4>
+{% else %}
+    {% block body %}{% endblock %}
+{% endif %}
 {% block javascripts %}{% endblock %}
 </body>
 <footer>

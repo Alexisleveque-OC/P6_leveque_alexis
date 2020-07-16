@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
 
             $mailer->sendUserTokenMail($token);
 
-            $this->addFlash('success', 'Vous avez été enregistré, vérifiez vos email pour valideer votre compte !');
+            $this->addFlash('success', 'Vous avez été enregistré, vérifiez vos email pour valider votre compte !');
             return $this->redirectToRoute('home');
         }
 
@@ -75,6 +75,7 @@ class SecurityController extends AbstractController
         //     return $this->redirectToRoute('target_path');
         // }
         // get the login error if there is one
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
