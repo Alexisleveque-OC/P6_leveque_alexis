@@ -12,11 +12,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(
- *     fields={"email"},
- *     message="L'email que vous avez choisis est déjà utilisé."
- * )
+ *
  */
+//@UniqueEntity(
+// *     fields={"email"},
+// *     message="L'email que vous avez choisis est déjà utilisé."
+//    * )
+// TODO : remettre la vérification avant final
 class User implements UserInterface
 {
     /**
@@ -44,10 +46,6 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @Assert\EqualTo(propertyPath="password", message="Votre message doit être le même dans les deux champs.")
-     */
-    public $confirm_password;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -58,7 +56,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $validation;
+    private $validation = false;
 
     /**
      * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
@@ -69,6 +67,8 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
     private $comments;
+
+    private $salt;
 
     public function __construct()
     {
@@ -205,12 +205,12 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return array('ROLE_USER');
     }
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return $this->salt;
     }
 
     public function eraseCredentials()
