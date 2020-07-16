@@ -16,13 +16,14 @@ class RegisterUserType extends AbstractType
         $builder
             ->add('username')
             ->add('email')
-            ->add('password',RepeatedType::class, [
-                'type' => PasswordType::class
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => ['label' => 'Mot de passe', 'attr' => ['placeholder' => 'Mot de passe']],
+                'second_options' => ['label' => 'Confirmation de mot de passe', 'attr' => ['placeholder' => 'Confirmation du mot de passe']],
             ])
             ->add('photo', null, [
                 'required' => false
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
