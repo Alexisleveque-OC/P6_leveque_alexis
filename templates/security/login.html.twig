@@ -19,18 +19,16 @@
                 <label for="inputEmail">Email</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                        required autofocus>
-                <label for="inputPassword">Password</label>
+                <label for="inputPassword">Mot de passe</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" required>
 
                 <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Sign in
+                       value="{{ csrf_token('authenticate') }}">
+                <hr>
+                <button class="btn btn-lg btn-primary offset-2 col-8" type="submit">
+                    Connexion
                 </button>
             </div>
         </div>
-
-
     </form>
 {% endblock %}
