@@ -8,3 +8,11 @@ footer {
     left: 3%;
     top: 15%;
 }
+#navbarUser{
+    position: absolute;
+    right: 5%;
+}
+.container
+{
+    margin-top: 5%;
+}

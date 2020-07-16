@@ -21,7 +21,7 @@
                 <a class="nav-link" href="#">Groupes <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Tricks</a>
+                <a class="nav-link" href="{{ path('trick_create') }}">Créer un Tricks</a>
             </li>
             {% if not app.user %}
                 <li class="nav-item">
@@ -34,8 +34,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
                 </li>
-                {#                TODO virer le css inline#}
-                <h4 style="position: absolute; right: 5%">Bonjour {{ app.user.username }}</h4>
+                <h4 id="navbarUser">Bonjour {{ app.user.username }}</h4>
             {% endif %}
 
         </ul>

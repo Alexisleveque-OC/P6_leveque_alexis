@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="offset-2 col-8">
+            {{ form_start(formTrick) }}
+
+            {{ form_row(formTrick.name,{'label':"Nom du trick",'attr':{'placeholder':"Nom du utrick"}}) }}
+            {{ form_row(formTrick.description,{'label':"Description du trick",'attr':{'placeholder':"Description du trick"}}) }}
+            {{ form_row(formTrick.groupName,{'label':"Groupe du trick" }) }}
+            {{ form_row(formTrick.image, {'label':"Nom d'utilisateur",'attr':{'placeholder':"upload image"}}) }}
+            {{ form_row(formTrick.video,{'label':"Nom d'utilisateur",'attr':{'placeholder':"upload video"}}) }}
+
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+
+            {{ form_end(formTrick) }}
+        </div>
+    </div>
+{% endblock %}
+
+        {% block title %}
+            Création d'un trick
+        {% endblock %}
+
