@@ -6,7 +6,7 @@ namespace App\Service\Trick;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class CreateTrick
+class CreateGroup
 {
     /**
      * @var EntityManagerInterface
@@ -18,11 +18,11 @@ class CreateTrick
         $this->manager = $manager;
     }
 
-    public function saveTrick($formTrick)
+    public function saveGroup($formGroup)
     {
-        $trick = $formTrick->getData();
-        $trick->setCreatedAt(new \DateTime());
-        $this->manager->persist($trick);
+        $group = $formGroup->getData();
+        $this->manager->persist($group);
         $this->manager->flush();
+
     }
 }

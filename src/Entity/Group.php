@@ -6,10 +6,17 @@ use App\Repository\GroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="`group`")
+ * @UniqueEntity(
+ *     fields={title},
+ *     message="Le groupe que vous avez essayer de créer existe déjà."
+ * )
  */
 class Group
 {
@@ -22,11 +29,13 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="3",min="Le titre du groupe doit faire au moins 3 caractères.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min="10",min="La description de la figure doit faire au moins 10 caractères.")
      */
     private $description;
 
