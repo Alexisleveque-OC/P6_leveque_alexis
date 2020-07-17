@@ -6,9 +6,12 @@ use App\Form\GroupType;
 use App\Form\TrickCreateType;
 use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class TrickController extends AbstractController
 {
@@ -27,31 +30,30 @@ class TrickController extends AbstractController
      * @Route("/trick/{id}/edit", name="trick_edit")
      * @param Request $request
      * @param CreateTrick $createTrick
-     * @param CreateGroup $createGroup
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function create(Request $request,CreateTrick $createTrick,CreateGroup $createGroup)
+    public function create(Request $request, CreateTrick $createTrick)
     {
         $formTrick = $this->createForm(TrickCreateType::class);
         $formTrick->handleRequest($request);
 
-        $formGroup = $this->createForm(GroupType::class);
-        $formGroup->handleRequest($request);
+//        $formGroup = $this->createForm(GroupType::class);
+//        $formGroup->handleRequest($request);
+//
+//        if($formGroup->isSubmitted() && $formGroup->isValid())
+//        {
+//            $createGroup->saveGroup($formGroup);
+//        }
+        if ($formTrick->isSubmitted() && $formTrick->isValid()) {
 
-        if($formGroup->isSubmitted() && $formGroup->isValid())
-        {
-            $createGroup->saveGroup($formGroup);
-        }
+            $user = $this->getUser();
 
-        if($formTrick->isSubmitted() && $formTrick->isValid())
-        {
-            $createTrick->saveTrick($formTrick);
+            $createTrick->saveTrick($formTrick, $user);
             return $this->redirectToRoute('home');
-            // TODo : A modifier quand show sera créer
+            // TODO : A modifier quand show sera créer
         }
-        return $this->render('trick/createTrick.hmtl.twig',[
-            'formTrick' => $formTrick->createView(),
-            'formGroup' => $formGroup->createView()
+        return $this->render('trick/createTrick.html.twig', [
+            'formTrick' => $formTrick->createView()
         ]);
     }
 }

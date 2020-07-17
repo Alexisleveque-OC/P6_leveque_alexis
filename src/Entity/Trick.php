@@ -13,8 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
  * @UniqueEntity(
- *     fields={name},
- *     message="Le trick que vous vouleez créer existe déjà"
+ *     fields={"name"},
+ *     message="Le trick que vous voulez créer existe déjà"
  * )
  */
 class Trick

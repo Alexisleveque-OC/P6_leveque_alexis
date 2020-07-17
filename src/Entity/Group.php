@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=GroupRepository::class)
  * @ORM\Table(name="`group`")
  * @UniqueEntity(
- *     fields={title},
+ *     fields={"title"},
  *     message="Le groupe que vous avez essayer de créer existe déjà."
  * )
  */

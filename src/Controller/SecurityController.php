@@ -55,6 +55,7 @@ class SecurityController extends AbstractController
      * @Route("/validateUser/{token}", name="validation")
      * @param $token
      * @param ValidationService $validationService
+     * @return Response
      */
     public function validation($token, ValidationService $validationService)
     {

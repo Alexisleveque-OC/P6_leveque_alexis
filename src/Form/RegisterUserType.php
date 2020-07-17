@@ -21,9 +21,7 @@ class RegisterUserType extends AbstractType
                 'first_options' => ['label' => 'Mot de passe', 'attr' => ['placeholder' => 'Mot de passe']],
                 'second_options' => ['label' => 'Confirmation de mot de passe', 'attr' => ['placeholder' => 'Confirmation du mot de passe']],
             ])
-            ->add('photo', null, [
-                'required' => false
-            ]);
+            ->add('photo');
     }
 
     public function configureOptions(OptionsResolver $resolver)

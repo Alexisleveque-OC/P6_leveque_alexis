@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="offset-2 col-8">
+            {{ form_start(formGroup) }}
+
+            {{ form_row(formGroup.title,{'label':"Nom du groupe",'attr':{'placeholder':"Nom du gourpe"}}) }}
+            {{ form_row(formGroup.description,{'label':"Description du group",'attr':{'placeholder':"Description du group"}}) }}
+
+            <button class="btn btn-primary">Créer le groupe</button>
+
+            {{ form_end(formGroup) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+Créer un groupe
+{% endblock %}
+
