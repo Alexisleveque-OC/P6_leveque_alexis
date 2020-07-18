@@ -18,7 +18,7 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Groupes <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#">Groupes <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('trick_create') }}">Créer un Trick</a>
@@ -45,7 +45,7 @@
 </nav>
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ label }}">
+        <div id="alert" class="alert alert-{{ label }}" tabindex="1">
             {{ message }}
         </div>
     {% endfor %}
