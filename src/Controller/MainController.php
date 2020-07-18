@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\TrickRepository;
+use App\Service\Trick\ReadTricks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,18 +21,23 @@ class MainController extends AbstractController
 
     /**
      * @Route("/", name="home")
-     * @param TrickRepository $trickRepository
+     * @Route("/{line}", name="more_tricks")
+     * @param ReadTricks $readTricks
+     * @param int $line
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function home(TrickRepository $trickRepository)
+    public function home(ReadTricks $readTricks, $line = 1)
     {
-        $tricks = $trickRepository->findBy([],['id'=>'DESC']);
+        $tricks = $readTricks->readTricks($line);
 
-        foreach ($tricks as $trick){
-            $trick->setDescription(substr($trick->getDescription(),0,30) .' ...');
-        }
-        return $this->render('main/home.html.twig',[
-            'tricks' => $tricks
+        $line++;
+
+//        foreach ($tricks as $trick) {
+//            $trick->setDescription(substr($trick->getDescription(), 0, 30) . ' ...');
+//        }
+        return $this->render('main/home.html.twig', [
+            'tricks' => $tricks,
+            'line' => $line
         ]);
     }
 
