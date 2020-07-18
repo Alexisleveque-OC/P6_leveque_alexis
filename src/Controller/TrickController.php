@@ -26,6 +26,15 @@ class TrickController extends AbstractController
     }
 
     /**
+     * @Route{"/trick/{id}", name="trick_show"}
+     * @param $id
+     */
+    public function show($id)
+    {
+
+    }
+
+    /**
      * @Route("/trick/creation", name="trick_create")
      * @Route("/trick/{id}/edit", name="trick_edit")
      * @param Request $request

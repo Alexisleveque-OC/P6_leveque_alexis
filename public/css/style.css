@@ -1,6 +1,5 @@
-footer {
-    position: absolute;
-    bottom: 0;
+#imgHome {
+    width: 100%;
 }
 
 #homeSentence {
@@ -8,11 +7,41 @@ footer {
     left: 3%;
     top: 15%;
 }
-#navbarUser{
+
+#navbarUser {
     position: absolute;
     right: 5%;
 }
-.container
-{
+
+.container {
     margin-top: 5%;
+}
+
+article a {
+    text-decoration: none;
+    color: #222222;
+}
+
+footer {
+    bottom: 0;
+}
+.card{
+    text-align: center;
+}
+.card-title{
+    font-size: 1em;
+}
+.card-text{
+    font-size: 0.8em;
+}
+.card-footer {
+    font-size: 0.5em;
+    text-align: left;
+}
+#cardGroupe{
+    font-size: 0.9em;
+}
+#alert{
+    position: absolute;
+    width: 100%;
 }

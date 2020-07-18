@@ -4,11 +4,37 @@
 
 {% block body %}
 
-    <img src="image/home.jpg" alt="montagne et snowboard" style="width: 100%">
+    <img src="/image/home.jpg" alt="montagne et snowboard" id="imgHome">
     <h1 id="homeSentence">La communauté vous apprend le freestyle</h1>
     <hr>
     <div class="container">
         <h1> Les derniers tricks !!!</h1>
+        <section class="tricks">
+            <div class="row">
+                {% for trick in tricks %}
+                    <div class="col-3">
+                        <article class="card">
+                            <a href="#">
+                                <img src="http://placehold.it/150x150" alt="" class="card-img-top">
+                                <h2 class="card-title">{{ trick.name }}</h2>
+                                <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
+                                <div class="content card-text">
+                                    {{ trick.description | raw }}
+                                </div>
+                                <div class="metadata card-footer">
+                                    {{ trick.createdAt | date('d/m/Y') }}
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                {% endfor %}
+                <div class="offset-4 col-4">
+                    <a class="btn btn-secondary" href="/{{ line }}">Afficher plus de
+                        tricks</a>
+                </div>
+            </div>
+        </section>
     </div>
+
 
 {% endblock %}
