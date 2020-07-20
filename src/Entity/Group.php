@@ -29,12 +29,14 @@ class Group
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="3",min="Le titre du groupe doit faire au moins 3 caractères.")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3",minMessage="Le titre du groupe doit faire au moins 3 caractères.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      * @Assert\Length(min="10",min="La description de la figure doit faire au moins 10 caractères.")
      */
     private $description;

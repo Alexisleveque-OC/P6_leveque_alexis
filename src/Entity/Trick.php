@@ -28,12 +28,14 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      * @Assert\Length(min="3",minMessage="Le nom de votre figure doit fairree au moins 3 caractères.")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      * @Assert\Length(min="5",min="La description de votre figure doit faire au moins 5 caractères")
      */
     private $description;

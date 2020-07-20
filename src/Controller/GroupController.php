@@ -37,7 +37,7 @@ class GroupController extends AbstractController
         {
             $createGroup->saveGroup($formGroup);
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('trick_create');
         }
         return $this->render('group/create.html.twig',[
             'formGroup' => $formGroup->createView()

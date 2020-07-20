@@ -28,10 +28,44 @@ class TrickController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/trick/creation", name="trick_create")
+     * @Route("/trick/{id}/edit", name="trick_edit")
+     * @param Trick|null $trick
+     * @param Request $request
+     * @param CreateTrick $createTrick
+     * @param CreateGroup $createGroup
+     * @return Response
+     */
+    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick, CreateGroup $createGroup)
+    {
+        if (!$trick) {
+            $trick = new Trick();
+        }
+        $formTrick = $this->createForm(TrickCreateType::class, $trick);
+        $formTrick->handleRequest($request);
+
+        $formGroup = $this->createForm(GroupType::class);
+
+        if ($formTrick->isSubmitted() && $formTrick->isValid()) {
+            $user = $this->getUser();
+
+            $trick = $createTrick->saveTrick($formTrick, $user);
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+        }
+        return $this->render('trick/createTrick.html.twig', [
+            'formTrick' => $formTrick->createView(),
+            'formGroup'=> $formGroup->createView(),
+            'editMode' => $trick->getId() !== null
+        ]);
+    }
+
     /**
      * @Route("/trick/{id}", name="trick_show")
      * @param Trickshow $trickShow
-     * @param $id
+     * @param $id int
+     * @return Response
      */
     public function show(TrickShow $trickShow, $id)
     {
@@ -43,52 +77,15 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/creation", name="trick_create")
-     * @Route("/trick/{id}/edit", name="trick_edit")
-     * @param Request $request
-     * @param CreateTrick $createTrick
-     * @return Response
-     */
-    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick)
-    {
-        if (!$trick) {
-            $trick = new Trick();
-        }
-        $formTrick = $this->createForm(TrickCreateType::class, $trick);
-        $formTrick->handleRequest($request);
-
-//        $formGroup = $this->createForm(GroupType::class);
-//        $formGroup->handleRequest($request);
-//
-//        if($formGroup->isSubmitted() && $formGroup->isValid())
-//        {
-//            $createGroup->saveGroup($formGroup);
-//        }
-        if ($formTrick->isSubmitted() && $formTrick->isValid()) {
-
-            $user = $this->getUser();
-
-            $trick = $createTrick->saveTrick($formTrick, $user);
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
-        }
-        return $this->render('trick/createTrick.html.twig', [
-            'formTrick' => $formTrick->createView(),
-            'editMode' => $trick->getId() !== null
-        ]);
-    }
-
-    /**
      * @Route("/trick/delete/{id}", name="deleteConf_trick")
      * @Route("/trick/delete/{id}/{answer}", name="delete_trick")
      * @param DeleteTrick $deleteTrick
-     * @param Trickshow $trickShow
-     * @param $id
+     * @param Trick $trick
      * @param null $answer
      * @return Response
      */
-    public function delete(DeleteTrick $deleteTrick, Trickshow $trickShow, $id, $answer)
+    public function delete(DeleteTrick $deleteTrick, Trick $trick, $answer = null)
     {
-        $trick = $trickShow->showTrick($id);
 
         if ($answer == true) {
             $deleteTrick->delete($trick);

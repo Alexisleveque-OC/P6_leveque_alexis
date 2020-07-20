@@ -12,13 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="L'email que vous avez choisis est déjà utilisé."
+ * )
  *
  */
-//@UniqueEntity(
-// *     fields={"email"},
-// *     message="L'email que vous avez choisis est déjà utilisé."
-//    * )
-// TODO : remettre la vérification avant final
 class User implements UserInterface
 {
     /**
@@ -30,6 +29,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      * @Assert\Length(min="4", minMessage="Votre nom d'utilisateur doit faire au moins 4 caractères.")
      */
     private $username;
@@ -42,6 +42,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      * @Assert\Length(min="6", minMessage="Votre mot de passe doit faire au moins 6 caractères.")
      */
     private $password;

@@ -7,6 +7,27 @@
         {% else %}
             <h2>Création d'un trick</h2>
         {% endif %}
+        <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog"
+             aria-labelledby="createGroupLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createGroupLabel">Nouveau Groupe de figure</h5>
+                        <button type="button" class="btn " data-dismiss="modal">&times</button>
+                    </div>
+                    {{ form_start(formGroup, {'action': path('group_create')}) }}
+                    <div class="modal-body">
+                        {{ form_row(formGroup.title,{'attr':{'placeholder':"Type de figures",'required':'none'}}) }}
+                        {{ form_row(formGroup.description,{'attr':{'placeholder':"Description du groupe de figure"}}) }}
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Enregistrer">
+                    </div>
+                    {{ form_end(formGroup) }}
+                </div>
+            </div>
+        </div>
         <div class="offset-2 col-8">
             {{ form_start(formTrick) }}
 
@@ -16,36 +37,15 @@
                 <div class="col-10">
                     {{ form_row(formTrick.groupName,{'attr':{'placeholder':"Type de figures",'required':'none'}}) }}
                 </div>
-                {#                <div class="col-2">#}
-                {#                    <a class="btn btn-primary" role="button" data-toggle="modal"#}
-                {#                       data-target="#createGroupModal"> Créer un nouveau groupe#}
-                {#                    </a>#}
-                {#                    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog"#}
-                {#                         aria-labelledby="createGroupLabel"#}
-                {#                         aria-hidden="true">#}
-                {#                        <div class="modal-dialog" role="document">#}
-                {#                            <div class="modal-content">#}
-                {#                                <div class="modal-header">#}
-                {#                                    <h5 class="modal-title" id="createGroupLabel">Nouveau Groupe de figure</h5>#}
-                {#                                </div>#}
-                {#                                <div class="modal-body">#}
-                {#                                    {{ form_start(formGroup) }}#}
-                {#                                    {{ form_row(formGroup.title,{'attr':{'placeholder':"Type de figures",'required':'none'}}) }}#}
-                {#                                    {{ form_row(formGroup.description,{'attr':{'placeholder':"Description de la figure"}}) }}#}
-                {#                                </div>#}
-                {#                                <div class="modal-footer">#}
-                {#                                    <p class="btn btn-primary" data-dismiss="modal">Fermer pour#}
-                {#                                        enregistrer</p>#}
-                {#                                </div>#}
-                {#                                {{ form_end(formGroup) }}#}
-                {#                            </div>#}
-                {#                        </div>#}
-                {#                    </div>#}
-                {#                </div>#}
+                                <div class="col-2">
+                                    <a class="btn btn-primary" role="button" data-toggle="modal"
+                                       data-target="#createGroupModal"> Créer un nouveau groupe
+                                    </a>
+                                </div>
             </div>
-            {#            {{ form_row(formTrick.images, {'label':"image",'attr':{'placeholder':"upload image"}}) }}#}
-            {#            {{ form_row(formTrick.videos,{'label':"video",'attr':{'placeholder':"upload video"}}) }}#}
-            {#            <input type="hidden" value="{{ app.user.id }}" name="trick_create[user]">#}
+{#                        {{ form_row(formTrick.images, {'label':"image",'attr':{'placeholder':"upload image"}}) }}#}
+{#                        {{ form_row(formTrick.videos,{'label':"video",'attr':{'placeholder':"upload video"}}) }}#}
+{#                        <input type="hidden" value="{{ app.user.id }}" name="trick_create[user]">#}
 
 
             <button class="btn btn-primary">
