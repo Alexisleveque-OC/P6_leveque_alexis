@@ -29,8 +29,14 @@ class CreateTrick
         $trick = $formTrick->getData();
 
         $trick->setUser($user);
-        $trick->setCreatedAt(new \DateTime());
+        if ($trick->getCreatedAt()) {
+            $trick->setUpdatedAt(new \DateTime());
+        } else {
+            $trick->setCreatedAt(new \DateTime());
+        }
         $this->manager->persist($trick);
         $this->manager->flush();
+
+        return $trick;
     }
 }

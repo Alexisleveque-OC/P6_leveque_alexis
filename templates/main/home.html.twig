@@ -14,15 +14,30 @@
                 {% for trick in tricks %}
                     <div class="col-3">
                         <article class="card">
+
                             <a href="{{ path('trick_show',{'id':trick.id}) }}">
                                 <img src="http://placehold.it/150x150" alt="" class="card-img-top">
+                                <div class="offset-6">
+                                    <a href="{{ path('trick_edit',{'id':trick.id}) }}" class="col-3">
+                                        <span class="oi oi-pencil"></span>
+                                    </a>
+                                    <a href="" class="col-3">
+                                        <span class="oi oi-delete"></span>
+                                    </a>
+
+                                </div>
+                                </img>
                                 <h2 class="card-title">{{ trick.name }}</h2>
                                 <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
                                 <div class="content card-text">
                                     {{ trick.description | raw }}
                                 </div>
                                 <div class="metadata card-footer">
-                                    {{ trick.createdAt | date('d/m/Y') }}
+                                    {%  if trick.updatedAt %}
+                                    Modifié le {{ trick.updatedAt | date('d/m/Y') }}
+                                    {% else %}
+                                        {{ trick.createdAt | date('d/m/Y') }}
+                                    {% endif %}
                                 </div>
                             </a>
                         </article>

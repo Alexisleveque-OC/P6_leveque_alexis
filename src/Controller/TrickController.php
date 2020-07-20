@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Trick;
 use App\Form\GroupType;
 use App\Form\TrickCreateType;
 use App\Service\Trick\CreateGroup;
@@ -47,9 +48,12 @@ class TrickController extends AbstractController
      * @param CreateTrick $createTrick
      * @return Response
      */
-    public function create(Request $request, CreateTrick $createTrick)
+    public function create(Trick $trick = null,Request $request, CreateTrick $createTrick)
     {
-        $formTrick = $this->createForm(TrickCreateType::class);
+        if (!$trick){
+            $trick = new Trick();
+        }
+        $formTrick = $this->createForm(TrickCreateType::class, $trick);
         $formTrick->handleRequest($request);
 
 //        $formGroup = $this->createForm(GroupType::class);
@@ -63,12 +67,12 @@ class TrickController extends AbstractController
 
             $user = $this->getUser();
 
-            $createTrick->saveTrick($formTrick, $user);
-            return $this->redirectToRoute('home');
-            // TODO : A modifier quand show sera créer
+            $trick = $createTrick->saveTrick($formTrick, $user);
+            return $this->redirectToRoute('trick_show',['id'=> $trick->getId()]);
         }
         return $this->render('trick/createTrick.html.twig', [
-            'formTrick' => $formTrick->createView()
+            'formTrick' => $formTrick->createView(),
+            'editMode' => $trick->getId() !== null
         ]);
     }
 }
