@@ -6,6 +6,7 @@ use App\Form\GroupType;
 use App\Form\TrickCreateType;
 use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
+use App\Service\Trick\Trickshow;
 use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,12 +27,17 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route{"/trick/{id}", name="trick_show"}
+     * @Route("/trick/{id}", name="trick_show")
+     * @param Trickshow $trickShow
      * @param $id
      */
-    public function show($id)
+    public function show(TrickShow $trickShow, $id)
     {
+        $trick = $trickShow->showTrick($id);
 
+        return $this->render('trick/show.html.twig',[
+            'trick' => $trick
+            ]);
     }
 
     /**

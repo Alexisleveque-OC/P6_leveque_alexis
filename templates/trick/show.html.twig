@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card">
+            <img src="http://placehold.it/1000x350" alt="" class="card-img-top">
+        <div class="container">
+        <h2 class="card-title">{{ trick.name }}</h2>
+            <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
+            <div class="content card-text">
+                {{ trick.description | raw }}
+            </div>
+            <div class="metadata card-footer">
+                {{ trick.createdAt | date('d/m/Y') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
