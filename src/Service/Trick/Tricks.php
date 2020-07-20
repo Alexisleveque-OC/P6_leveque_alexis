@@ -19,7 +19,7 @@ class Tricks
         $this->trickRepository = $trickRepository;
     }
 
-    public function readTricks($line)
+    public function readTricks($line = 1)
     {
         $limit = $line * 4;
 

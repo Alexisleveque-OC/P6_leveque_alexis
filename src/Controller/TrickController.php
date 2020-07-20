@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
 use App\Form\TrickCreateType;
 use App\Service\Trick\CreateGroup;
@@ -56,7 +57,7 @@ class TrickController extends AbstractController
         }
         return $this->render('trick/createTrick.html.twig', [
             'formTrick' => $formTrick->createView(),
-            'formGroup'=> $formGroup->createView(),
+            'formGroup' => $formGroup->createView(),
             'editMode' => $trick->getId() !== null
         ]);
     }
@@ -77,25 +78,35 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/delete/{id}", name="deleteConf_trick")
-     * @Route("/trick/delete/{id}/{answer}", name="delete_trick")
-     * @param DeleteTrick $deleteTrick
+     * @Route("/trick/delete_confirmation/{id}", name="deleteConf_trick")
      * @param Trick $trick
-     * @param null $answer
+     * @param Request $request
      * @return Response
      */
-    public function delete(DeleteTrick $deleteTrick, Trick $trick, $answer = null)
+    public function confirmDelete(Trick $trick, Request $request)
     {
-
-        if ($answer == true) {
-            $deleteTrick->delete($trick);
-            return $this->redirectToRoute('home');
-        }
+        $formDeleteConf = $this->createForm(DeleteConfirmationType::class);
+        $formDeleteConf->handleRequest($request);
 
         $question = true;
+
         return $this->render('trick/show.html.twig', [
-            'question' => $question,
-            'trick' => $trick
+            'trick' => $trick,
+            'formDeleteConf' => $formDeleteConf,
+            'question' => $question
         ]);
+
+    }
+
+    /**
+     * @Route("/trick/delete/{id}", name="delete_trick")
+     * @param DeleteTrick $deleteTrick
+     * @param Trick $trick
+     * @return Response
+     */
+    public function delete(DeleteTrick $deleteTrick, Trick $trick)
+    {
+        $deleteTrick->delete($trick);
+        return $this->redirectToRoute('home');
     }
 }
