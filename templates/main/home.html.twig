@@ -17,6 +17,7 @@
 
                             <a href="{{ path('trick_show',{'id':trick.id}) }}">
                                 <img src="http://placehold.it/150x150" alt="" class="card-img-top">
+                                {% if app.user %}
                                 <div class="offset-6">
                                     <a href="{{ path('trick_edit',{'id':trick.id}) }}" class="col-3">
                                         <span class="oi oi-pencil"></span>
@@ -24,9 +25,9 @@
                                     <a href="{{ path('deleteConf_trick',{'id':trick.id}) }}" class="col-3">
                                         <span class="oi oi-delete"></span>
                                     </a>
-
                                 </div>
-                                </img>
+                                {% endif %}
+
                                 <h2 class="card-title">{{ trick.name }}</h2>
                                 <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
                                 <div class="content card-text">
@@ -44,7 +45,7 @@
                     </div>
                 {% endfor %}
                 <div class="offset-4 col-4">
-                    <a class="btn btn-secondary" href="/{{ line }}">Afficher plus de
+                    <a class="btn btn-secondary" href="/page={{ line }}">Afficher plus de
                         tricks</a>
                 </div>
             </div>
