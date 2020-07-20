@@ -25,20 +25,20 @@ article a {
 footer {
     bottom: 0;
 }
-.card{
+article .card{
     text-align: center;
 }
-.card-title{
+article .card-title{
     font-size: 1em;
 }
-.card-text{
+article .card-text{
     font-size: 0.8em;
 }
-.card-footer {
+article .card-footer {
     font-size: 0.5em;
     text-align: left;
 }
-#cardGroupe{
+article #cardGroupe{
     font-size: 0.9em;
 }
 #alert{
