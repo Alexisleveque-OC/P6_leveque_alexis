@@ -7,6 +7,7 @@ use App\Form\GroupType;
 use App\Form\TrickCreateType;
 use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
+use App\Service\Trick\DeleteTrick;
 use App\Service\Trick\Trickshow;
 use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,9 +37,9 @@ class TrickController extends AbstractController
     {
         $trick = $trickShow->showTrick($id);
 
-        return $this->render('trick/show.html.twig',[
+        return $this->render('trick/show.html.twig', [
             'trick' => $trick
-            ]);
+        ]);
     }
 
     /**
@@ -48,9 +49,9 @@ class TrickController extends AbstractController
      * @param CreateTrick $createTrick
      * @return Response
      */
-    public function create(Trick $trick = null,Request $request, CreateTrick $createTrick)
+    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick)
     {
-        if (!$trick){
+        if (!$trick) {
             $trick = new Trick();
         }
         $formTrick = $this->createForm(TrickCreateType::class, $trick);
@@ -68,11 +69,36 @@ class TrickController extends AbstractController
             $user = $this->getUser();
 
             $trick = $createTrick->saveTrick($formTrick, $user);
-            return $this->redirectToRoute('trick_show',['id'=> $trick->getId()]);
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }
         return $this->render('trick/createTrick.html.twig', [
             'formTrick' => $formTrick->createView(),
             'editMode' => $trick->getId() !== null
+        ]);
+    }
+
+    /**
+     * @Route("/trick/delete/{id}", name="deleteConf_trick")
+     * @Route("/trick/delete/{id}/{answer}", name="delete_trick")
+     * @param DeleteTrick $deleteTrick
+     * @param Trickshow $trickShow
+     * @param $id
+     * @param null $answer
+     * @return Response
+     */
+    public function delete(DeleteTrick $deleteTrick, Trickshow $trickShow, $id, $answer)
+    {
+        $trick = $trickShow->showTrick($id);
+
+        if ($answer == true) {
+            $deleteTrick->delete($trick);
+            return $this->redirectToRoute('home');
+        }
+
+        $question = true;
+        return $this->render('trick/show.html.twig', [
+            'question' => $question,
+            'trick' => $trick
         ]);
     }
 }

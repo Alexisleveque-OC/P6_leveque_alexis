@@ -1,10 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="card">
-            <img src="http://placehold.it/1000x350" alt="" class="card-img-top">
+        <img src="http://placehold.it/1000x350" alt="" class="card-img-top">
         <div class="container">
-        <h2 class="card-title">{{ trick.name }}</h2>
+
+            {% if question %}
+                <h3 class="offset-2 col-9">Êtes-vous sûr de vouloir supprimer cette article ???</h3>
+                <div class="row">
+                <div class="offset-4 ">
+                    <a href="{{ path('delete_trick',{'id':trick.id,'answer':true}) }}" class="btn btn-danger">oui !</a>
+                </div>
+                <div class="offset-1 ">
+                    <a href="{{ path('home') }}" class="btn btn-secondary">non !</a>
+                </div>
+                </div>
+            {% endif %}
+
+            <h2 class="card-title">{{ trick.name }}</h2>
             <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
             <div class="content card-text">
                 {{ trick.description | raw }}
