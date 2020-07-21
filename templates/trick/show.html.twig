@@ -4,13 +4,32 @@
 
     <div class="card">
         <img src="http://placehold.it/1000x350" alt="" class="card-img-top">
-        <div class="container">
 
+            {% if app.user %}
+                <div id="updateTrick" class="btn btn-secondary disabled">
+                    <a href="{{ path('trick_edit',{
+                        'groupSlug':trick.groupName.slug,
+                        'id':trick.id,
+                        'trickSlug':trick.slug
+                    }) }}" class="col-3">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <a href="{{ path('deleteConf_trick',{
+                        'groupSlug':trick.groupName.slug,
+                        'id':trick.id,
+                        'trickSlug':trick.slug
+                    }) }}" class="col-3">
+                        <span class="oi oi-delete"></span>
+                    </a>
+                </div>
+            {% endif %}
+            </img>
+            <div class="container">
             {% if question %}
                 <h3 class="offset-2 col-9">Êtes-vous sûr de vouloir supprimer cette article ???</h3>
                 <div class="row">
                 <div class="offset-4 ">
-                    <a href="{{ path('delete_trick',{'id':trick.id,'answer':true}) }}" class="btn btn-danger">oui !</a>
+                    <a href="{{ path('delete_trick',{'id':trick.id}) }}" class="btn btn-danger">oui !</a>
                 </div>
                 <div class="offset-1 ">
                     <a href="{{ path('home') }}" class="btn btn-secondary">non !</a>

@@ -21,12 +21,12 @@ class MainController extends AbstractController
 
     /**
      * @Route("/", name="home")
-     * @Route("/page={line}", name="more_tricks")
+     * @Route("/page={line<\d+>}", name="more_tricks")
      * @param Tricks $readTricks
      * @param int $line
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function home(Tricks $readTricks, int $line = 1)
+    public function home(Tricks $readTricks, $line = 1)
     {
         $tricks = $readTricks->readTricks($line);
 

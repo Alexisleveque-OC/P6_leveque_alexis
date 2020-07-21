@@ -32,7 +32,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/creation", name="trick_create")
-     * @Route("/trick/{id}/edit", name="trick_edit")
+     * @Route("/trick/{groupSlug}/{id<\d+>}-{trickSlug}/edit", name="trick_edit")
      * @param Trick|null $trick
      * @param Request $request
      * @param CreateTrick $createTrick
@@ -53,7 +53,11 @@ class TrickController extends AbstractController
             $user = $this->getUser();
 
             $trick = $createTrick->saveTrick($formTrick, $user);
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('trick_show', [
+                'id' => $trick->getId(),
+                'groupSlug'=> $trick->getGroupName()->getSlug(),
+                'trickSlug' => $trick->getSlug()
+                ]);
         }
         return $this->render('trick/createTrick.html.twig', [
             'formTrick' => $formTrick->createView(),
@@ -63,22 +67,25 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}", name="trick_show")
+     * @Route("/trick/{groupSlug}/{id<\d+>}-{trickSlug}", name="trick_show")
      * @param Trickshow $trickShow
-     * @param $id int
+     * @param String $trickSlug
      * @return Response
      */
-    public function show(TrickShow $trickShow, $id)
+    public function show(TrickShow $trickShow, $trickSlug)
     {
-        $trick = $trickShow->showTrick($id);
+        $trick = $trickShow->showTrick($trickSlug);
+
+        $question = false;
 
         return $this->render('trick/show.html.twig', [
-            'trick' => $trick
+            'trick' => $trick,
+            'question'=> $question
         ]);
     }
 
     /**
-     * @Route("/trick/delete_confirmation/{id}", name="deleteConf_trick")
+     * @Route("/trick/delete_confirmation/{groupSlug}/{id<\d+>}-{trickSlug}", name="deleteConf_trick")
      * @param Trick $trick
      * @param Request $request
      * @return Response
@@ -99,7 +106,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/delete/{id}", name="delete_trick")
+     * @Route("/trick/delete/{id<\d+>}", name="delete_trick")
      * @param DeleteTrick $deleteTrick
      * @param Trick $trick
      * @return Response

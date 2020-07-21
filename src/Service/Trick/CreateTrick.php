@@ -4,6 +4,8 @@ namespace App\Service\Trick;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CreateTrick
 {
@@ -15,18 +17,26 @@ class CreateTrick
      * @var UserRepository
      */
     private $userRepository;
+    /**
+     * @var AsciiSlugger
+     */
+    private $slugger;
 
 
-    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository)
+    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository,SluggerInterface $slugger)
     {
         $this->manager = $manager;
         $this->userRepository = $userRepository;
+        $this->slugger = $slugger;
     }
 
 
     public function saveTrick($formTrick, $user)
     {
         $trick = $formTrick->getData();
+
+        $slug = $this->slugger->slug($trick->getName());
+        $trick->setSlug($slug);
 
         $trick->setUser($user);
         if ($trick->getCreatedAt()) {
