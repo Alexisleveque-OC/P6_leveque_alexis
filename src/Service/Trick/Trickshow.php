@@ -18,8 +18,8 @@ class Trickshow
         $this->trickRepository = $trickRepository;
     }
 
-    public function showTrick($id)
+    public function showTrick($slug)
     {
-        return $this->trickRepository->findOneBy(['id'=>$id]);
+        return $this->trickRepository->findOneBy(['slug'=>$slug]);
     }
 }
