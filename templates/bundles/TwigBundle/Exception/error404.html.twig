@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+Erreur 404
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <h1>La page que vous rechercher n'existe pas</h1>
+
+        <p>
+            Votre requète de page n'a pas été trouvé.
+        </p>
+        <hr>
+        <p>
+            Regardez votre URL ou
+            <a class="btn btn-primary" href="{{ path('home') }}">Retourner à l'accueil</a>.
+        </p>
+    </div>
+{% endblock %}

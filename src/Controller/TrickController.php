@@ -10,12 +10,10 @@ use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
 use App\Service\Trick\DeleteTrick;
 use App\Service\Trick\Trickshow;
-use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class TrickController extends AbstractController
 {
@@ -32,7 +30,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/creation", name="trick_create")
-     * @Route("/trick/{groupSlug}/{id<\d+>}-{trickSlug}/edit", name="trick_edit")
+     * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}/edit", name="trick_edit")
      * @param Trick|null $trick
      * @param Request $request
      * @param CreateTrick $createTrick
@@ -55,8 +53,8 @@ class TrickController extends AbstractController
             $trick = $createTrick->saveTrick($formTrick, $user);
             return $this->redirectToRoute('trick_show', [
                 'id' => $trick->getId(),
-                'groupSlug'=> $trick->getGroupName()->getSlug(),
-                'trickSlug' => $trick->getSlug()
+                'group_slug'=> $trick->getGroupName()->getSlug(),
+                'trick_slug' => $trick->getSlug()
                 ]);
         }
         return $this->render('trick/createTrick.html.twig', [
@@ -67,14 +65,14 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{groupSlug}/{id<\d+>}-{trickSlug}", name="trick_show")
+     * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}", name="trick_show")
      * @param Trickshow $trickShow
-     * @param String $trickSlug
+     * @param String $trick_slug
      * @return Response
      */
-    public function show(TrickShow $trickShow, $trickSlug)
+    public function show(TrickShow $trickShow, $trick_slug)
     {
-        $trick = $trickShow->showTrick($trickSlug);
+        $trick = $trickShow->showTrick($trick_slug);
 
         $question = false;
 
@@ -85,7 +83,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/delete_confirmation/{groupSlug}/{id<\d+>}-{trickSlug}", name="deleteConf_trick")
+     * @Route("/trick/delete_confirmation/{group_slug}/{id<\d+>}-{trick_slug}", name="deleteConf_trick")
      * @param Trick $trick
      * @param Request $request
      * @return Response
