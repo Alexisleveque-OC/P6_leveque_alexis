@@ -16,24 +16,24 @@
                         <article class="card">
 
                             <a href="{{ path('trick_show',{
-                                'groupSlug':trick.groupName.slug,
+                                'group_slug':trick.groupName.slug,
                                 'id':trick.id,
-                                'trickSlug':trick.slug
+                                'trick_slug':trick.slug
                             }) }}">
                                 <img src="http://placehold.it/150x150" alt="" class="card-img-top">
                                 {% if app.user %}
                                     <div id="button-card-home" class="btn btn-secondary disabled">
                                         <a href="{{ path('trick_edit',{
-                                            'groupSlug':trick.groupName.slug,
+                                            'group_slug':trick.groupName.slug,
                                             'id':trick.id,
-                                            'trickSlug':trick.slug
+                                            'trick_slug':trick.slug
                                         }) }}" class="col-3">
                                             <span class="oi oi-pencil"></span>
                                         </a>
                                         <a href="{{ path('deleteConf_trick',{
-                                            'groupSlug':trick.groupName.slug,
+                                            'group_slug':trick.groupName.slug,
                                             'id':trick.id,
-                                            'trickSlug':trick.slug
+                                            'trick_slug':trick.slug
                                         }) }}" class="col-3">
                                             <span class="oi oi-delete"></span>
                                         </a>
