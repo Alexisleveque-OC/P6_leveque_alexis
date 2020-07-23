@@ -32,8 +32,8 @@ class ValidationService
 
     public function validateUser($token)
     {
-        $tokenTemp = $this->tokenRepository->findOneBy(['token'=>$token]);
-        $user = $this->userRepository->findOneby(['id'=>$tokenTemp->getUser()->getId()]);
+        $token = $this->tokenRepository->findOneBy(['token' => $token]);
+        $user = $this->userRepository->findOneby(['id'=>$token->getUser()->getId()]);
 
         $user->setValidation(true);
 

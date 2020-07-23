@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="offset-2 col-8">
+            {{ form_start(formReset) }}
+            {{ form_row(formReset.password) }}
+            <hr>
+            <button type="submit" class="btn btn-primary">Enregistrer mon nouveau mot de passe</button>
+            {{ form_end(formReset) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+    Nouveau mot de passe
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="offset-2 col-8">
+            {{ form_start(formForgot) }}
+            {{ form_row(formForgot.email) }}
+            <hr>
+            <button type="submit" class="btn btn-primary">Renvoyer moi un mail pour changer de mot de passe</button>
+            {{ form_end(formForgot) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+    Mot de passe oublié !
+{% endblock %}
+
