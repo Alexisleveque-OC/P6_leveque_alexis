@@ -25,33 +25,55 @@ article a {
 footer {
     bottom: 0;
 }
-article .card{
+
+article {
     text-align: center;
 }
-article .card-title{
+
+article .card-title {
     font-size: 1em;
 }
-article .card-text{
+
+article .card-text {
     font-size: 0.8em;
 }
+
 article .card-footer {
     font-size: 0.5em;
     text-align: left;
 }
-article #cardGroupe{
+
+article #cardGroupe {
     font-size: 0.9em;
 }
-#alert{
+
+#alert {
     position: absolute;
     width: 100%;
 }
-#updateTrick{
+
+#updateTrick {
     position: absolute;
-    right : 5%;
+    right: 5%;
     top: 10%;
 }
-#button-card-home{
+
+#button-card-home {
     position: absolute;
-    right : 2%;
+    right: 2%;
     top: 2%;
+}
+.card{
+    margin-top: 2%;
+}
+.card-text {
+    padding: 2%;
+}
+
+.card-title {
+    padding: 2%;
+}
+
+.card-footer {
+    padding: 2%;
 }

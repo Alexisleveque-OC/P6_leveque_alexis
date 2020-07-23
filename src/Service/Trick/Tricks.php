@@ -28,7 +28,7 @@ class Tricks
         foreach ($tricks as $trick) {
             $trick->setDescription(substr($trick->getDescription(), 0, 30) . ' ...');
         }
-        return ($tricks);
+        return $tricks;
 
     }
 
