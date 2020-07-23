@@ -48,5 +48,20 @@ class Mailer
         $this->mailer->send($email);
     }
 
+    public function sendResetPassword(Token $token)
+    {
+        $body = $this->twig->render("mail/ResetPasswordToken.html.twig", [
+            'token' => $token
+        ]);
+
+        $email = (new Email())
+            ->from('no-reply@snowtricks.com')
+            ->to($token->getUser()->getEmail())
+            ->subject('Valider votre Compte snowtricks !')
+            ->html($body);
+
+        $this->mailer->send($email);
+
+}
 
 }

@@ -4,15 +4,21 @@ namespace App\Controller;
 
 use App\Entity\Token;
 use App\Entity\User;
+use App\Form\ForgotPassType;
+use App\Form\NewPasswordType;
 use App\Form\UserLoginType;
 use App\Form\RegisterUserType;
 use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use App\Service\Mail\Mailer;
 use App\Service\User\RegisterService;
+use App\Service\User\ResetPassword;
+use App\Service\User\ResetUser;
 use App\Service\User\ValidationService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Object_;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,7 +67,7 @@ class SecurityController extends AbstractController
     {
         $validationService->validateUser($token);
 
-        $this->addFlash('success','Votre compte a été correctement validé !!!');
+        $this->addFlash('success', 'Votre compte a été correctement validé !!!');
 
         return $this->render('security/accountValidated.html.twig');
     }
@@ -69,14 +75,11 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/login", name="app_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-        // get the login error if there is one
-
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -85,6 +88,63 @@ class SecurityController extends AbstractController
             'error' => $error,
         ]);
     }
+
+    /**
+     * @Route("login/forgotPass",name="forgot_pass")
+     * @param Request $request
+     * @param ResetUser $resetUser
+     * @param Mailer $mailer
+     * @return RedirectResponse|Response
+     */
+    public function forgotPassword(Request $request, ResetUser $resetUser, Mailer $mailer)
+    {
+        $form = $this->createForm(ForgotPassType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $token = $resetUser->resetUser($form);
+
+            $mailer->sendResetPassword($token);
+            $this->addFlash('success', 'Vous avez reçu un mail, validez votre email avant de continuer!');
+
+            return $this->redirectToRoute('home');
+
+        }
+
+        return $this->render('security/forgotPass.html.twig', [
+            'formForgot' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("login/resetPass/{token}",name="reset_pass")
+     * @param Request $request
+     * @param $token
+     * @param ValidationService $validationService
+     * @param ResetPassword $resetPassword
+     * @return Response
+     */
+    public function resetPass(Request $request, $token, ValidationService $validationService, ResetPassword $resetPassword)
+    {
+        $form = $this->createForm(NewPasswordType::class);
+        $form->handleRequest($request);
+
+        $validationService->validateUser($token);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $resetPassword->resetPassword($form, $token);
+
+            $this->addFlash('success', 'Votre mot de passe a bien été modifié.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('security/resetPass.html.twig', [
+            'formReset' => $form->createView()
+        ]);
+    }
+
 
     /**
      * @Route("/logout", name="app_logout")
