@@ -1,0 +1,29 @@
+
+{% block body %}
+    <div class="modal fade" id="deleteTrickConfModal"  role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Suppprimer le trick</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer ce trick?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ path('delete_trick',{'id':trick.id}) }}" class="btn btn-danger">oui !</a>
+                    <a href="{{ path('home') }}" class="btn btn-secondary">non !</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{#{% block javascripts %}#}
+{#<script type="text/javascript">#}
+{#    $(window).load(function(){#}
+{#        $('#deleteTrickConfModal').modal('show');#}
+{#    });#}
+{#</script>#}
+{#{% endblock %}#}
