@@ -2,7 +2,6 @@
 
 {% block body %}
 
-    <div class="card">
         <img src="http://placehold.it/1000x350" alt="" class="card-img-top">
 
         {% if app.user %}
@@ -26,14 +25,12 @@
         </img>
         <div class="container">
             {% if question %}
-                <h3 class="offset-2 col-9">Êtes-vous sûr de vouloir supprimer cette article ???</h3>
-                <div class="row">
-                    <div class="offset-4 ">
-                        <a href="{{ path('delete_trick',{'id':trick.id}) }}" class="btn btn-danger">oui !</a>
-                    </div>
-                    <div class="offset-1 ">
-                        <a href="{{ path('home') }}" class="btn btn-secondary">non !</a>
-                    </div>
+                <div class="offset-4 col-4">
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#deleteTrickConfModal">
+                        Supprimer ce trick !
+                    </button>
+                    {% include 'modal/deleteTrickConfModal.html.twig' %}
                 </div>
             {% endif %}
             <div class="card">
@@ -44,62 +41,68 @@
                     {{ trick.description | raw }}
                 </div>
                 <div class="metadata card-footer">
-                    {{ trick.createdAt | date('d/m/Y') }}
+                    <div class="row">
+                        <div class="col-4">
+                            {{ trick.createdAt | date('d/m/Y') }}
+                        </div>
+                        <div class="col-8 text-right">
+                            écrit par <strong>{{ trick.user.username }}</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% if question == false %}
-                <div class="container">
-                    <div class="offset-1 col-10">
-                        <h2>Les commentaires</h2>
-                        <hr>
-                        {% if app.user %}
-                            {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
-                            {{ form_row(formComment.content) }}
-                            <input type="submit" class="btn btn-primary" value="Envoyer">
-                            {{ form_end(formComment) }}
-                        {% endif %}
-                        <hr>
-                        {% if comments == null %}
-                            <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
-                                !!!</h4>
-                        {% endif %}
-                        {% for comment in comments %}
-                            <div class="card">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <div class="card-title">
-                                            {{ comment.user.username }}
-                                        </div>
-                                    </div>
-                                    <div class="col-10">
-                                        <div class="card-text">
-                                            {{ comment.content }}
-                                        </div>
-                                        <div class="metadata card-footer">
-                                            {{ comment.createdAt | date('d/m/Y') }}
-                                            {% if app.user == comment.user %}
-                                                <hr>
-                                                <div class="offset-4 col-4">
-                                                    <a class="btn btn-danger" href="{{ path('delete_comment',{'id':comment.id}) }}">
-                                                        Supprimer mon commentaire
-                                                    </a>
+                <div class="offset-1 col-10">
+                    <h2>Les commentaires</h2>
+                    <hr>
+                    {% if app.user %}
+                        {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
+                        {{ form_row(formComment.content) }}
+                        <input type="submit" class="btn btn-primary" value="Envoyer">
+                        {{ form_end(formComment) }}
+                    {% endif %}
+                    <hr>
+                    {% if comments == null %}
+                        <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
+                            !!!</h4>
+                    {% endif %}
 
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
+                    {% for comment in comments %}
+                        <div class="card">
+                            <div class="col-2">
+                                <div class="card-title">
+                                    {{ comment.user.username }}
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
+                            <div class="col-10">
+                                <div class="card-text">
+                                    {{ comment.content }}
+                                </div>
+                                <div class="metadata card-footer">
+                                    {{ comment.createdAt | date('d/m/Y') }}
+                                    {% if app.user == comment.user %}
+                                        <hr>
+                                        <div class="offset-4 col-4">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                    data-target="#deleteCommentModal">
+                                                Supprimer mon commentaire
+                                            </button>
+                                            {% include 'modal/deleteComment.html.twig' %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
                 </div>
             {% endif %}
         </div>
-    </div>
+
 
 {% endblock %}
 
 {% block title %}
-
+    {{ trick.name }}
 {% endblock %}
 
