@@ -30,19 +30,19 @@
         </div>
         <div class="offset-2 col-8">
             {{ form_start(formTrick) }}
-
-            {{ form_row(formTrick.name,{'label':"Nom du trick",'attr':{'placeholder':"Nom du trick"}}) }}
-            {{ form_row(formTrick.description,{'label':"Description du trick",'attr':{'placeholder':"Description du trick"}}) }}
             <div class="row">
                 <div class="col-10">
                     {{ form_row(formTrick.groupName,{'attr':{'placeholder':"Type de figures",'required':'none'}}) }}
                 </div>
-                                <div class="col-2">
-                                    <a class="btn btn-primary" role="button" data-toggle="modal"
-                                       data-target="#createGroupModal"> Créer un nouveau groupe
-                                    </a>
-                                </div>
+                <div class="col-2">
+                    <a class="btn btn-primary" role="button" data-toggle="modal"
+                       data-target="#createGroupModal"> Créer un nouveau groupe
+                    </a>
+                </div>
             </div>
+            {{ form_row(formTrick.name,{'label':"Nom du trick",'attr':{'placeholder':"Nom du trick"}}) }}
+            {{ form_row(formTrick.description,{'label':"Description du trick",'attr':{'placeholder':"Description du trick"}}) }}
+
 {#                        {{ form_row(formTrick.images, {'label':"image",'attr':{'placeholder':"upload image"}}) }}#}
 {#                        {{ form_row(formTrick.videos,{'label':"video",'attr':{'placeholder':"upload video"}}) }}#}
 {#                        <input type="hidden" value="{{ app.user.id }}" name="trick_create[user]">#}

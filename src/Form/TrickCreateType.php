@@ -23,6 +23,7 @@ class TrickCreateType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('groupName', EntityType::class, [
+                'label' => 'Nom du groupe de figure',
                 'class' => Group::class,
                 'choice_label' => 'title'
             ])
