@@ -60,7 +60,7 @@
                         {% endif %}
                         <hr>
                         {% if comments == null %}
-                            <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le preemier à een ajouter un
+                            <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
                                 !!!</h4>
                         {% endif %}
                         {% for comment in comments %}
@@ -77,6 +77,15 @@
                                         </div>
                                         <div class="metadata card-footer">
                                             {{ comment.createdAt | date('d/m/Y') }}
+                                            {% if app.user == comment.user %}
+                                                <hr>
+                                                <div class="offset-4 col-4">
+                                                    <a class="btn btn-danger" href="{{ path('delete_comment',{'id':comment.id}) }}">
+                                                        Supprimer mon commentaire
+                                                    </a>
+
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
