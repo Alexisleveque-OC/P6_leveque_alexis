@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
 use App\Form\TrickCreateType;
@@ -51,6 +52,7 @@ class TrickController extends AbstractController
             $user = $this->getUser();
 
             $trick = $createTrick->saveTrick($formTrick, $user);
+
             return $this->redirectToRoute('trick_show', [
                 'id' => $trick->getId(),
                 'group_slug'=> $trick->getGroupName()->getSlug(),
@@ -68,17 +70,21 @@ class TrickController extends AbstractController
      * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}", name="trick_show")
      * @param Trickshow $trickShow
      * @param String $trick_slug
+     * @param Request $request
      * @return Response
      */
-    public function show(TrickShow $trickShow, $trick_slug)
+    public function show($trick_slug, TrickShow $trickShow, Request $request)
     {
+        $form = $this->createForm(CommentType::class);
+
         $trick = $trickShow->showTrick($trick_slug);
 
         $question = false;
 
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'question'=> $question
+            'question'=> $question,
+            'formComment' => $form->createView()
         ]);
     }
 
