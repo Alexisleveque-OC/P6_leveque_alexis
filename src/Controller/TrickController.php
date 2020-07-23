@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Form\CommentType;
+use App\Form\DeleteCommentType;
 use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
 use App\Form\TrickCreateType;
@@ -79,6 +80,8 @@ class TrickController extends AbstractController
     {
         $form = $this->createForm(CommentType::class);
 
+        $formDeleteComment = $this->createForm(DeleteCommentType::class);
+
         $trick = $trickShow->showTrick($trick_slug);
 
         $comments = $readComments->readComments($trick);
@@ -89,7 +92,8 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'comments' => $comments,
             'question'=> $question,
-            'formComment' => $form->createView()
+            'formComment' => $form->createView(),
+            'formDeleteComment' => $formDeleteComment->createView()
         ]);
     }
 
