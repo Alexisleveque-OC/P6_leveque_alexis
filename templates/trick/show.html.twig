@@ -36,27 +36,53 @@
                     </div>
                 </div>
             {% endif %}
-
-            <h2 class="card-title">{{ trick.name }}</h2>
-            <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
-            <hr>
-            <div class="content card-text">
-                {{ trick.description | raw }}
-            </div>
-            <div class="metadata card-footer">
-                {{ trick.createdAt | date('d/m/Y') }}
+            <div class="card">
+                <h2 class="card-title">{{ trick.name }}</h2>
+                <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
+                <hr>
+                <div class="content card-text">
+                    {{ trick.description | raw }}
+                </div>
+                <div class="metadata card-footer">
+                    {{ trick.createdAt | date('d/m/Y') }}
+                </div>
             </div>
             {% if question == false %}
                 <div class="container">
-                    <h2>Les commentaires</h2>
-                    <hr>
-                    {% if app.user %}
-                        {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
-                        {{ form_row(formComment.content) }}
-                        <input type="submit" class="btn btn-primary" value="Envoyer">
-                        {{ form_end(formComment) }}
-                    {% endif %}
-                    <hr>
+                    <div class="offset-1 col-10">
+                        <h2>Les commentaires</h2>
+                        <hr>
+                        {% if app.user %}
+                            {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
+                            {{ form_row(formComment.content) }}
+                            <input type="submit" class="btn btn-primary" value="Envoyer">
+                            {{ form_end(formComment) }}
+                        {% endif %}
+                        <hr>
+                        {% if comments == null %}
+                            <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le preemier à een ajouter un
+                                !!!</h4>
+                        {% endif %}
+                        {% for comment in comments %}
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <div class="card-title">
+                                            {{ comment.user.username }}
+                                        </div>
+                                    </div>
+                                    <div class="col-10">
+                                        <div class="card-text">
+                                            {{ comment.content }}
+                                        </div>
+                                        <div class="metadata card-footer">
+                                            {{ comment.createdAt | date('d/m/Y') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             {% endif %}
         </div>
