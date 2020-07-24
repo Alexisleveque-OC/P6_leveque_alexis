@@ -55,6 +55,8 @@ class TrickController extends AbstractController
 
             $trick = $createTrick->saveTrick($formTrick, $user);
 
+            $this->addFlash('success','Votre trick à bien été crée, ajoutez vos images et/ou vidéos.');
+
             return $this->redirectToRoute('trick_show', [
                 'id' => $trick->getId(),
                 'group_slug'=> $trick->getGroupName()->getSlug(),

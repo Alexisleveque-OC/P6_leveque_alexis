@@ -210,10 +210,10 @@ class User implements UserInterface
         $this->image = $image;
 
         // set (or unset) the owning side of the relation if necessary
-        $newUser = null === $image ? null : $this;
-        if ($image->getUser() !== $newUser) {
-            $image->setUser($newUser);
-        }
+//        $newUser = null === $image ? null : $this;
+//        if ($image->getUser() !== $newUser) {
+//            $image->setUser($newUser);
+//        }
 
         return $this;
     }
