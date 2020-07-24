@@ -7,6 +7,7 @@ use App\Form\CommentType;
 use App\Form\DeleteCommentType;
 use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
+use App\Form\ImageType;
 use App\Form\TrickCreateType;
 use App\Service\Comment\ReadComments;
 use App\Service\Trick\CreateGroup;
@@ -75,7 +76,6 @@ class TrickController extends AbstractController
      * @param String $trick_slug
      * @param Trickshow $trickShow
      * @param ReadComments $readComments
-     * @param Request $request
      * @return Response
      */
     public function show($trick_slug, TrickShow $trickShow, ReadComments $readComments)
@@ -83,6 +83,8 @@ class TrickController extends AbstractController
         $form = $this->createForm(CommentType::class);
 
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
+
+        $formUploadImage = $this->createForm(ImageType::class);
 
         $trick = $trickShow->showTrick($trick_slug);
 
@@ -95,7 +97,8 @@ class TrickController extends AbstractController
             'comments' => $comments,
             'question'=> $question,
             'formComment' => $form->createView(),
-            'formDeleteComment' => $formDeleteComment->createView()
+            'formDeleteComment' => $formDeleteComment->createView(),
+            'formImage' => $formUploadImage->createView()
         ]);
     }
 

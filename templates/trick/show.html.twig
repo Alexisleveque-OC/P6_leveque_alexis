@@ -2,76 +2,92 @@
 
 {% block body %}
 
-        <img src="http://placehold.it/1000x350" alt="" class="card-img-top">
+    <img src="http://placehold.it/1000x350" alt="" class="card-img-top">
 
-        {% if app.user %}
-            <div id="updateTrick" class="btn btn-secondary disabled">
-                <a href="{{ path('trick_edit',{
-                    'group_slug':trick.groupName.slug,
-                    'id':trick.id,
-                    'trick_slug':trick.slug
-                }) }}" class="col-3">
-                    <span class="oi oi-pencil"></span>
-                </a>
-                <a href="{{ path('deleteConf_trick',{
-                    'group_slug':trick.groupName.slug,
-                    'id':trick.id,
-                    'trick_slug':trick.slug
-                }) }}" class="col-3">
-                    <span class="oi oi-delete"></span>
-                </a>
+    {% if app.user %}
+        <div id="updateTrick" class="btn btn-secondary disabled">
+            <a href="{{ path('trick_edit',{
+                'group_slug':trick.groupName.slug,
+                'id':trick.id,
+                'trick_slug':trick.slug
+            }) }}" class="col-3">
+                <span class="oi oi-pencil"></span>
+            </a>
+            <a href="{{ path('deleteConf_trick',{
+                'group_slug':trick.groupName.slug,
+                'id':trick.id,
+                'trick_slug':trick.slug
+            }) }}" class="col-3">
+                <span class="oi oi-delete"></span>
+            </a>
+        </div>
+    {% endif %}
+    </img>
+    <div class="container">
+        {% if question %}
+            <div class="offset-4 col-4">
+                <button type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target="#deleteTrickConfModal">
+                    Supprimer ce trick !
+                </button>
+                {% include 'modal/deleteTrickConfModal.html.twig' %}
             </div>
         {% endif %}
-        </img>
-        <div class="container">
-            {% if question %}
-                <div class="offset-4 col-4">
-                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                            data-target="#deleteTrickConfModal">
-                        Supprimer ce trick !
-                    </button>
-                    {% include 'modal/deleteTrickConfModal.html.twig' %}
-                </div>
-            {% endif %}
-            <div class="card">
-                <h2 class="card-title">{{ trick.name }}</h2>
-                <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
-                <hr>
-                <div class="content card-text">
-                    {{ trick.description | raw }}
-                </div>
-                <div class="metadata card-footer">
-                    <div class="row">
-                        <div class="col-4">
-                            {{ trick.createdAt | date('d/m/Y') }}
-                        </div>
-                        <div class="col-8 text-right">
-                            écrit par <strong>{{ trick.user.username }}</strong>
-                        </div>
+        {% if app.user %}
+        <div class="col-6">
+            {% for image in trick.images %}
+            <img src="{{ image.url }}" alt="">
+            {% endfor %}
+            {{ form_start(formImage, {'action':path('upload_trick_image',{'id':trick.id})}) }}
+            {{ form_row(formImage.photo) }}
+            <button class="btn btn-secondary">Enregister</button>
+            {{ form_end(formImage) }}
+        </div>
+        {% endif %}
+        <div class="col-6">
+
+        </div>
+        <div class="card">
+            <h2 class="card-title">{{ trick.name }}</h2>
+            <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
+            <hr>
+            <div class="content card-text">
+                {{ trick.description | raw }}
+            </div>
+            <div class="metadata card-footer">
+                <div class="row">
+                    <div class="col-4">
+                        {{ trick.createdAt | date('d/m/Y') }}
+                    </div>
+                    <div class="col-8 text-right">
+                        écrit par <strong>{{ trick.user.username }}</strong>
                     </div>
                 </div>
             </div>
-            {% if question == false %}
-                <div class="offset-1 col-10">
-                    <h2>Les commentaires</h2>
-                    <hr>
-                    {% if app.user %}
-                        {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
-                        {{ form_row(formComment.content) }}
-                        <input type="submit" class="btn btn-primary" value="Envoyer">
-                        {{ form_end(formComment) }}
-                    {% endif %}
-                    <hr>
-                    {% if comments == null %}
-                        <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
-                            !!!</h4>
-                    {% endif %}
+        </div>
+        {% if question == false %}
+            <div class="offset-1 col-10">
+                <h2>Les commentaires</h2>
+                <hr>
+                {% if app.user %}
+                    {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
+                    {{ form_row(formComment.content) }}
+                    <input type="submit" class="btn btn-primary" value="Envoyer">
+                    {{ form_end(formComment) }}
+                {% endif %}
+                <hr>
+                {% if comments == null %}
+                    <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
+                        !!!</h4>
+                {% endif %}
 
-                    {% for comment in comments %}
-                        <div class="card">
+                {% for comment in comments %}
+                    <div class="card">
+                        <div class="row">
                             <div class="col-2">
-                                <div class="card-title">
+                                <div class="card-title text-center">
                                     {{ comment.user.username }}
+                                    <img class="user-image" src="{{ comment.user.image.url }}" alt="photo d'utilisateur">
                                 </div>
                             </div>
                             <div class="col-10">
@@ -93,11 +109,12 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 
 
 {% endblock %}

@@ -44,4 +44,16 @@ class SaveImage
 
     }
 
+    public function saveOnTrick($fileName,$trick)
+    {
+        $image = new Image();
+
+        $image->setTricks($trick);
+        $image->setFileName($fileName);
+        $image->setUrl('/image/'.$fileName);
+
+        $this->manager->persist($image);
+        $this->manager->flush();
+    }
+
 }
