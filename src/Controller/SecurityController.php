@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Token;
 use App\Entity\User;
 use App\Form\ForgotPassType;
+use App\Form\ImageType;
 use App\Form\NewPasswordType;
 use App\Form\UserLoginType;
 use App\Form\RegisterUserType;
@@ -42,6 +43,8 @@ class SecurityController extends AbstractController
         $form = $this->createForm(RegisterUserType::class);
         $form->handleRequest($request);
 
+        $formImage = $this->createForm(ImageType::class);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $token = $registerService->register($form);
@@ -53,7 +56,8 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/registration.html.twig', [
-            'formUser' => $form->createView()
+            'formUser' => $form->createView(),
+            'formImage' => $formImage->createView()
         ]);
     }
 

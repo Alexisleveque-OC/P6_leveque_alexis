@@ -24,9 +24,20 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $tricks;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="image", cascade={"persist", "remove"})
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fileName;
+
 
     public function getId(): ?int
     {
@@ -55,5 +66,30 @@ class Image
         $this->tricks = $tricks;
 
         return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function setFileName($fileName)
+    {
+     $this->fileName = $fileName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
     }
 }

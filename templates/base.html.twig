@@ -21,7 +21,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('trick_create') }}">Créer un Trick</a>
             </li>
-            {% if not app.user %}
+            {% if app.user == null %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
                 </li>
@@ -32,7 +32,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
                 </li>
-                <h4 id="navbarUser">Bonjour {{ app.user.username }}</h4>
+                <a href="{{ path('user_show', {'id':app.user.id}) }}">
+                    <h4 id="navbarUser">Bonjour {{ app.user.username }}</h4>
+                </a>
             {% endif %}
         </ul>
     </div>

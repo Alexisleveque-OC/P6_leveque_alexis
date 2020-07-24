@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Changement de votre photo de profil?</h1>
+    {{ form_start(formImage) }}
+    {{ form_row(formImage.photo) }}
+    <button type="submit" class="btn btn-secondary">Enregister</button>
+    {{ form_end(formImage) }}
+</div>
+
+{% endblock %}
+
+{% block title %}
+Charger une image
+{% endblock %}
+
