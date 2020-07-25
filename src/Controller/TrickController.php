@@ -15,6 +15,7 @@ use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
 use App\Service\Trick\DeleteTrick;
 use App\Service\Trick\TrickShow;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +34,8 @@ class TrickController extends AbstractController
      */
     public function create(Trick $trick = null, Request $request, CreateTrick $createTrick, CreateGroup $createGroup)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         if (!$trick) {
             $trick = new Trick();
         }
@@ -96,6 +99,8 @@ class TrickController extends AbstractController
      */
     public function confirmDelete(Trick $trick, Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $formDeleteConf = $this->createForm(DeleteConfirmationType::class);
         $formDeleteConf->handleRequest($request);
 
@@ -117,6 +122,8 @@ class TrickController extends AbstractController
      */
     public function delete(DeleteTrick $deleteTrick, Trick $trick)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $this->addFlash('danger', "Le trick à bien été supprimé.");
         $deleteTrick->delete($trick);
         return $this->redirectToRoute('home');

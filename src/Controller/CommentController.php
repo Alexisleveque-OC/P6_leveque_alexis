@@ -27,6 +27,8 @@ class CommentController extends AbstractController
 
     public function addComment(Request $request, AddComment $addComment, TrickShow $TrickShow, $slug)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $formComment = $this->createForm(CommentType::class);
         $formComment->handleRequest($request);
 
@@ -36,7 +38,7 @@ class CommentController extends AbstractController
 
             $addComment->addComment($formComment, $trick, $user);
 
-            $this->addFlash('success',"Votre commeentaires à bien été enregistré.");
+            $this->addFlash('success',"Votre commentaire à bien été enregistré.");
 
             return $this->redirectToRoute('trick_show', [
                 'group_slug' => $trick->getGroupName()->getSlug(),
@@ -58,6 +60,8 @@ class CommentController extends AbstractController
      */
     public function deleteComment(DeleteComment $deleteComment, Comment $comment, TrickShow $TrickShow)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $trick = $TrickShow->showTrick($comment->getTrick()->getSlug());
 
         $deleteComment->delete($comment);
