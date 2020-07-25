@@ -88,13 +88,9 @@ class TrickController extends AbstractController
 
         $trick = $trickShow->showTrick($trick_slug);
 
-        $comments = $readComments->readComments($trick);
-
         $question = false;
-
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'comments' => $comments,
             'question'=> $question,
             'formComment' => $formComment->createView(),
             'formDeleteComment' => $formDeleteComment->createView(),

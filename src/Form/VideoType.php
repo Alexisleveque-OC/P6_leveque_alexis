@@ -15,7 +15,7 @@ class VideoType extends AbstractType
         $builder
             ->add('url', UrlType::class, [
                 'label' => "Ajouter une Url vers votre vidéo",
-                'attr' => ['placeholder' => 'Exemple : http://www.youtube.com/xxxxxxxxxxxxxxxxxxx']
+                'attr' => ['placeholder' => 'Exemple : http://www.youtube.com/embed/xxxxxxxxxxxxxxxxxxx']
             ]);
     }
 
