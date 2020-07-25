@@ -7,7 +7,9 @@ use App\Form\CommentType;
 use App\Form\DeleteCommentType;
 use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
+use App\Form\ImageType;
 use App\Form\TrickCreateType;
+use App\Form\VideoType;
 use App\Service\Comment\ReadComments;
 use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
@@ -55,6 +57,8 @@ class TrickController extends AbstractController
 
             $trick = $createTrick->saveTrick($formTrick, $user);
 
+            $this->addFlash('success','Votre trick à bien été crée, ajoutez vos images et/ou vidéos.');
+
             return $this->redirectToRoute('trick_show', [
                 'id' => $trick->getId(),
                 'group_slug'=> $trick->getGroupName()->getSlug(),
@@ -73,27 +77,25 @@ class TrickController extends AbstractController
      * @param String $trick_slug
      * @param Trickshow $trickShow
      * @param ReadComments $readComments
-     * @param Request $request
      * @return Response
      */
     public function show($trick_slug, TrickShow $trickShow, ReadComments $readComments)
     {
-        $form = $this->createForm(CommentType::class);
-
+        $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
+        $formUploadImage = $this->createForm(ImageType::class);
+        $formUploadVideo = $this->createForm(VideoType::class);
 
         $trick = $trickShow->showTrick($trick_slug);
 
-        $comments = $readComments->readComments($trick);
-
         $question = false;
-
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'comments' => $comments,
             'question'=> $question,
-            'formComment' => $form->createView(),
-            'formDeleteComment' => $formDeleteComment->createView()
+            'formComment' => $formComment->createView(),
+            'formDeleteComment' => $formDeleteComment->createView(),
+            'formImage' => $formUploadImage->createView(),
+            'formVideo' => $formUploadVideo->createView()
         ]);
     }
 

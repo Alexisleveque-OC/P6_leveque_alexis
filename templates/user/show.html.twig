@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% if app.user == user %}
+            <h1>Les informations sur votre compte : {{ app.user.username }}</h1>
+        {% else %}
+            <h1>Vous regarder le profil de : {{ user.username }}</h1>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-3">
+                <h4>Photo</h4>
+                {% if user.image == null %}
+                    <img class="user-image" src="/image/avatar.png" alt="photo d'utilisateur par défaut">
+                {% else %}
+                    <img src="{{ user.image.url }}" alt="photo d'utilisateur">
+                {% endif %}
+                {% if app.user == user %}
+                    <h4>Changer de photo?</h4>
+                    {{ form_start(formImage, {'action':path('upload_user_image',{'id':app.user.id})}) }}
+                    {{ form_row(formImage.photo) }}
+                    <button class="btn btn-secondary">Enregister</button>
+                    {{ form_end(formImage) }}
+                {% endif %}
+            </div>
+            <div class="offset-1 col-8">
+                <h4>Résumé des informations</h4>
+                <p>Pseudo : <strong>{{ user.username }}</strong></p>
+                {% if app.user == user %}
+                    <p>Votre email : <strong>{{ app.user.email }}</strong></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    {{ user.username }}
+{% endblock %}
+

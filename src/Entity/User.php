@@ -47,13 +47,6 @@ class User implements UserInterface
      */
     private $password;
 
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
-     */
-    private $photo;
-
     /**
      * @ORM\Column(type="boolean")
      */
@@ -71,11 +64,11 @@ class User implements UserInterface
 
     private $salt;
 
-    public function __construct()
-    {
-        $this->Trick = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-    }
+    /**
+     * @ORM\OneToOne(targetEntity=Image::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $image;
+
 
     public function getId(): ?int
     {
@@ -114,18 +107,6 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): self
-    {
-        $this->photo = $photo;
 
         return $this;
     }
@@ -217,5 +198,23 @@ class User implements UserInterface
     public function eraseCredentials()
     {
 
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
+
+        // set (or unset) the owning side of the relation if necessary
+//        $newUser = null === $image ? null : $this;
+//        if ($image->getUser() !== $newUser) {
+//            $image->setUser($newUser);
+//        }
+
+        return $this;
     }
 }

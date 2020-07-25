@@ -20,7 +20,14 @@
                                 'id':trick.id,
                                 'trick_slug':trick.slug
                             }) }}">
-                                <img src="http://placehold.it/150x150" alt="" class="card-img-top">
+                                {% if trick.images is empty %}
+                                    <img id="img-top" src="/image/default-trick.jpg" alt="image par défaut">
+                                    <p class="p-default-img btn-secondary disabled">ceci est une image par défaut, aucune image n'a encore été ajoutée</p>
+                                {% else %}
+                                    {% for image in trick.images[1:1] %}
+                                        <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
+                                    {% endfor %}
+                                {% endif %}
                                 {% if app.user %}
                                     <div id="button-card-home" class="btn btn-secondary disabled">
                                         <a href="{{ path('trick_edit',{
@@ -39,7 +46,6 @@
                                         </a>
                                     </div>
                                 {% endif %}
-                                </img>
 
                                 <h2 class="card-title">{{ trick.name }}</h2>
                                 <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
