@@ -3,7 +3,9 @@
 {% block body %}
 <div class="container">
     {% if trick.images is empty %}
-        <img id="img-top" src="/image/home.jpg" alt="image par défaut">
+        <img id="img-top" src="/image/default-trick.jpg" alt="image par défaut">
+        <p class="p-default-img-show btn-secondary disabled">Ceci est une image par défaut, aucune image n'a encore été ajoutée</p>
+
     {% else %}
         {% for image in trick.images[1:1] %}
             <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
