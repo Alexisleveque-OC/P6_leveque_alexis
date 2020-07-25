@@ -2,30 +2,21 @@
 
 namespace App\Controller;
 
-use App\Entity\Token;
-use App\Entity\User;
 use App\Form\ForgotPassType;
 use App\Form\ImageType;
 use App\Form\NewPasswordType;
-use App\Form\UserLoginType;
 use App\Form\RegisterUserType;
-use App\Repository\TokenRepository;
-use App\Repository\UserRepository;
 use App\Service\Mail\Mailer;
 use App\Service\User\RegisterService;
 use App\Service\User\ResetPassword;
 use App\Service\User\ResetUser;
 use App\Service\User\ValidationService;
-use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Object_;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -155,7 +146,7 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
 

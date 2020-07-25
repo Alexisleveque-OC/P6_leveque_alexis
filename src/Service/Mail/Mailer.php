@@ -5,7 +5,6 @@ namespace App\Service\Mail;
 
 
 use App\Entity\Token;
-use App\Entity\User;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -31,6 +30,10 @@ class Mailer
 
     /**
      * @param Token $token
+     * @throws TransportExceptionInterface
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function sendUserTokenMail(Token $token)
     {

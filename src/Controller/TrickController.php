@@ -14,7 +14,7 @@ use App\Service\Comment\ReadComments;
 use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
 use App\Service\Trick\DeleteTrick;
-use App\Service\Trick\Trickshow;
+use App\Service\Trick\TrickShow;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,17 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
 {
-    /**
-     * @Route("/trick", name="trick")
-     */
-    public function index()
-    {
-        return $this->render('trick/index.html.twig', [
-            'controller_name' => 'TrickController',
-        ]);
-    }
-
-
     /**
      * @Route("/trick/creation", name="trick_create")
      * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}/edit", name="trick_edit")
@@ -75,18 +64,18 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}", name="trick_show")
      * @param String $trick_slug
-     * @param Trickshow $trickShow
+     * @param TrickShow $TrickShow
      * @param ReadComments $readComments
      * @return Response
      */
-    public function show($trick_slug, TrickShow $trickShow, ReadComments $readComments)
+    public function show($trick_slug, TrickShow $TrickShow, ReadComments $readComments)
     {
         $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
         $formUploadImage = $this->createForm(ImageType::class);
         $formUploadVideo = $this->createForm(VideoType::class);
 
-        $trick = $trickShow->showTrick($trick_slug);
+        $trick = $TrickShow->showTrick($trick_slug);
 
         $question = false;
         return $this->render('trick/show.html.twig', [
@@ -128,6 +117,7 @@ class TrickController extends AbstractController
      */
     public function delete(DeleteTrick $deleteTrick, Trick $trick)
     {
+        $this->addFlash('danger', "Le trick à bien été supprimé.");
         $deleteTrick->delete($trick);
         return $this->redirectToRoute('home');
     }

@@ -14,17 +14,15 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
-            ->add('photo', FileType::class,[
-                'label'=> "Votre photo",
+            ->add('photo', FileType::class, [
+                'label' => "Votre photo",
                 'mapped' => false,
                 'required' => false,
-                'constraints'=> [
+                'constraints' => [
                     new NotNull(),
                     new \Symfony\Component\Validator\Constraints\Image()
                 ]
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

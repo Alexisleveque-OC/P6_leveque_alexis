@@ -4,6 +4,7 @@
 namespace App\Service\Comment;
 
 
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AddComment
@@ -25,7 +26,7 @@ class AddComment
 
         $comment->setUser($user);
         $comment->setTrick($trick);
-        $comment->setCreatedAt(new \DateTime());
+        $comment->setCreatedAt(new DateTime());
 
         $this->manager->persist($comment);
         $this->manager->flush();

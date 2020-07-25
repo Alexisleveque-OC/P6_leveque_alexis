@@ -4,42 +4,33 @@ namespace App\Controller;
 
 use App\Form\GroupType;
 use App\Service\Trick\CreateGroup;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GroupController extends AbstractController
 {
     /**
-     * @Route("/group", name="group")
-     */
-    public function index()
-    {
-        return $this->render('group/index.html.twig', [
-            'controller_name' => 'GroupController',
-        ]);
-    }
-
-    /**
      * @Route("/group/create", name="group_create")
      * @param Request $request
      * @param CreateGroup $createGroup
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
 
-    public function create(Request $request,CreateGroup $createGroup)
+    public function create(Request $request, CreateGroup $createGroup)
     {
         $formGroup = $this->createForm(GroupType::class);
         $formGroup->handleRequest($request);
 
-        if($formGroup->isSubmitted() && $formGroup->isValid())
-        {
+        if ($formGroup->isSubmitted() && $formGroup->isValid()) {
             $createGroup->saveGroup($formGroup);
+
+            $this->addFlash('success','Le groupe à bien été crée.');
 
             return $this->redirectToRoute('trick_create');
         }
-        return $this->render('group/create.html.twig',[
+        return $this->render('group/create.html.twig', [
             'formGroup' => $formGroup->createView()
         ]);
     }
