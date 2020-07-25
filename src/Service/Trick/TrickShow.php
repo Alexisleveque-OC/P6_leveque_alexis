@@ -6,7 +6,7 @@ namespace App\Service\Trick;
 
 use App\Repository\TrickRepository;
 
-class Trickshow
+class TrickShow
 {
     /**
      * @var TrickRepository

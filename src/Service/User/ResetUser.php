@@ -4,7 +4,6 @@
 namespace App\Service\User;
 
 
-use App\Entity\User;
 use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +32,6 @@ class ResetUser
 
     public function resetUser($form)
     {
-        $user = new User();
         $form = $form->getData();
         $email = $form['email'];
 

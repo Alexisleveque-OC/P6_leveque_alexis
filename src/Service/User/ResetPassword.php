@@ -4,9 +4,7 @@
 namespace App\Service\User;
 
 
-use App\Entity\Token;
 use App\Repository\TokenRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -20,10 +18,6 @@ class ResetPassword
      * @var EntityManagerInterface
      */
     private $manager;
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
     /**
      * @var UserPasswordEncoderInterface
      */

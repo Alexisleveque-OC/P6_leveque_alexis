@@ -5,8 +5,6 @@ namespace App\Service\User;
 
 
 use App\Entity\Token;
-use App\Entity\User;
-use App\Service\Mail\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 

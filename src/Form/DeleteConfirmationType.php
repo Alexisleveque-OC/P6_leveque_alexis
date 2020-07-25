@@ -5,7 +5,6 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeleteConfirmationType extends AbstractType
 {
@@ -17,12 +16,5 @@ class DeleteConfirmationType extends AbstractType
                 'value' => 'Oui je veux supprimer ce trick'
             ]])
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Entity\User;
 use App\Form\ImageType;
 use App\Form\VideoType;
 use App\Service\Upload\SaveImage;
@@ -18,15 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UploadController extends AbstractController
 {
-    /**
-     * @Route("/upload", name="upload")
-     */
-    public function index()
-    {
-        return $this->render('upload/index.html.twig', [
-            'controller_name' => 'UploadController',
-        ]);
-    }
 
     /**
      * @Route("/upload/image_user/{id<\d+>}", name="upload_user_image")
@@ -50,6 +40,8 @@ class UploadController extends AbstractController
                 $newFileName = $uploadImage->saveImage($uploadedImage, $backupDirectory);
                 $user = $this->getUser();
                 $saveImage->saveOnUser($newFileName, $user);
+
+                $this->addFlash('success','Votre photo de profil à bien été modifié.');
 
                 return $this->redirectToRoute('user_show',['id' => $user->getId()]);
             }
@@ -83,6 +75,8 @@ class UploadController extends AbstractController
                 $newFileName = $uploadImage->saveImage($uploadedImage, $backupDirectory);
                 $saveImage->saveOnTrick($newFileName, $trick);
 
+                $this->addFlash('success','Votre image à bien été enregistré.');
+
                 return $this->redirectToRoute('trick_show',[
                     'id' => $trick->getId(),
                     'group_slug' =>$trick->getGroupName()->getSlug(),
@@ -99,6 +93,8 @@ class UploadController extends AbstractController
     /**
      * @Route("upload/video_trick/{id}", name="upload_trick_video")
      * @param Request $request
+     * @param Trick $trick
+     * @param SaveVideoTrick $saveVideoTrick
      * @return Response
      */
     public function uploadVideoTrick(Request $request, Trick $trick, SaveVideoTrick $saveVideoTrick)
@@ -109,6 +105,9 @@ class UploadController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $url = $form->get('url')->getData();
             $saveVideoTrick->saveOnTrick($url,$trick);
+
+            $this->addFlash('success','Votre vidéo à bien été enregistré.');
+
 
             return $this->redirectToRoute('trick_show',[
                 'id' => $trick->getId(),

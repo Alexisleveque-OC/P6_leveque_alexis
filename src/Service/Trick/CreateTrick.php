@@ -3,6 +3,7 @@
 namespace App\Service\Trick;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -40,9 +41,9 @@ class CreateTrick
 
         $trick->setUser($user);
         if ($trick->getCreatedAt()) {
-            $trick->setUpdatedAt(new \DateTime());
+            $trick->setUpdatedAt(new DateTime());
         } else {
-            $trick->setCreatedAt(new \DateTime());
+            $trick->setCreatedAt(new DateTime());
         }
         $this->manager->persist($trick);
         $this->manager->flush();

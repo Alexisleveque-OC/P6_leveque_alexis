@@ -3,6 +3,7 @@
 
 namespace App\Service\Upload;
 
+use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -30,7 +31,7 @@ class UploadImage
                 $newFileName
             );
         }catch(FileException $e){
-            throw new \Exception('Le fichier n\a pas pus être enregistrer.');
+            throw new Exception('Le fichier n\a pas pus être enregistrer.');
         }
         return $newFileName;
     }

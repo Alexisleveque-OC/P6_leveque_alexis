@@ -5,7 +5,6 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ForgotPassType extends AbstractType
 {
@@ -17,12 +16,5 @@ class ForgotPassType extends AbstractType
                 'attr' => [ 'placeholder' => 'Entrez l\'adresse email de votre compte'
             ]])
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
     }
 }

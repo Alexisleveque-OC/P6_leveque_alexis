@@ -2,29 +2,19 @@
 
 namespace App\Controller;
 
-use App\Repository\TrickRepository;
 use App\Service\Trick\Tricks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
     /**
-     * @Route("/main", name="main")
-     */
-    public function index()
-    {
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
-    }
-
-    /**
      * @Route("/", name="home")
      * @Route("/page={line<\d+>}", name="more_tricks")
      * @param Tricks $readTricks
      * @param int $line
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function home(Tricks $readTricks, $line = 1)
     {

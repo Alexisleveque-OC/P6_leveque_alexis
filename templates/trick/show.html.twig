@@ -1,188 +1,196 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
-    {% if trick.images is empty %}
-        <img id="img-top" src="/image/default-trick.jpg" alt="image par défaut">
-        <p class="p-default-img-show btn-secondary disabled">Ceci est une image par défaut, aucune image n'a encore été ajoutée</p>
+    <div class="container">
+        {% if trick.images is empty %}
+            <img id="img-top" src="/image/default-trick.jpg" alt="image par défaut">
+            <p class="p-default-img-show btn-secondary disabled">Ceci est une image par défaut, aucune image n'a encore
+                été
+                ajoutée</p>
 
-    {% else %}
-        {% for image in trick.images[1:1] %}
-            <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
-        {% endfor %}
-    {% endif %}
-    {% if app.user %}
-        <div id="updateTrick" class="btn btn-secondary disabled">
-            <a href="{{ path('trick_edit',{
-                'group_slug':trick.groupName.slug,
-                'id':trick.id,
-                'trick_slug':trick.slug
-            }) }}" class="col-3">
-                <span class="oi oi-pencil"></span>
-            </a>
-            <a href="{{ path('deleteConf_trick',{
-                'group_slug':trick.groupName.slug,
-                'id':trick.id,
-                'trick_slug':trick.slug
-            }) }}" class="col-3">
-                <span class="oi oi-delete"></span>
-            </a>
-        </div>
-    {% endif %}
-
-    {% if question %}
-        <div class="offset-4 col-4">
-            <button type="button" class="btn btn-danger" data-toggle="modal"
-                    data-target="#deleteTrickConfModal">
-                Supprimer ce trick !
-            </button>
-            {% include 'modal/deleteTrickConfModal.html.twig' %}
-        </div>
-    {% endif %}
-
-    <div class="row">
-        <div class="col-6">
-            <div id="carousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    {% for image in trick.images[1:] %}
-                        <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
-                    {% endfor %}
-                </ol>
-                <div class="carousel-inner">
-                    {% for image in trick.images[1:] %}
-                        <div class="carousel-item {% if  loop.index == 1 %} active {% endif %}">
-                            <img class="d-block w-100" src="{{ asset(image.url) }}"
-                                 alt="image du trick {{ asset(trick.name) }} ">
-                        </div>
-                    {% endfor %}
-                </div>
-                <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </a>
-                <a class="carousel-control-next" href="#carousel" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </a>
-            </div>
-
-            {% if app.user %}
-                {{ form_start(formImage, {'action':path('upload_trick_image',{'id':trick.id})}) }}
-                {{ form_row(formImage.photo) }}
-                <button class="btn btn-secondary">Enregister</button>
-                {{ form_end(formImage) }}
-            {% endif %}
-        </div>
-        <div class="col-6">
-            <div id="carousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-
-                    {% for video in trick.videos[1:] %}
-                        <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
-                    {% endfor %}
-                </ol>
-                <div class="carousel-inner">
-                    {% for video in trick.videos[1:] %}
-                        <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                            <iframe src="{{ video.url }}" height="400" width="500" name="video">
-                            </iframe>
-                        </div>
-                    {% endfor %}
-                </div>
-                <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </a>
-                <a class="carousel-control-next" href="#carousel" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </a>
-            </div>
-            {#            {% for video in trick.videos %}#}
-            {#                <iframe src="{{ video.url }}" height="300" width="400" name="video">#}
-            {#                </iframe>#}
-            {#            {% endfor %}#}
-            {% if app.user %}
-                {{ form_start(formVideo, {'action':path('upload_trick_video',{'id':trick.id})}) }}
-                {{ form_row(formVideo.url) }}
-                <p>Astuce: Pour intégrer votre vidéo, (sur votre site de vidéo préféré) cliquez sur partager ->
-                    intégrer, et copiez le lien à partir de "http://" jusqu'à l'espace le plus proche. </p>
-                <button class="btn btn-secondary">Enregister</button>
-                {{ form_end(formVideo) }}
-            {% endif %}
-        </div>
-    </div>
-    <div class="card">
-        <h2 class="card-title">{{ trick.name }}</h2>
-        <div id="cardGroup" class="card-title">
-            {{ trick.groupName.title }}
-        </div>
-        <hr>
-        <div class="card-text">
-            {{ trick.description | raw }}
-        </div>
-        <div class="metadata card-footer">
-            <div class="row">
-                <div class="col-4">
-                    {{ trick.createdAt | date('d/m/Y') }}
-                </div>
-                <div class="col-8 text-right">
-                    écrit par <strong>{{ trick.user.username }}</strong>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% if question == false %}
-    <div class="offset-1 col-10">
-        <h2>Les commentaires</h2>
-        <hr>
+        {% else %}
+            {% for image in trick.images[1:1] %}
+                <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
+            {% endfor %}
+        {% endif %}
         {% if app.user %}
-            {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
-            {{ form_row(formComment.content) }}
-            <input type="submit" class="btn btn-primary" value="Envoyer">
-            {{ form_end(formComment) }}
-        {% endif %}
-        <hr>
-        {% if trick.comments is empty %}
-            <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
-                !!!</h4>
-        {% endif %}
-
-        {% for comment in trick.comments %}
-        <div class="row">
-            <div class="col-2">
-                <div class=" text-center">
-                    {{ comment.user.username }}
-                    <img class="user-image" src="{{ comment.user.image.url }}"
-                         alt="photo d'utilisateur">
-                </div>
+            <div id="updateTrick" class="btn btn-secondary disabled">
+                <a href="{{ path('trick_edit',{
+                    'group_slug':trick.groupName.slug,
+                    'id':trick.id,
+                    'trick_slug':trick.slug
+                }) }}" class="col-3">
+                    <span class="oi oi-pencil"></span>
+                </a>
+                <a href="{{ path('deleteConf_trick',{
+                    'group_slug':trick.groupName.slug,
+                    'id':trick.id,
+                    'trick_slug':trick.slug
+                }) }}" class="col-3">
+                    <span class="oi oi-delete"></span>
+                </a>
             </div>
-            <div class="col-10">
-                <p>écrit le <strong>{{ comment.createdAt | date('d/m/Y') }}</strong></p>
-                <div class="comment-content">
-                    {{ comment.content }}
-                </div>
-                <div class="metadata">
+        {% endif %}
 
-                    {% if app.user == comment.user %}
-                        <hr>
-                        <div class="text-center ">
-                            <button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#deleteCommentModal">
-                                Supprimer mon commentaire
-                            </button>
-                            {% include 'modal/deleteComment.html.twig' %}
-                        </div>
-                    {% endif %}
+        {% if question %}
+            <div class="offset-4 col-4">
+                <button type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target="#deleteTrickConfModal">
+                    Supprimer ce trick !
+                </button>
+                {% include 'modal/deleteTrickConfModal.html.twig' %}
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-6">
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for image in trick.images[1:] %}
+                            <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for image in trick.images[1:] %}
+                            <div class="carousel-item {% if  loop.index == 1 %} active {% endif %}">
+                                <img class="d-block w-100" src="{{ asset(image.url) }}"
+                                     alt="image du trick {{ asset(trick.name) }} ">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
                 </div>
+
+                {% if app.user %}
+                    {{ form_start(formImage, {'action':path('upload_trick_image',{'id':trick.id})}) }}
+                    {{ form_row(formImage.photo) }}
+                    <button class="btn btn-secondary">Enregister</button>
+                    {{ form_end(formImage) }}
+                {% endif %}
+            </div>
+            <div class="col-6">
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+
+                        {% for video in trick.videos[1:] %}
+                            <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for video in trick.videos[1:] %}
+                            <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+                                <iframe src="{{ video.url }}" height="400" width="500" name="video">
+                                </iframe>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+                </div>
+                {#            {% for video in trick.videos %}#}
+                {#                <iframe src="{{ video.url }}" height="300" width="400" name="video">#}
+                {#                </iframe>#}
+                {#            {% endfor %}#}
+                {% if app.user %}
+                    {{ form_start(formVideo, {'action':path('upload_trick_video',{'id':trick.id})}) }}
+                    {{ form_row(formVideo.url) }}
+                    <p>Astuce: Pour intégrer votre vidéo, (sur votre site de vidéo préféré) cliquez sur partager ->
+                        intégrer, et copiez le lien à partir de "http://" jusqu'à l'espace le plus proche. </p>
+                    <button class="btn btn-secondary">Enregister</button>
+                    {{ form_end(formVideo) }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="card">
+            <h2 class="card-title">{{ trick.name }}</h2>
+            <div id="cardGroup" class="card-title">
+                {{ trick.groupName.title }}
             </div>
             <hr>
-            {% endfor %}
+            <div class="card-text">
+                {{ trick.description | raw }}
+            </div>
+            <div class="metadata card-footer">
+                <div class="row">
+                    <div class="col-4">
+                        {{ trick.createdAt | date('d/m/Y') }}
+                    </div>
+                    <div class="col-8 text-right">
+                        écrit par <strong>{{ trick.user.username }}</strong>
+                    </div>
+                </div>
+            </div>
         </div>
+        {% if question == false %}
+            <div class="offset-1 col-10">
+                <h2>Les commentaires</h2>
+                <hr>
+                {% if app.user %}
+                    {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
+                    {{ form_row(formComment.content) }}
+                    <input type="submit" class="btn btn-primary" value="Envoyer">
+                    {{ form_end(formComment) }}
+                {% endif %}
+                <hr>
+                {% if trick.comments is empty %}
+                    <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
+                        !!!</h4>
+                {% endif %}
+
+                {% for comment in trick.comments %}
+                    <div class="row">
+                        <div class="col-2">
+                            <div class=" text-center">
+                                {{ comment.user.username }}
+                                {% if app.user.image == null %}
+                                    <img class="user-image" src="/image/avatar.png"
+                                         alt="photo d'utilisateur">
+                                {% else %}
+                                    <img class="user-image" src="{{ comment.user.image.url }}"
+                                         alt="photo d'utilisateur">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <p>écrit le <strong>{{ comment.createdAt | date('d/m/Y') }}</strong></p>
+                            <div class="comment-content">
+                                {{ comment.content }}
+                            </div>
+                            <div class="metadata">
+
+                                {% if app.user == comment.user %}
+                                    <hr>
+                                    <div class="text-center ">
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deleteCommentModal">
+                                            Supprimer mon commentaire
+                                        </button>
+                                        {% include 'modal/deleteComment.html.twig' %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
 
 
-    {% endblock %}
+{% endblock %}
 
     {% block title %}
         {{ trick.name }}
     {% endblock %}
     {% block javascripts %}
-{% endblock %}
+    {% endblock %}

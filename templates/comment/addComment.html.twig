@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(formComment) }}
-    {{ form_widget(formComment) }}
+    <div class="container">
+        {{ form_start(formComment) }}
+        {{ form_widget(formComment) }}
 
-    <button class="btn btn-primary">Enregistrer</button>
-    {{ form_end(formComment) }}
+        <button class="btn btn-primary">Enregistrer</button>
+        {{ form_end(formComment) }}
+    </div>
 
 {% endblock %}
 
 {% block title %}
-Ajouter un commentaires
+    Ajouter un commentaires
 {% endblock %}
 
