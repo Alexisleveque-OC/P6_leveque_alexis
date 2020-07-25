@@ -9,6 +9,7 @@ use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
 use App\Form\ImageType;
 use App\Form\TrickCreateType;
+use App\Form\VideoType;
 use App\Service\Comment\ReadComments;
 use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
@@ -80,11 +81,10 @@ class TrickController extends AbstractController
      */
     public function show($trick_slug, TrickShow $trickShow, ReadComments $readComments)
     {
-        $form = $this->createForm(CommentType::class);
-
+        $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
-
         $formUploadImage = $this->createForm(ImageType::class);
+        $formUploadVideo = $this->createForm(VideoType::class);
 
         $trick = $trickShow->showTrick($trick_slug);
 
@@ -96,9 +96,10 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'comments' => $comments,
             'question'=> $question,
-            'formComment' => $form->createView(),
+            'formComment' => $formComment->createView(),
             'formDeleteComment' => $formDeleteComment->createView(),
-            'formImage' => $formUploadImage->createView()
+            'formImage' => $formUploadImage->createView(),
+            'formVideo' => $formUploadVideo->createView()
         ]);
     }
 

@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Entity\User;
 use App\Form\ImageType;
+use App\Form\VideoType;
+use App\Service\Upload\SaveImage;
+use App\Service\Upload\SaveVideoTrick;
 use App\Service\Upload\UploadImage;
-use App\Service\User\SaveImage;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -91,6 +93,32 @@ class UploadController extends AbstractController
 
         return $this->render('upload/image.html.twig',[
             'formImage' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("upload/video_trick/{id}", name="upload_trick_video")
+     * @param Request $request
+     * @return Response
+     */
+    public function uploadVideoTrick(Request $request, Trick $trick, SaveVideoTrick $saveVideoTrick)
+    {
+        $form = $this->createForm(VideoType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $url = $form->get('url')->getData();
+            $saveVideoTrick->saveOnTrick($url,$trick);
+
+            return $this->redirectToRoute('trick_show',[
+                'id' => $trick->getId(),
+                'group_slug' =>$trick->getGroupName()->getSlug(),
+                'trick_slug' => $trick->getSlug()
+            ]);
+        }
+
+        return $this->render('upload/video.html.twig',[
+            'formVideo'=> $form->createView()
         ]);
     }
 }

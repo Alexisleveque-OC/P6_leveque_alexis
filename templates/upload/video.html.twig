@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Upload Vidéo
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2>Il y à un problème avec votre lien</h2>
+    <p>Réessayer en corrigeant l'erreur</p>
+    {{ form_start(formVideo) }}
+    {{ form_row(formVideo) }}
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    {{ form_end(formVideo) }}
+</div>
+{% endblock %}
+

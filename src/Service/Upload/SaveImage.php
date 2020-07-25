@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\User;
+namespace App\Service\Upload;
 
 
 use App\Entity\Image;
