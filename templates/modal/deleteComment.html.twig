@@ -15,6 +15,13 @@
                             <div class="col-2">
                                 <div class="card-title">
                                     {{ comment.user.username }}
+                                    {% if app.user.image == null %}
+                                        <img class="user-image" src="/image/avatar.png"
+                                             alt="photo d'utilisateur">
+                                    {% else %}
+                                        <img class="user-image" src="{{ comment.user.image.url }}"
+                                             alt="photo d'utilisateur">
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-10">
@@ -30,7 +37,7 @@
                 </div>
                 <div class="modal-footer">
                     {% if app.user == comment.user %}
-                        <div class="offset-4 col-4">
+                        <div class="text-center">
                             <a class="btn btn-danger" href="{{ path('delete_comment',{'id':comment.id}) }}">
                                 Supprimer mon commentaire
                             </a>

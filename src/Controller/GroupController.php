@@ -20,6 +20,8 @@ class GroupController extends AbstractController
 
     public function create(Request $request, CreateGroup $createGroup)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $formGroup = $this->createForm(GroupType::class);
         $formGroup->handleRequest($request);
 

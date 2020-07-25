@@ -28,6 +28,8 @@ class UploadController extends AbstractController
      */
     public function uploadImageUser(Request $request, UploadImage $uploadImage, SaveImage $saveImage )
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(ImageType::class);
         $form->handleRequest($request);
 
@@ -63,6 +65,8 @@ class UploadController extends AbstractController
      */
     public function uploadImageTrick(Request $request, UploadImage $uploadImage, SaveImage $saveImage,Trick $trick)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(ImageType::class);
         $form->handleRequest($request);
 
@@ -99,6 +103,8 @@ class UploadController extends AbstractController
      */
     public function uploadVideoTrick(Request $request, Trick $trick, SaveVideoTrick $saveVideoTrick)
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $form = $this->createForm(VideoType::class);
         $form->handleRequest($request);
 

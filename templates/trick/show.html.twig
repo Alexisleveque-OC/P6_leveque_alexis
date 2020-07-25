@@ -150,6 +150,7 @@
                     <div class="row">
                         <div class="col-2">
                             <div class=" text-center">
+                                <a href="{{ path('user_show',{'id':comment.user.id}) }}">
                                 {{ comment.user.username }}
                                 {% if app.user.image == null %}
                                     <img class="user-image" src="/image/avatar.png"
@@ -158,6 +159,7 @@
                                     <img class="user-image" src="{{ comment.user.image.url }}"
                                          alt="photo d'utilisateur">
                                 {% endif %}
+                                </a>
                             </div>
                         </div>
                         <div class="col-10">
