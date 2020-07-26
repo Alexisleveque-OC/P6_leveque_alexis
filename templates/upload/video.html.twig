@@ -7,10 +7,12 @@ Upload Vidéo
 {% block body %}
 <div class="container">
     <h2>Il y à un problème avec votre lien</h2>
-    <p>Réessayer en corrigeant l'erreur</p>
+    <p>Réessayer en corrigeant l'erreur.</p>
+    <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur partager ->
+        intégrer, et copiez le lien à partir de "http://" jusqu'à l'espace le plus proche. </p>
     {{ form_start(formVideo) }}
     {{ form_row(formVideo) }}
-    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <button type="submit" class="btn btn-outline-success offset-4 col-4 text-center">Enregistrer</button>
     {{ form_end(formVideo) }}
 </div>
 {% endblock %}

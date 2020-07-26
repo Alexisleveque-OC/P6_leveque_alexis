@@ -6,6 +6,8 @@
     position: absolute;
     left: 3%;
     top: 15%;
+    font-family: 'Permanent Marker', cursive;
+    color: #222222;
 }
 
 #navbarUser {
@@ -16,35 +18,38 @@
 .container {
     margin-top: 5%;
 }
-
-article a {
-    text-decoration: none;
-    color: #222222;
+body, html{
+    height:100%;
+}
+a {
+    color: #AAAAAA;
 }
 
 footer {
+    background-color: #303030;
+    position: relative;
     bottom: 0;
+    width: 100%;
+    height: 50px;
+    margin-top: 5%;
 }
 
 article {
     text-align: center;
+    height: 100%;
 }
 
 article .card-title {
-    font-size: 1em;
-}
-
-article .card-text {
-    font-size: 0.8em;
+    font-size: 1.2em;
+    margin: 5%;
+    padding: 5%;
+    margin-bottom: 15%;
 }
 
 article .card-footer {
-    font-size: 0.5em;
-    text-align: left;
-}
-
-article #cardGroupe {
-    font-size: 0.9em;
+    text-align: right;
+    position: absolute;
+    bottom: 0;
 }
 
 #alert {
@@ -63,9 +68,11 @@ article #cardGroupe {
     right: 2%;
     top: 2%;
 }
-.card{
-    margin-top: 2%;
+
+.card {
+    margin-top: 2%
 }
+
 .card-text {
     padding: 2%;
 }
@@ -77,16 +84,54 @@ article #cardGroupe {
 .card-footer {
     padding: 2%;
 }
-.user-image{
+
+.user-image {
     width: 100%;
     height: 100%;
 }
-#img-top{
+
+#img-top {
     width: 100%;
     margin-bottom: 5%;
 }
-.p-default-img{
-    position: relative;
-    top: 50%;
+
+.p-default-img {
+    position: absolute;
+    top: 35%;
     text-align: center;
+}
+
+.arrow {
+    color: aliceblue;
+    font-size: 5em;
+    position: relative;
+}
+
+.load-more {
+    padding-top: 5%;
+    color: aliceblue;
+    font-size: 5em;
+}
+
+.load-more:hover {
+    text-decoration: none;
+}
+
+.carousel-item {
+    width: 100%;
+    height: 450px;
+}
+
+.profil-img {
+    width: 100%;
+}
+
+.title-user {
+    padding-bottom: 5%;
+}
+
+.detail-profil {
+    background-color: #303030;
+    border-radius: 25px;
+    padding: 5%;
 }

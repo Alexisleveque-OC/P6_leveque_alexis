@@ -4,12 +4,33 @@
 
 {% block body %}
 
-    <img src="/image/home.jpg" alt="montagne et snowboard" id="imgHome">
-    <h1 id="homeSentence">La communauté vous apprend le freestyle</h1>
+    <img src="{{ asset('image/home.jpg') }}" alt="montagne et snowboard" id="imgHome">
+    <h1 id="homeSentence">Share your freedom</h1>
     <hr>
+    <div class="row">
+        <div class="offset-10 col-1 text-right">
+            <a href="#Tricks_block" class="oi oi-arrow-circle-bottom arrow text-right"></a>
+        </div>
+    </div>
     <div class="container">
+        <div class="site_presentation">
+            <div class="row">
+                <div class="col-4">
+                    <h1>Snowtricks c'est quoi ?</h1>
+                </div>
+                <div class="col-8">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias, aliquam dolor
+                        doloremque earum facilis, fugit iste quibusdam, reprehenderit sapiente tenetur totam vitae
+                        voluptatibus. Autem ea eligendi inventore labore sapiente.</p>
+                    <p>Dignissimos id libero odio optio saepe? Ab ad alias blanditiis dolorum est fugit, ipsa ipsam
+                        laboriosam maxime nobis nostrum praesentium qui recusandae totam voluptates voluptatibus
+                        voluptatum! Adipisci, natus voluptate. Voluptatibus?</p>
+                </div>
+            </div>
+        </div>
+        <hr>
         <h1> Les derniers tricks !!!</h1>
-        <section class="tricks">
+        <section class="tricks" id="Tricks_block">
             <div class="row">
                 {% for trick in tricks %}
                     <div class="col-3">
@@ -21,8 +42,8 @@
                                 'trick_slug':trick.slug
                             }) }}">
                                 {% if trick.images is empty %}
-                                    <img id="img-top" src="/image/default-trick.jpg" alt="image par défaut">
-                                    <p class="p-default-img btn-secondary disabled">ceci est une image par défaut, aucune image n'a encore été ajoutée</p>
+                                    <img id="img-top" src="{{ asset('image/default-trick.jpg') }}" alt="image par défaut">
+                                    <p class="p-default-img btn-secondary disabled ">Image par défaut</p>
                                 {% else %}
                                     {% for image in trick.images[1:1] %}
                                         <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
@@ -47,13 +68,17 @@
                                     </div>
                                 {% endif %}
 
-                                <h2 class="card-title">{{ trick.name }}</h2>
-                                <div id="cardGroup" class="card-title">{{ trick.groupName.title }}</div>
-                                <div class="content card-text">
-                                    {{ trick.description | raw }}
-                                </div>
+                                <h2 class="card-title">
+                                    <a class="btn btn-success" href="{{ path('trick_show',{
+                                        'group_slug':trick.groupName.slug,
+                                        'id':trick.id,
+                                        'trick_slug':trick.slug
+                                    }) }}"><span class="trick"></span>{{ trick.name }}</a>
+                                </h2>
+
                                 <div class="metadata card-footer">
                                     {% if trick.updatedAt %}
+                                        a
                                         Modifié le {{ trick.updatedAt | date('d/m/Y') }}
                                     {% else %}
                                         {{ trick.createdAt | date('d/m/Y') }}
@@ -63,12 +88,34 @@
                         </article>
                     </div>
                 {% endfor %}
-                <div class="offset-4 col-4">
-                    <a class="btn btn-secondary" href="/page={{ line }}">Afficher plus de
-                        tricks</a>
-                </div>
             </div>
+            {% set counter = line * 4 %}
+            {% if tricks|length > counter  %}
+                {% set line = line + 1 %}
+                <div class="offset-4 col-4 text-center">
+                    <a  class="oi oi-plus load-more" href="/page={{ line }}"></a>
+                </div>
+            {% elseif tricks|length == line*4 %}
+                {% set line = line + 1 %}
+                <div class="offset-4 col-4 text-center">
+                    <a  class="oi oi-plus load-more" href="/page={{ line }}"></a>
+                </div>
+
+            {% elseif tricks|length == counter %}
+                <div class="offset-4 col-4 text-center">
+                    <a  class="oi oi-circle-x load-more" href="/"></a>
+                </div>
+            {% else %}
+                <div class="offset-4 col-4 text-center">
+                    <a  class="oi oi-circle-x load-more" href="/"></a>
+                </div>
+            {% endif %}
         </section>
+    </div>
+    <div class="row">
+        <div class="offset-10 col-1 text-right">
+            <a href="#Tricks_block" class="oi oi-arrow-circle-top arrow text-right"></a>
+        </div>
     </div>
 
 

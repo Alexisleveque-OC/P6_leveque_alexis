@@ -3,10 +3,10 @@
 {% block body %}
     <div class="container">
         {% if trick.images is empty %}
-            <img id="img-top" src="/image/default-trick.jpg" alt="image par défaut">
-            <p class="p-default-img-show btn-secondary disabled">Ceci est une image par défaut, aucune image n'a encore
-                été
-                ajoutée</p>
+            <img id="img-top" src="{{ asset('image/default-trick.jpg') }}" alt="image par défaut">
+            <p class="p-default-img-show btn-secondary disabled text-center">Ceci est une image par défaut, aucune image
+                n'a encore été ajoutée.
+            </p>
 
         {% else %}
             {% for image in trick.images[1:1] %}
@@ -33,7 +33,7 @@
         {% endif %}
 
         {% if question %}
-            <div class="offset-4 col-4">
+            <div class="text-center">
                 <button type="button" class="btn btn-danger" data-toggle="modal"
                         data-target="#deleteTrickConfModal">
                     Supprimer ce trick !
@@ -46,66 +46,64 @@
             <div class="col-6">
                 <div id="carousel" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        {% for image in trick.images[1:] %}
+                        {% for image in trick.images[0:] %}
                             <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
                         {% endfor %}
                     </ol>
                     <div class="carousel-inner">
-                        {% for image in trick.images[1:] %}
+                        {% for image in trick.images[0:] %}
                             <div class="carousel-item {% if  loop.index == 1 %} active {% endif %}">
                                 <img class="d-block w-100" src="{{ asset(image.url) }}"
                                      alt="image du trick {{ asset(trick.name) }} ">
                             </div>
                         {% endfor %}
                     </div>
-                    <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </a>
-                    <a class="carousel-control-next" href="#carousel" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </a>
+                    {% if trick.images is null %}
+                        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    {% endif %}
                 </div>
-
-                {% if app.user %}
+                {% if app.user and question == false %}
                     {{ form_start(formImage, {'action':path('upload_trick_image',{'id':trick.id})}) }}
                     {{ form_row(formImage.photo) }}
-                    <button class="btn btn-secondary">Enregister</button>
+                    <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
                     {{ form_end(formImage) }}
                 {% endif %}
             </div>
             <div class="col-6">
                 <div id="carousel" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-
-                        {% for video in trick.videos[1:] %}
+                        {% for video in trick.videos[0:] %}
                             <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
                         {% endfor %}
                     </ol>
                     <div class="carousel-inner">
-                        {% for video in trick.videos[1:] %}
+                        {% for video in trick.videos[0:] %}
                             <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
                                 <iframe src="{{ video.url }}" height="400" width="500" name="video">
                                 </iframe>
                             </div>
                         {% endfor %}
                     </div>
-                    <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </a>
-                    <a class="carousel-control-next" href="#carousel" data-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </a>
+                    {% if trick.videos is null %}
+                        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
+                    {% endif %}
                 </div>
-                {#            {% for video in trick.videos %}#}
-                {#                <iframe src="{{ video.url }}" height="300" width="400" name="video">#}
-                {#                </iframe>#}
-                {#            {% endfor %}#}
-                {% if app.user %}
+                {% if app.user and question == false %}
                     {{ form_start(formVideo, {'action':path('upload_trick_video',{'id':trick.id})}) }}
                     {{ form_row(formVideo.url) }}
-                    <p>Astuce: Pour intégrer votre vidéo, (sur votre site de vidéo préféré) cliquez sur partager ->
+                    <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
+                    <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur partager ->
                         intégrer, et copiez le lien à partir de "http://" jusqu'à l'espace le plus proche. </p>
-                    <button class="btn btn-secondary">Enregister</button>
                     {{ form_end(formVideo) }}
                 {% endif %}
             </div>
@@ -137,7 +135,7 @@
                 {% if app.user %}
                     {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
                     {{ form_row(formComment.content) }}
-                    <input type="submit" class="btn btn-primary" value="Envoyer">
+                    <input type="submit" class="btn btn-outline-success offset-4 col-4 text-center" value="Envoyer">
                     {{ form_end(formComment) }}
                 {% endif %}
                 <hr>
@@ -151,14 +149,14 @@
                         <div class="col-2">
                             <div class=" text-center">
                                 <a href="{{ path('user_show',{'id':comment.user.id}) }}">
-                                {{ comment.user.username }}
-                                {% if app.user.image == null %}
-                                    <img class="user-image" src="/image/avatar.png"
-                                         alt="photo d'utilisateur">
-                                {% else %}
-                                    <img class="user-image" src="{{ comment.user.image.url }}"
-                                         alt="photo d'utilisateur">
-                                {% endif %}
+                                    {{ comment.user.username }}
+                                    {% if app.user.image == null %}
+                                        <img class="user-image" src="{{ asset('image/avatar.png') }}"
+                                             alt="photo d'utilisateur">
+                                    {% else %}
+                                        <img class="user-image" src="{{ comment.user.image.url }}"
+                                             alt="photo d'utilisateur">
+                                    {% endif %}
                                 </a>
                             </div>
                         </div>
