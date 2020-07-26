@@ -20,7 +20,7 @@
 }
 
 a {
-  color: #AAAAAA;
+  color: #aaa;
 }
 
 footer {
@@ -128,4 +128,9 @@ article .card-footer {
   background-color: #303030;
   border-radius: 25px;
   padding: 5%;
+}
+.icon-form{
+  font-size: 10em;
+  padding-bottom: 5%;
+  padding-top: 5%;
 }
