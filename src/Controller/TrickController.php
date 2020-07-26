@@ -10,12 +10,9 @@ use App\Form\GroupType;
 use App\Form\ImageType;
 use App\Form\TrickCreateType;
 use App\Form\VideoType;
-use App\Service\Comment\ReadComments;
-use App\Service\Trick\CreateGroup;
 use App\Service\Trick\CreateTrick;
 use App\Service\Trick\DeleteTrick;
 use App\Service\Trick\TrickShow;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,10 +26,9 @@ class TrickController extends AbstractController
      * @param Trick|null $trick
      * @param Request $request
      * @param CreateTrick $createTrick
-     * @param CreateGroup $createGroup
      * @return Response
      */
-    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick, CreateGroup $createGroup)
+    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -68,10 +64,9 @@ class TrickController extends AbstractController
      * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}", name="trick_show")
      * @param String $trick_slug
      * @param TrickShow $TrickShow
-     * @param ReadComments $readComments
      * @return Response
      */
-    public function show($trick_slug, TrickShow $TrickShow, ReadComments $readComments)
+    public function show($trick_slug, TrickShow $TrickShow)
     {
         $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
