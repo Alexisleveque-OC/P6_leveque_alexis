@@ -1,137 +1,131 @@
 #imgHome {
-    width: 100%;
+  width: 100%;
 }
 
 #homeSentence {
-    position: absolute;
-    left: 3%;
-    top: 15%;
-    font-family: 'Permanent Marker', cursive;
-    color: #222222;
+  position: absolute;
+  left: 3%;
+  top: 15%;
+  font-family: 'Permanent Marker', cursive;
+  color: #222;
 }
 
 #navbarUser {
-    position: absolute;
-    right: 5%;
+  position: absolute;
+  right: 5%;
 }
 
 .container {
-    margin-top: 5%;
+  margin-top: 5%;
 }
-body, html{
-    height:100%;
-}
+
 a {
-    color: #AAAAAA;
+  color: #AAAAAA;
 }
 
 footer {
-    background-color: #303030;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    margin-top: 5%;
-}
-
-article {
-    text-align: center;
-    height: 100%;
-}
-
-article .card-title {
-    font-size: 1.2em;
-    margin: 5%;
-    padding: 5%;
-    margin-bottom: 15%;
-}
-
-article .card-footer {
-    text-align: right;
-    position: absolute;
-    bottom: 0;
-}
-
-#alert {
-    position: absolute;
-    width: 100%;
-}
-
-#updateTrick {
-    position: absolute;
-    right: 5%;
-    top: 10%;
-}
-
-#button-card-home {
-    position: absolute;
-    right: 2%;
-    top: 2%;
-}
-
-.card {
-    margin-top: 2%
-}
-
-.card-text {
-    padding: 2%;
+  background-color: #303030;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  margin-top: 5%;
 }
 
 .card-title {
-    padding: 2%;
+  padding: 2%;
 }
 
-.card-footer {
-    padding: 2%;
+article {
+  text-align: center;
+  height: 100%;
+}
+
+article .card-title {
+  font-size: 1.2em;
+  margin: 5%;
+  padding: 5%;
+  margin-bottom: 15%;
+}
+
+article .card-footer {
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+}
+
+#alert {
+  position: absolute;
+  width: 100%;
+}
+
+#updateTrick {
+  position: absolute;
+  right: 5%;
+  top: 10%;
+}
+
+#button-card-home {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+}
+
+.card {
+  margin-top: 2%;
+}
+
+.card-text {
+  padding: 2%;
 }
 
 .user-image {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #img-top {
-    width: 100%;
-    margin-bottom: 5%;
+  width: 100%;
+  margin-bottom: 5%;
 }
 
 .p-default-img {
-    position: absolute;
-    top: 35%;
-    text-align: center;
+  position: absolute;
+  top: 35%;
+  text-align: center;
 }
 
 .arrow {
-    color: aliceblue;
-    font-size: 5em;
-    position: relative;
+  color: aliceblue;
+  font-size: 5em;
+  position: relative;
 }
 
 .load-more {
-    padding-top: 5%;
-    color: aliceblue;
-    font-size: 5em;
+  padding-top: 5%;
+  color: aliceblue;
+  font-size: 5em;
 }
 
 .load-more:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .carousel-item {
-    width: 100%;
-    height: 450px;
+  width: 100%;
+  height: 450px;
 }
 
 .profil-img {
-    width: 100%;
+  width: 100%;
 }
 
 .title-user {
-    padding-bottom: 5%;
+  padding-bottom: 5%;
 }
 
 .detail-profil {
-    background-color: #303030;
-    border-radius: 25px;
-    padding: 5%;
+  background-color: #303030;
+  border-radius: 25px;
+  padding: 5%;
 }
