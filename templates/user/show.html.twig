@@ -16,7 +16,7 @@
                     <h4>Image par défaut</h4>
                     <img class="profil-img" src="{{ asset('image/avatar.png') }}" alt="photo d'utilisateur par défaut">
                 {% else %}
-                    <h4>Votre image de profil</h4>
+                    <h4>Votre image de profil : </h4>
                     <img class="profil-img" src="{{ user.image.url }}" alt="photo d'utilisateur">
                 {% endif %}
                 {% if app.user == user %}
