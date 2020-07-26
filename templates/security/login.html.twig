@@ -26,11 +26,11 @@
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}">
                 <hr>
-                <button class="btn btn-lg btn-primary offset-2 col-8" type="submit">
+                <button class="btn btn-lg btn-success offset-2 col-8 text-center" type="submit">
                     Connexion
                 </button>
                 <hr>
-                <a class="btn btn-lg btn-info offset-4 col-4" href="{{ path('forgot_pass') }}">oups, j'ai oublié mon mot de passe !</a>
+                <a class="btn btn-lg btn-outline-warning offset-4 col-4 text-center" href="{{ path('forgot_pass') }}">oups, j'ai oublié mon mot de passe !</a>
             </div>
         </div>
         {% endif %}
