@@ -9,8 +9,8 @@
             </p>
 
         {% else %}
-            {% for image in trick.images[1:1] %}
-                <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
+            {% for image in trick.images[0:1] %}
+                <img id="img-top-trick" src="{{ image.url }}" alt="{{ image.fileName }}">
             {% endfor %}
         {% endif %}
         {% if app.user %}
@@ -44,25 +44,25 @@
 
         <div class="row">
             <div class="col-6">
-                <div id="carousel" class="carousel slide" data-ride="carousel">
+                <div id="carouselImage" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         {% for image in trick.images[0:] %}
-                            <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
+                            <li data-target=".carouselImage" data-slide-to="{{ loop.index }}"></li>
                         {% endfor %}
                     </ol>
                     <div class="carousel-inner">
                         {% for image in trick.images[0:] %}
-                            <div class="carousel-item {% if  loop.index == 1 %} active {% endif %}">
+                            <div class="carousel-item {% if  loop.index0 == 0 %} active {% endif %}">
                                 <img class="d-block w-100" src="{{ asset(image.url) }}"
                                      alt="image du trick {{ asset(trick.name) }} ">
                             </div>
                         {% endfor %}
                     </div>
-                    {% if trick.images is null %}
-                        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+                    {% if trick.images is not empty %}
+                        <a class="carousel-control-prev" href="#carouselImage" data-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
                         </a>
-                        <a class="carousel-control-next" href="#carousel" data-slide="next">
+                        <a class="carousel-control-next" href="#carouselImage" data-slide="next">
                             <span class="carousel-control-next-icon"></span>
                         </a>
                     {% endif %}
@@ -89,7 +89,7 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {% if trick.videos is null %}
+                    {% if trick.videos is not empty %}
                         <a class="carousel-control-prev" href="#carousel" data-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
                         </a>
@@ -110,9 +110,9 @@
         </div>
         <div class="card">
             <h2 class="card-title">{{ trick.name }}</h2>
-            <div id="cardGroup" class="card-title">
+            <h3 id="cardGroup" class="card-title">
                 {{ trick.groupName.title }}
-            </div>
+            </h3>
             <hr>
             <div class="card-text">
                 {{ trick.description | raw }}
@@ -120,7 +120,11 @@
             <div class="metadata card-footer">
                 <div class="row">
                     <div class="col-4">
-                        {{ trick.createdAt | date('d/m/Y') }}
+                        {% if trick.updatedAt %}
+                            Modifié le {{ trick.updatedAt | date('d/m/Y') }}
+                        {% else %}
+                            {{ trick.createdAt | date('d/m/Y') }}
+                        {% endif %}
                     </div>
                     <div class="col-8 text-right">
                         écrit par <strong>{{ trick.user.username }}</strong>
@@ -144,13 +148,13 @@
                         !!!</h4>
                 {% endif %}
 
-                {% for comment in trick.comments %}
+                {% for comment in trick.comments|reverse %}
                     <div class="row">
                         <div class="col-2">
                             <div class=" text-center">
                                 <a href="{{ path('user_show',{'id':comment.user.id}) }}">
                                     {{ comment.user.username }}
-                                    {% if app.user.image == null %}
+                                    {% if comment.user.image is null %}
                                         <img class="user-image" src="{{ asset('image/avatar.png') }}"
                                              alt="photo d'utilisateur">
                                     {% else %}
