@@ -84,8 +84,7 @@
                     <div class="carousel-inner">
                         {% for video in trick.videos[0:] %}
                             <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                                <iframe src="{{ video.url }}" height="400" width="500" name="video">
-                                </iframe>
+                                {{ video.iFrame|raw }}
                             </div>
                         {% endfor %}
                     </div>
@@ -100,10 +99,10 @@
                 </div>
                 {% if app.user and question == false %}
                     {{ form_start(formVideo, {'action':path('upload_trick_video',{'id':trick.id})}) }}
-                    {{ form_row(formVideo.url) }}
+                    {{ form_row(formVideo.iFrame) }}
                     <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
                     <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur partager ->
-                        intégrer, et copiez le lien à partir de "http://" jusqu'à l'espace le plus proche. </p>
+                        intégrer, copiez le lien afficher commençant par "iframe". </p>
                     {{ form_end(formVideo) }}
                 {% endif %}
             </div>

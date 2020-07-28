@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="offset-2 col-8 text-center">
+        <div class="offset-1 col-10 text-center">
             {{ form_start(formTrick) }}
             <div class="row">
                 <div class="col-10">
@@ -43,8 +43,9 @@
                 </div>
             </div>
             {{ form_row(formTrick.name,{'label':"Nom du trick",'attr':{'placeholder':"Nom du trick"}}) }}
-            {{ form_row(formTrick.description,{'label':"Description du trick",'attr':{'placeholder':"Description du trick"}}) }}
-
+            <div id="descriptionTextArea">
+            {{ form_row(formTrick.description) }}
+            </div>
             <button class="btn btn-outline-success ">
                 {% if editMode %}
                     Modifier le trick

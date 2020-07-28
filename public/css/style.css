@@ -153,3 +153,6 @@ article .card-footer {
   padding-bottom: 5%;
   padding-top: 5%;
 }
+#descriptionTextArea{
+  min-height: 50%;
+}

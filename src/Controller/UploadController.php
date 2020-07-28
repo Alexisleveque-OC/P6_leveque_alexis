@@ -109,8 +109,8 @@ class UploadController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            $url = $form->get('url')->getData();
-            $saveVideoTrick->saveOnTrick($url,$trick);
+            $iFrame = $form->get('iFrame')->getData();
+            $saveVideoTrick->saveOnTrick($iFrame,$trick);
 
             $this->addFlash('success','Votre vidéo à bien été enregistré.');
 
