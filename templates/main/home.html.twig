@@ -7,18 +7,13 @@
     <img src="{{ asset('image/home.jpg') }}" alt="montagne et snowboard" id="imgHome">
     <h1 id="homeSentence">Share your freedom</h1>
     <hr>
-    <div class="row">
-        <div class="offset-10 col-1 text-right">
-            <a href="#Tricks_block" class="oi oi-arrow-circle-bottom arrow text-right"></a>
-        </div>
-    </div>
     <div class="container">
         <div class="site_presentation">
             <div class="row">
-                <div class="col-sm-12 col-4">
+                <div class="col-sm-12 col-lg-4">
                     <h1>Snowtricks c'est quoi ?</h1>
                 </div>
-                <div class="col-sm-12 col-8">
+                <div class="col-sm-12 col-lg-8">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias, aliquam dolor
                         doloremque earum facilis, fugit iste quibusdam, reprehenderit sapiente tenetur totam vitae
                         voluptatibus. Autem ea eligendi inventore labore sapiente.</p>
@@ -28,92 +23,99 @@
                 </div>
             </div>
         </div>
-        <hr>
-        <h1> Les derniers tricks !!!</h1>
-        <section class="tricks" id="Tricks_block">
+        {% if page == 0 %}
             <div class="row">
-                {% for trick in tricks %}
-                    <div class=" col-sm-12 col-lg-3">
-                        <article class="card">
-                            <a href="{{ path('trick_show',{
-                                'group_slug':trick.groupName.slug,
-                                'id':trick.id,
-                                'trick_slug':trick.slug
-                            }) }}">
-                                {% if trick.images is empty %}
-                                    <img id="img-top" src="{{ asset('image/default-trick.jpg') }}"
-                                         alt="image par défaut">
-                                    <p class="p-default-img btn-secondary disabled ">Image par défaut</p>
-                                {% else %}
-                                    {% for image in trick.images[0:1] %}
-                                        <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
-                                    {% endfor %}
-                                {% endif %}
-                                {% if app.user %}
-                                    <div id="button-card-home" class="btn btn-secondary disabled">
-                                        <a href="{{ path('trick_edit',{
+                <div class="offset-6 col-6 text-right">
+                    <h2>Je veux voir les figures</h2>
+                    <a href="/page=1/#trick_number1" class="oi oi-arrow-circle-bottom arrow text-right"></a>
+                </div>
+            </div>
+        {% endif %}
+        {% if page >= 1 %}
+            <hr>
+            <h1> Les derniers tricks !!!</h1>
+            <section class="tricks" id="Tricks_block_Page{{ page }}">
+                <div class="row">
+
+                    {% set totalTrickDisplay = page * 4 %}
+                    {% for trick in tricks[0:totalTrickDisplay] %}
+                        <div id="trick_number{{ loop.index }}"></div>
+                        <div class="  col-sm-12 col-lg-3 ">
+                            <article class="card">
+                                <a href="{{ path('trick_show',{
+                                    'group_slug':trick.groupName.slug,
+                                    'id':trick.id,
+                                    'trick_slug':trick.slug
+                                }) }}">
+                                    {% if trick.images is empty %}
+                                        <img id="img-top" src="{{ asset('image/default-trick.jpg') }}"
+                                             alt="image par défaut">
+                                        <p class="p-default-img btn-secondary disabled ">Image par défaut</p>
+                                    {% else %}
+                                        {% for image in trick.images[0:1] %}
+                                            <img id="img-top" src="{{ image.url }}" alt="{{ image.fileName }}">
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if app.user %}
+                                        <div id="button-card-home" class="btn btn-secondary disabled">
+                                            <a href="{{ path('trick_edit',{
+                                                'group_slug':trick.groupName.slug,
+                                                'id':trick.id,
+                                                'trick_slug':trick.slug
+                                            }) }}" class="col-3">
+                                                <span class="oi oi-pencil"></span>
+                                            </a>
+                                            <button class="btn btn-secondary disabled col-3" data-toggle="modal"
+                                                    data-target="#deleteTrickConfModal">
+                                                <span class="oi oi-delete"></span>
+                                            </button>
+                                        </div>
+                                        {% include 'modal/deleteTrickConfModal.html.twig' %}
+                                    {% endif %}
+
+                                    <h2 class="card-title">
+                                        <a id="button-link-trick" class="btn btn-success" href="{{ path('trick_show',{
                                             'group_slug':trick.groupName.slug,
                                             'id':trick.id,
                                             'trick_slug':trick.slug
-                                        }) }}" class="col-3">
-                                            <span class="oi oi-pencil"></span>
-                                        </a>
-                                        <button class="btn btn-secondary disabled col-3" data-toggle="modal"
-                                                data-target="#deleteTrickConfModal">
-                                            <span class="oi oi-delete"></span>
-                                        </button>
+                                        }) }}"><span class="trick"></span>{{ trick.name }}</a>
+                                    </h2>
+
+                                    <div class="metadata card-footer">
+                                        {% if trick.updatedAt %}
+                                            Modifié le {{ trick.updatedAt | date('d/m/Y') }}
+                                        {% else %}
+                                            {{ trick.createdAt | date('d/m/Y') }}
+                                        {% endif %}
                                     </div>
-                                    {% include 'modal/deleteTrickConfModal.html.twig' %}
-                                {% endif %}
-
-                                <h2 class="card-title">
-                                    <a id="button-link-trick" class="btn btn-success" href="{{ path('trick_show',{
-                                        'group_slug':trick.groupName.slug,
-                                        'id':trick.id,
-                                        'trick_slug':trick.slug
-                                    }) }}"><span class="trick"></span>{{ trick.name }}</a>
-                                </h2>
-
-                                <div class="metadata card-footer">
-                                    {% if trick.updatedAt %}
-                                        Modifié le {{ trick.updatedAt | date('d/m/Y') }}
-                                    {% else %}
-                                        {{ trick.createdAt | date('d/m/Y') }}
-                                    {% endif %}
-                                </div>
-                            </a>
-                        </article>
+                                </a>
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if page > 0 %}
+                    <div class="row">
+                        <div class="offset-10 col-1 text-right arrowForHide">
+                            <a href="/page=0" class="oi oi-arrow-circle-top arrow text-right"></a>
+                        </div>
                     </div>
-                {% endfor %}
-            </div>
-            {% set counter = line * 4 %}
-            {% if tricks|length > counter %}
-                {% set line = line + 1 %}
-                <div class="offset-4 col-4 text-center">
-                    <a class="oi oi-plus load-more" href="/page={{ line }}"></a>
-                </div>
-            {% elseif tricks|length == line*4 %}
-                {% set line = line + 1 %}
-                <div class="offset-4 col-4 text-center">
-                    <a class="oi oi-plus load-more" href="/page={{ line }}"></a>
-                </div>
-
-            {% elseif tricks|length == counter %}
-                <div class="offset-4 col-4 text-center">
-                    <a class="oi oi-minus load-more" href="/"></a>
-                </div>
-            {% else %}
-                <div class="offset-4 col-4 text-center">
-                    <a class="oi oi-minus load-more" href="/"></a>
-                </div>
-            {% endif %}
-        </section>
+                {% endif %}
+                {% if tricks|length > totalTrickDisplay %}
+                    {% set page = page + 1 %}
+                    {% set totalTrickDisplay = totalTrickDisplay + 1 %}
+                    <div class="offset-4 col-4 text-center">
+                        <a class="oi oi-plus load-more"
+                           href="/page={{ page }}/#trick_number{{ totalTrickDisplay }}"></a>
+                    </div>
+                {% elseif tricks|length <= totalTrickDisplay %}
+                    {% set page = page - 1 %}
+                    {% set totalTrickDisplay = totalTrickDisplay - 7 %}
+                    <div class="offset-4 col-4 text-center">
+                        <a class="oi oi-minus load-more"
+                           href="/page={{ page }}/#trick_number{{ totalTrickDisplay }}"></a>
+                    </div>
+                {% endif %}
+            </section>
+        {% endif %}
     </div>
-    <div class="row">
-        <div class="offset-10 col-1 text-right">
-            <a href="#Tricks_block" class="oi oi-arrow-circle-top arrow text-right"></a>
-        </div>
-    </div>
-
-
 {% endblock %}

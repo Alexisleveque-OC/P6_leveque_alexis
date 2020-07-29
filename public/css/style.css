@@ -157,3 +157,8 @@ article .card-footer {
 #descriptionTextArea {
   min-height: 50%;
 }
+.arrowForHide{
+  position: fixed;
+  right: 5%;
+  bottom: 7%;
+}

@@ -15,21 +15,11 @@ class Tricks
 
     public function __construct(TrickRepository $trickRepository)
     {
-
         $this->trickRepository = $trickRepository;
     }
 
-    public function readTricks($line = 1)
+    public function list()
     {
-        $limit = $line * 4;
-
-        $tricks = $this->trickRepository->findBy([], ['id' => 'DESC'], $limit, 0);
-
-        foreach ($tricks as $trick) {
-            $trick->setDescription(substr($trick->getDescription(), 0, 30) . ' ...');
-        }
-        return $tricks;
-
+        return $this->trickRepository->findBy([], ['id' => 'DESC']);
     }
-
 }
