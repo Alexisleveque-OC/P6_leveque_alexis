@@ -1,7 +1,7 @@
 
 {% block body %}
-    <div class="modal fade" id="deleteTrickConfModal"  role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="deleteTrickConfModal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Suppprimer le trick</h5>
@@ -14,7 +14,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="{{ path('delete_trick',{'id':trick.id}) }}" class="btn btn-danger">oui !</a>
-                    <a href="{{ path('home') }}" class="btn btn-secondary">non !</a>
+                    <button type="button" class="btn btn-info" data-dismiss="modal" aria-label="Close">non !</button>
                 </div>
             </div>
         </div>

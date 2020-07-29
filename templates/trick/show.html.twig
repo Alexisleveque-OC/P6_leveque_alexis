@@ -3,7 +3,7 @@
 {% block body %}
     <div class="container">
         {% if trick.images is empty %}
-            <img id="img-top" src="{{ asset('image/default-trick.jpg') }}" alt="image par défaut">
+            <img id="img-top-trick" src="{{ asset('image/default-trick.jpg') }}" alt="image par défaut">
             <p class="p-default-img-show btn-secondary disabled text-center">Ceci est une image par défaut, aucune image
                 n'a encore été ajoutée.
             </p>
@@ -22,24 +22,12 @@
                 }) }}" class="col-3">
                     <span class="oi oi-pencil"></span>
                 </a>
-                <a href="{{ path('deleteConf_trick',{
-                    'group_slug':trick.groupName.slug,
-                    'id':trick.id,
-                    'trick_slug':trick.slug
-                }) }}" class="col-3">
-                    <span class="oi oi-delete"></span>
-                </a>
-            </div>
-        {% endif %}
-
-        {% if question %}
-            <div class="text-center">
-                <button type="button" class="btn btn-danger" data-toggle="modal"
+                <button class="btn btn-secondary disabled col-3" data-toggle="modal"
                         data-target="#deleteTrickConfModal">
-                    Supprimer ce trick !
+                    <span class="oi oi-delete"></span>
                 </button>
-                {% include 'modal/deleteTrickConfModal.html.twig' %}
             </div>
+            {% include 'modal/deleteTrickConfModal.html.twig' %}
         {% endif %}
 
         <div class="row">
@@ -67,7 +55,7 @@
                         </a>
                     {% endif %}
                 </div>
-                {% if app.user and question == false %}
+                {% if app.user %}
                     {{ form_start(formImage, {'action':path('upload_trick_image',{'id':trick.id})}) }}
                     {{ form_row(formImage.photo) }}
                     <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
@@ -97,7 +85,7 @@
                         </a>
                     {% endif %}
                 </div>
-                {% if app.user and question == false %}
+                {% if app.user %}
                     {{ form_start(formVideo, {'action':path('upload_trick_video',{'id':trick.id})}) }}
                     {{ form_row(formVideo.iFrame) }}
                     <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
@@ -131,62 +119,61 @@
                 </div>
             </div>
         </div>
-        {% if question == false %}
-            <div class="offset-1 col-10">
-                <h2>Les commentaires</h2>
-                <hr>
-                {% if app.user %}
-                    {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
-                    {{ form_row(formComment.content) }}
-                    <input type="submit" class="btn btn-outline-success offset-4 col-4 text-center" value="Envoyer">
-                    {{ form_end(formComment) }}
-                {% endif %}
-                <hr>
-                {% if trick.comments is empty %}
-                    <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
-                        !!!</h4>
-                {% endif %}
 
-                {% for comment in trick.comments|reverse %}
-                    <div class="row">
-                        <div class="col-2">
-                            <div class=" text-center">
-                                <a href="{{ path('user_show',{'id':comment.user.id}) }}">
-                                    {{ comment.user.username }}
-                                    {% if comment.user.image is null %}
-                                        <img class="user-image" src="{{ asset('image/avatar.png') }}"
-                                             alt="photo d'utilisateur">
-                                    {% else %}
-                                        <img class="user-image" src="{{ comment.user.image.url }}"
-                                             alt="photo d'utilisateur">
-                                    {% endif %}
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-10">
-                            <p>écrit le <strong>{{ comment.createdAt | date('d/m/Y') }}</strong></p>
-                            <div class="comment-content">
-                                {{ comment.content }}
-                            </div>
-                            <div class="metadata">
+        <div class="offset-1 col-10">
+            <h2>Les commentaires</h2>
+            <hr>
+            {% if app.user %}
+                {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
+                {{ form_row(formComment.content) }}
+                <input type="submit" class="btn btn-outline-success offset-4 col-4 text-center" value="Envoyer">
+                {{ form_end(formComment) }}
+            {% endif %}
+            <hr>
+            {% if trick.comments is empty %}
+                <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
+                    !!!</h4>
+            {% endif %}
 
-                                {% if app.user == comment.user %}
-                                    <hr>
-                                    <div class="text-center ">
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#deleteCommentModal">
-                                            Supprimer mon commentaire
-                                        </button>
-                                        {% include 'modal/deleteComment.html.twig' %}
-                                    </div>
+            {% for comment in trick.comments|reverse %}
+                <div class="row">
+                    <div class="col-2">
+                        <div class=" text-center">
+                            <a href="{{ path('user_show',{'id':comment.user.id}) }}">
+                                {{ comment.user.username }}
+                                {% if comment.user.image is null %}
+                                    <img class="user-image" src="{{ asset('image/avatar.png') }}"
+                                         alt="photo d'utilisateur">
+                                {% else %}
+                                    <img class="user-image" src="{{ comment.user.image.url }}"
+                                         alt="photo d'utilisateur">
                                 {% endif %}
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <hr>
-                {% endfor %}
-            </div>
-        {% endif %}
+                    <div class="col-10">
+                        <p>écrit le <strong>{{ comment.createdAt | date('d/m/Y') }}</strong></p>
+                        <div class="comment-content">
+                            {{ comment.content }}
+                        </div>
+                        <div class="metadata">
+
+                            {% if app.user == comment.user %}
+                                <hr>
+                                <div class="text-center ">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#deleteCommentModal">
+                                        Supprimer mon commentaire
+                                    </button>
+                                    {% include 'modal/deleteComment.html.twig' %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
     </div>
 
 
@@ -196,9 +183,4 @@
         {{ trick.name }}
     {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript">
-        $(window).load(function(){
-            $('#deleteTrickConfModal').modal('showUser');
-        });
-    </script>
 {% endblock %}

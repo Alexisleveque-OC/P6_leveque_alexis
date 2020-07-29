@@ -75,10 +75,8 @@ class TrickController extends AbstractController
 
         $trick = $TrickShow->showTrick($trick_slug);
 
-        $question = false;
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'question'=> $question,
             'formComment' => $formComment->createView(),
             'formDeleteComment' => $formDeleteComment->createView(),
             'formImage' => $formUploadImage->createView(),
@@ -99,12 +97,9 @@ class TrickController extends AbstractController
         $formDeleteConf = $this->createForm(DeleteConfirmationType::class);
         $formDeleteConf->handleRequest($request);
 
-        $question = true;
-
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'formDeleteConf' => $formDeleteConf,
-            'question' => $question
+            'formDeleteConf' => $formDeleteConf
         ]);
 
     }

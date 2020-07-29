@@ -35,14 +35,14 @@
                 {% for trick in tricks %}
                     <div class=" col-sm-12 col-lg-3">
                         <article class="card">
-
                             <a href="{{ path('trick_show',{
                                 'group_slug':trick.groupName.slug,
                                 'id':trick.id,
                                 'trick_slug':trick.slug
                             }) }}">
                                 {% if trick.images is empty %}
-                                    <img id="img-top" src="{{ asset('image/default-trick.jpg') }}" alt="image par défaut">
+                                    <img id="img-top" src="{{ asset('image/default-trick.jpg') }}"
+                                         alt="image par défaut">
                                     <p class="p-default-img btn-secondary disabled ">Image par défaut</p>
                                 {% else %}
                                     {% for image in trick.images[0:1] %}
@@ -58,14 +58,12 @@
                                         }) }}" class="col-3">
                                             <span class="oi oi-pencil"></span>
                                         </a>
-                                        <a href="{{ path('deleteConf_trick',{
-                                            'group_slug':trick.groupName.slug,
-                                            'id':trick.id,
-                                            'trick_slug':trick.slug
-                                        }) }}" class="col-3">
+                                        <button class="btn btn-secondary disabled col-3" data-toggle="modal"
+                                                data-target="#deleteTrickConfModal">
                                             <span class="oi oi-delete"></span>
-                                        </a>
+                                        </button>
                                     </div>
+                                    {% include 'modal/deleteTrickConfModal.html.twig' %}
                                 {% endif %}
 
                                 <h2 class="card-title">
@@ -89,24 +87,24 @@
                 {% endfor %}
             </div>
             {% set counter = line * 4 %}
-            {% if tricks|length > counter  %}
+            {% if tricks|length > counter %}
                 {% set line = line + 1 %}
                 <div class="offset-4 col-4 text-center">
-                    <a  class="oi oi-plus load-more" href="/page={{ line }}"></a>
+                    <a class="oi oi-plus load-more" href="/page={{ line }}"></a>
                 </div>
             {% elseif tricks|length == line*4 %}
                 {% set line = line + 1 %}
                 <div class="offset-4 col-4 text-center">
-                    <a  class="oi oi-plus load-more" href="/page={{ line }}"></a>
+                    <a class="oi oi-plus load-more" href="/page={{ line }}"></a>
                 </div>
 
             {% elseif tricks|length == counter %}
                 <div class="offset-4 col-4 text-center">
-                    <a  class="oi oi-minus load-more" href="/"></a>
+                    <a class="oi oi-minus load-more" href="/"></a>
                 </div>
             {% else %}
                 <div class="offset-4 col-4 text-center">
-                    <a  class="oi oi-minus load-more" href="/"></a>
+                    <a class="oi oi-minus load-more" href="/"></a>
                 </div>
             {% endif %}
         </section>
