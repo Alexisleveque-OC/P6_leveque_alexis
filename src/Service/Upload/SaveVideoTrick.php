@@ -19,11 +19,11 @@ class SaveVideoTrick
         $this->manager = $manager;
     }
 
-    public function saveOnTrick($url, $trick)
+    public function saveOnTrick($iFrame, $trick)
     {
         $video = new Video();
 
-        $video->setUrl($url);
+        $video->setIFrame($iFrame);
         $video->setTrick($trick);
 
         $this->manager->persist($video);

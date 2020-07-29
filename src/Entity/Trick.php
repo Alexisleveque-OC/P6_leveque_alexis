@@ -37,7 +37,7 @@ class Trick
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
-     * @Assert\Length(min="5",min="La description de votre figure doit faire au moins 5 caractères")
+     * @Assert\Length(min="5",minMessage="La description de votre figure doit faire au moins 5 caractères")
      */
     private $description;
 
@@ -111,7 +111,7 @@ class Trick
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

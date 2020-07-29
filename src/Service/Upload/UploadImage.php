@@ -13,13 +13,23 @@ class UploadImage
      * @var SluggerInterface
      */
     private $slugger;
+    /**
+     * @var string
+     */
+    private $imageDirectory;
 
-    public function __construct(SluggerInterface $slugger)
+    /**
+     * UploadImage constructor.
+     * @param SluggerInterface $slugger
+     * @param string $imageDirectory
+     */
+    public function __construct(SluggerInterface $slugger, string $imageDirectory)
     {
         $this->slugger = $slugger;
+        $this->imageDirectory = $imageDirectory;
     }
 
-    public function saveImage($uploadedFile, $backupDirectory)
+    public function saveImage($uploadedFile)
     {
         $originalImageName= pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME);
         $safeFileName = $this->slugger->slug($originalImageName);
@@ -27,7 +37,7 @@ class UploadImage
 
         try{
             $uploadedFile->move(
-                $backupDirectory,
+                $this->imageDirectory,
                 $newFileName
             );
         }catch(FileException $e){

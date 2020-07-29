@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="offset-2 col-8 text-center">
+        <div class="offset-1 col-10 text-center">
             {{ form_start(formTrick) }}
             <div class="row">
                 <div class="col-10">
@@ -43,8 +43,9 @@
                 </div>
             </div>
             {{ form_row(formTrick.name,{'label':"Nom du trick",'attr':{'placeholder':"Nom du trick"}}) }}
-            {{ form_row(formTrick.description,{'label':"Description du trick",'attr':{'placeholder':"Description du trick"}}) }}
-
+            <div id="descriptionTextArea">
+            {{ form_row(formTrick.description) }}
+            </div>
             <button class="btn btn-outline-success ">
                 {% if editMode %}
                     Modifier le trick
@@ -65,4 +66,17 @@
         Création d'un trick
         {% endif %}
     {% endblock %}
+
+{% block javascripts%}
+<script>
+    tinymce.init({
+        selector: 'textarea.tinymce',
+        plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+        toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+        toolbar_mode: 'floating',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+    });
+</script>
+{% endblock %}
 

@@ -18,11 +18,11 @@ class Video
      */
     private $id;
 
+//     * @Assert\Regex("/^<iframe\s(.)*iframe>$/",message="Vous devez inclure la totalité du champ 'Intégrer la vidéo'.")
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url(message="Ce champ require une Url valide.")
      */
-    private $url;
+    private $iFrame;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
@@ -35,14 +35,14 @@ class Video
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getIFrame(): ?string
     {
-        return $this->url;
+        return $this->iFrame;
     }
 
-    public function setUrl(string $url): self
+    public function setIFrame(string $iFrame): self
     {
-        $this->url = $url;
+        $this->iFrame = $iFrame;
 
         return $this;
     }

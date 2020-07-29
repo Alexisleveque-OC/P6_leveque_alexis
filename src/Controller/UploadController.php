@@ -9,6 +9,7 @@ use App\Service\Upload\SaveImage;
 use App\Service\Upload\SaveVideoTrick;
 use App\Service\Upload\UploadImage;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,11 +36,10 @@ class UploadController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            $backupDirectory = $this->getParameter('images_directory');
             $uploadedImage = $form->get("photo")->getData();
 
             if($uploadedImage) {
-                $newFileName = $uploadImage->saveImage($uploadedImage, $backupDirectory);
+                $newFileName = $uploadImage->saveImage($uploadedImage);
                 $user = $this->getUser();
                 $saveImage->saveOnUser($newFileName, $user);
 
@@ -56,6 +56,7 @@ class UploadController extends AbstractController
 
     /**
      * @Route("/upload/image_trick/{id}", name="upload_trick_image")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param UploadImage $uploadImage
      * @param SaveImage $saveImage
@@ -65,18 +66,14 @@ class UploadController extends AbstractController
      */
     public function uploadImageTrick(Request $request, UploadImage $uploadImage, SaveImage $saveImage,Trick $trick)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
         $form = $this->createForm(ImageType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            $backupDirectory = $this->getParameter('images_directory');
             $uploadedImage = $form->get("photo")->getData();
 
             if($uploadedImage) {
-                $newFileName = $uploadImage->saveImage($uploadedImage, $backupDirectory);
+                $newFileName = $uploadImage->saveImage($uploadedImage);
                 $saveImage->saveOnTrick($newFileName, $trick);
 
                 $this->addFlash('success','Votre image à bien été enregistré.');
@@ -109,8 +106,8 @@ class UploadController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-            $url = $form->get('url')->getData();
-            $saveVideoTrick->saveOnTrick($url,$trick);
+            $iFrame = $form->get('iFrame')->getData();
+            $saveVideoTrick->saveOnTrick($iFrame,$trick);
 
             $this->addFlash('success','Votre vidéo à bien été enregistré.');
 

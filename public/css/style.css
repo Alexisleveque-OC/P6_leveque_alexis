@@ -1,3 +1,8 @@
+#logo {
+  width: 3%;
+  margin-right: 3%;
+}
+
 #imgHome {
   width: 100%;
 }
@@ -71,6 +76,10 @@ article .card-footer {
   top: 2%;
 }
 
+#button-link-trick {
+  min-width: 75%;
+}
+
 .card {
   margin-top: 2%;
 }
@@ -85,6 +94,12 @@ article .card-footer {
 }
 
 #img-top {
+  height: 175px;
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+#img-top-trick {
   width: 100%;
   margin-bottom: 5%;
 }
@@ -111,9 +126,12 @@ article .card-footer {
   text-decoration: none;
 }
 
+.carousel-inner {
+  height: 480px;
+}
+
 .carousel-item {
-  width: 100%;
-  height: 450px;
+  max-height: 480px;
 }
 
 .profil-img {
@@ -134,4 +152,7 @@ article .card-footer {
   font-size: 10em;
   padding-bottom: 5%;
   padding-top: 5%;
+}
+#descriptionTextArea{
+  min-height: 50%;
 }

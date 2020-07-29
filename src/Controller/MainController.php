@@ -20,7 +20,6 @@ class MainController extends AbstractController
     {
         $tricks = $readTricks->readTricks($line);
 
-dump($line);
         return $this->render('main/home.html.twig', [
             'tricks' => $tricks,
             'line' => $line
