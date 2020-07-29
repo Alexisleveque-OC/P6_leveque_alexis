@@ -72,7 +72,6 @@ class TrickController extends AbstractController
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
         $formUploadImage = $this->createForm(ImageType::class);
         $formUploadVideo = $this->createForm(VideoType::class);
-        $formDeleteTrick = new DeleteConfirmationType();
         $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
 
         $trick = $TrickShow->showTrick($trick_slug);

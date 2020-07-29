@@ -3,11 +3,8 @@
 namespace App\Controller;
 
 use App\Form\ForgotPassType;
-use App\Form\ImageType;
 use App\Form\NewPasswordType;
-use App\Form\RegisterUserType;
 use App\Service\Mail\Mailer;
-use App\Service\User\RegisterService;
 use App\Service\User\ResetPassword;
 use App\Service\User\ResetUser;
 use App\Service\User\ValidationService;
@@ -21,36 +18,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/inscription", name="registration")
-     * @param Request $request
-     * @param Mailer $mailer
-     * @param RegisterService $registerService
-     * @return RedirectResponse|Response
-     */
-    public function registration(Request $request, Mailer $mailer, RegisterService $registerService)
-    {
 
-        $form = $this->createForm(RegisterUserType::class);
-        $form->handleRequest($request);
-
-        $formImage = $this->createForm(ImageType::class);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $token = $registerService->register($form);
-
-            $mailer->sendUserTokenMail($token);
-
-            $this->addFlash('success', 'Vous avez été enregistré, vérifiez vos email pour valider votre compte !');
-            return $this->redirectToRoute('home');
-        }
-
-        return $this->render('security/registration.html.twig', [
-            'formUser' => $form->createView(),
-            'formImage' => $formImage->createView()
-        ]);
-    }
 
     /**
      * @Route("/validateUser/{token}", name="validation")
