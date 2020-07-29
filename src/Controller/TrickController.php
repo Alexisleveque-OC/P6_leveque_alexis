@@ -45,13 +45,13 @@ class TrickController extends AbstractController
 
             $trick = $createTrick->saveTrick($formTrick, $user);
 
-            $this->addFlash('success','Votre figure à bien été crée, ajoutez vos images et/ou vidéos.');
+            $this->addFlash('success', 'Votre figure à bien été crée, ajoutez vos images et/ou vidéos.');
 
             return $this->redirectToRoute('trick_show', [
                 'id' => $trick->getId(),
-                'group_slug'=> $trick->getGroupName()->getSlug(),
+                'group_slug' => $trick->getGroupName()->getSlug(),
                 'trick_slug' => $trick->getSlug()
-                ]);
+            ]);
         }
         return $this->render('trick/createTrick.html.twig', [
             'formTrick' => $formTrick->createView(),
@@ -72,6 +72,8 @@ class TrickController extends AbstractController
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
         $formUploadImage = $this->createForm(ImageType::class);
         $formUploadVideo = $this->createForm(VideoType::class);
+        $formDeleteTrick = new DeleteConfirmationType();
+        $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
 
         $trick = $TrickShow->showTrick($trick_slug);
 
@@ -80,42 +82,34 @@ class TrickController extends AbstractController
             'formComment' => $formComment->createView(),
             'formDeleteComment' => $formDeleteComment->createView(),
             'formImage' => $formUploadImage->createView(),
-            'formVideo' => $formUploadVideo->createView()
+            'formVideo' => $formUploadVideo->createView(),
+            'formDeleteTrick' => $formDeleteTrick->createView()
         ]);
-    }
-
-    /**
-     * @Route("/trick/delete_confirmation/{group_slug}/{id<\d+>}-{trick_slug}", name="deleteConf_trick")
-     * @param Trick $trick
-     * @param Request $request
-     * @return Response
-     */
-    public function confirmDelete(Trick $trick, Request $request)
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $formDeleteConf = $this->createForm(DeleteConfirmationType::class);
-        $formDeleteConf->handleRequest($request);
-
-        return $this->render('trick/show.html.twig', [
-            'trick' => $trick,
-            'formDeleteConf' => $formDeleteConf
-        ]);
-
     }
 
     /**
      * @Route("/trick/delete/{id<\d+>}", name="delete_trick")
      * @param DeleteTrick $deleteTrick
      * @param Trick $trick
+     * @param Request $request
      * @return Response
      */
-    public function delete(DeleteTrick $deleteTrick, Trick $trick)
+    public function delete(DeleteTrick $deleteTrick, Trick $trick, Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $this->addFlash('danger', "Le trick à bien été supprimé.");
-        $deleteTrick->delete($trick);
+        $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
+        $formDeleteTrick->handleRequest($request);
+
+        if ($formDeleteTrick->isSubmitted() && $formDeleteTrick->isValid()) {
+
+            $deleteTrick->delete($trick);
+            $this->addFlash('warning', "Le trick à bien été supprimé.");
+            return $this->redirectToRoute('home');
+        }
+
+        $this->addFlash('danger', "Il y à eu un problème lors de la suppression du trick");
         return $this->redirectToRoute('home');
+
     }
 }

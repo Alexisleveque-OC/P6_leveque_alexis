@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\DeleteConfirmationType;
 use App\Service\Trick\Tricks;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +19,14 @@ class MainController extends AbstractController
      */
     public function home(Tricks $readTricks, $line = 1)
     {
+
         $tricks = $readTricks->readTricks($line);
+        $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
 
         return $this->render('main/home.html.twig', [
             'tricks' => $tricks,
-            'line' => $line
+            'line' => $line,
+            'formDeleteTrick' => $formDeleteTrick->createView()
         ]);
     }
 
