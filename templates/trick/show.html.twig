@@ -195,5 +195,10 @@
     {% block title %}
         {{ trick.name }}
     {% endblock %}
-    {% block javascripts %}
-    {% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $(window).load(function(){
+            $('#deleteTrickConfModal').modal('showUser');
+        });
+    </script>
+{% endblock %}

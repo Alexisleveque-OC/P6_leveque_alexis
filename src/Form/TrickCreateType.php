@@ -18,10 +18,9 @@ class TrickCreateType extends AbstractType
             ->add('name')
             ->add('description',TextareaType::class,[
                 'label' => 'Description du trick',
+                'required'=>false,
                 'attr' => [
-                    'id' => 'editText',
-                    'class' => 'tinymce',
-                    'name' => 'editText'
+                    'class' => 'tinymce'
                 ]
             ])
             ->add('groupName', EntityType::class, [

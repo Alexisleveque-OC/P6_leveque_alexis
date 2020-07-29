@@ -16,11 +16,11 @@ class VideoType extends AbstractType
             ->add('iFrame', null, [
                 'label' => "Ajouter une Url vers votre vidéo",
                 'attr' => [
-                    'placeholder' => 'Exemple : a compléter ac le mentor',
-                    'attr'=> [
-
-                    ]]
-            ]);
+                    'placeholder' => 'Exemple : <iframe ......> </iframe>'
+//                    'attr'=> [
+//
+//                    ]]
+            ]]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
