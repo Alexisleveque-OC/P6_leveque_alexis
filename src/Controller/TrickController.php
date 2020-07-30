@@ -61,12 +61,13 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}", name="trick_show")
+     * @Route("/trick/{group_slug}/{id<\d+>}-{trick_slug}page={page}", name="trick_show")
      * @param String $trick_slug
      * @param TrickShow $TrickShow
+     * @param int $page
      * @return Response
      */
-    public function show($trick_slug, TrickShow $TrickShow)
+    public function show($trick_slug, TrickShow $TrickShow,$page = 1)
     {
         $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
@@ -82,7 +83,8 @@ class TrickController extends AbstractController
             'formDeleteComment' => $formDeleteComment->createView(),
             'formImage' => $formUploadImage->createView(),
             'formVideo' => $formUploadVideo->createView(),
-            'formDeleteTrick' => $formDeleteTrick->createView()
+            'formDeleteTrick' => $formDeleteTrick->createView(),
+            'page' => $page
         ]);
     }
 

@@ -77,7 +77,8 @@
                                         <a id="button-link-trick" class="btn btn-success" href="{{ path('trick_show',{
                                             'group_slug':trick.groupName.slug,
                                             'id':trick.id,
-                                            'trick_slug':trick.slug
+                                            'trick_slug':trick.slug,
+                                            'page':1
                                         }) }}"><span class="trick"></span>{{ trick.name }}</a>
                                     </h2>
 
@@ -96,6 +97,7 @@
                 {% if page > 0 %}
                     <div class="row">
                         <div class="offset-10 col-1 text-right arrowForHide">
+                            <h4>Tout fermer</h4>
                             <a href="/page=0" class="oi oi-arrow-circle-top arrow text-right"></a>
                         </div>
                     </div>

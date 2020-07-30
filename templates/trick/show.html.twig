@@ -130,49 +130,86 @@
                 {{ form_end(formComment) }}
             {% endif %}
             <hr>
-            {% if trick.comments is empty %}
-                <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
-                    !!!</h4>
-            {% endif %}
-
-            {% for comment in trick.comments|reverse %}
-                <div class="row">
-                    <div class="col-2">
-                        <div class=" text-center">
-                            <a href="{{ path('user_show',{'id':comment.user.id}) }}">
-                                {{ comment.user.username }}
-                                {% if comment.user.image is null %}
-                                    <img class="user-image" src="{{ asset('image/avatar.png') }}"
-                                         alt="photo d'utilisateur">
-                                {% else %}
-                                    <img class="user-image" src="{{ comment.user.image.url }}"
-                                         alt="photo d'utilisateur">
-                                {% endif %}
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-10">
-                        <p>écrit le <strong>{{ comment.createdAt | date('d/m/Y') }}</strong></p>
-                        <div class="comment-content">
-                            {{ comment.content }}
-                        </div>
-                        <div class="metadata">
-
-                            {% if app.user == comment.user %}
-                                <hr>
-                                <div class="text-center ">
-                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#deleteCommentModal">
-                                        Supprimer mon commentaire
-                                    </button>
-                                    {% include 'modal/deleteComment.html.twig' %}
+            <div id="commentBlock">
+                {% if trick.comments is empty %}
+                    <h4>Il n'y a pas encore de commentaires sur ce trick, soyez le premier à en ajouter un
+                        !!!</h4>
+                {% endif %}
+                {% if trick.comments is not empty %}
+                    {% set offset = (page * 10) -10 %}
+                    {% set limit = (page * 10) %}
+                    {% set counter = trick.comments|length - 1 %}
+                    {% set counterPage = counter / 10 %}
+                    {% set counterPage = counterPage|round(0,'floor') %}
+                    {% set counterPage = counterPage|number_format(0) + 1 %}
+                    <ul class="pagination justify-content-center">
+                    {% set i = 1 %}
+                        {% for i in 1..counterPage %}
+                            <li class="page-item {% if loop.index == page %} active disabled {% endif %}">
+                                <a href="{{ path('trick_show',{
+                                    'group_slug':trick.groupName.slug,
+                                    'id':trick.id,
+                                    'trick_slug':trick.slug,
+                                    'page':i
+                                }) }}#commentBlock" class="page-link">{{ i }}</a>
+                            </li>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </ul>
+                    {% for comment in trick.comments|reverse[offset:limit] %}
+                        <div class="row">
+                            <div class="col-2">
+                                <div class=" text-center">
+                                    <a href="{{ path('user_show',{'id':comment.user.id}) }}">
+                                        {{ comment.user.username }}
+                                        {% if comment.user.image is null %}
+                                            <img class="user-image" src="{{ asset('image/avatar.png') }}"
+                                                 alt="photo d'utilisateur">
+                                        {% else %}
+                                            <img class="user-image" src="{{ comment.user.image.url }}"
+                                                 alt="photo d'utilisateur">
+                                        {% endif %}
+                                    </a>
                                 </div>
-                            {% endif %}
+                            </div>
+                            <div class="col-10">
+                                <p>écrit le <strong>{{ comment.createdAt | date('d/m/Y') }}</strong></p>
+                                <div class="comment-content">
+                                    {{ comment.content }}
+                                </div>
+                                <div class="metadata">
+
+                                    {% if app.user == comment.user %}
+                                        <hr>
+                                        <div class="text-center ">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                    data-target="#deleteCommentModal">
+                                                Supprimer mon commentaire
+                                            </button>
+                                            {% include 'modal/deleteComment.html.twig' %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <hr>
-            {% endfor %}
+                        <hr>
+                    {% endfor %}
+                    <ul class="pagination justify-content-center">
+                        {% set i = 1 %}
+                        {% for i in 1..counterPage %}
+                            <li class="page-item {% if loop.index == page %} active disabled{% endif %}">
+                                <a href="{{ path('trick_show',{
+                                    'group_slug':trick.groupName.slug,
+                                    'id':trick.id,
+                                    'trick_slug':trick.slug,
+                                    'page':i
+                                }) }}#commentBlock" class="page-link">{{ i }}</a>
+                            </li>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
         </div>
     </div>
 
