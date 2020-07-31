@@ -29,74 +29,53 @@
             </div>
             {% include 'modal/deleteTrickConfModal.html.twig' %}
         {% endif %}
-        {% if trick.images is not empty or trick.videos is not empty %}
-            <div class="row">
-                <div class="col-6">
-                    <div id="carouselImage" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            {% for image in trick.images[0:] %}
-                                <li data-target=".carouselImage" data-slide-to="{{ loop.index }}"></li>
-                            {% endfor %}
-                        </ol>
-                        <div class="carousel-inner">
-                            {% for image in trick.images[0:] %}
-                                <div class="carousel-item {% if  loop.index0 == 0 %} active {% endif %}">
-                                    <img class="d-block w-100" src="{{ asset(image.url) }}"
-                                         alt="image du trick {{ asset(trick.name) }} ">
-                                </div>
-                            {% endfor %}
-                        </div>
-                        {% if trick.images is not empty %}
-                            <a class="carousel-control-prev" href="#carouselImage" data-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselImage" data-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </a>
-                        {% endif %}
+        {#        {% if trick.images is not empty or trick.videos is not empty %}#}
+        <div class="row">
+            <div class="col-6">
+                <div id="carouselImage" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for image in trick.images[0:] %}
+                            <li data-target=".carouselImage" data-slide-to="{{ loop.index }}"></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for image in trick.images[0:] %}
+                            <div class="carousel-item {% if  loop.index0 == 0 %} active {% endif %}">
+                                <img class="d-block w-100" src="{{ asset(image.url) }}"
+                                     alt="image du trick {{ asset(trick.name) }} ">
+                            </div>
+                        {% endfor %}
                     </div>
-                    {% if app.user %}
-                        {{ form_start(formImage, {'action':path('upload_trick_image',{'id':trick.id})}) }}
-                        {{ form_row(formImage.photo) }}
-                        <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
-                        {{ form_end(formImage) }}
+                    {% if trick.images is not empty %}
+                        <a class="carousel-control-prev" href="#carouselImage" data-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselImage" data-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </a>
                     {% endif %}
                 </div>
-                <div class="col-6">
-                    <div id="carousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            {% for video in trick.videos[0:] %}
-                                <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
-                            {% endfor %}
-                        </ol>
-                        <div class="carousel-inner">
-                            {% for video in trick.videos[0:] %}
-                                <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                                    {{ video.iFrame|raw }}
-                                </div>
-                            {% endfor %}
-                        </div>
-                        {% if trick.videos is not empty %}
-                            <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#carousel" data-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </a>
-                        {% endif %}
-                    </div>
-                    {% if app.user %}
-                        {{ form_start(formVideo, {'action':path('upload_trick_video',{'id':trick.id})}) }}
-                        {{ form_row(formVideo.iFrame) }}
-                        <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
-                        <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur
-                            partager ->
-                            intégrer, copiez le lien afficher commençant par "iframe". </p>
-                        {{ form_end(formVideo) }}
-                    {% endif %}
-                </div>
+
             </div>
-        {% endif %}
+            <div class="col-6">
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for video in trick.videos[0:] %}
+                            <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for video in trick.videos[0:] %}
+                            <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+                                {{ video.iFrame|raw }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {#        {% endif %}#}
         <div class="card">
             <h2 class="card-title">{{ trick.name }}</h2>
             <h3 id="cardGroup" class="card-title">

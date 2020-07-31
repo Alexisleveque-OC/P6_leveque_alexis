@@ -53,7 +53,6 @@ class SaveImage
         $image->setUrl('/image/'.$fileName);
 
         $this->manager->persist($image);
-        $this->manager->flush();
     }
 
 }

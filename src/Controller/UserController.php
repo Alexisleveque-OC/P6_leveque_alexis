@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\ImageType;
+use App\Form\PictureType;
 use App\Form\RegisterUserType;
 use App\Service\Mail\Mailer;
 use App\Service\User\RegisterService;
@@ -33,7 +33,7 @@ class UserController extends AbstractController
         $form = $this->createForm(RegisterUserType::class);
         $form->handleRequest($request);
 
-        $formImage = $this->createForm(ImageType::class);
+        $formImage = $this->createForm(PictureType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -57,7 +57,7 @@ class UserController extends AbstractController
      */
     public function show(User $user)
     {
-        $form = $this->createForm(ImageType::class);
+        $form = $this->createForm(PictureType::class);
 
         return $this->render('user/show.html.twig',[
             'formImage' => $form->createView(),

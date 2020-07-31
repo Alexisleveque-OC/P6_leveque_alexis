@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Form\ImageType;
+use App\Form\PictureType;
 use App\Form\VideoType;
 use App\Service\Upload\SaveImage;
 use App\Service\Upload\SaveVideoTrick;
@@ -31,7 +31,7 @@ class UploadController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        $form = $this->createForm(ImageType::class);
+        $form = $this->createForm(PictureType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -66,7 +66,7 @@ class UploadController extends AbstractController
      */
     public function uploadImageTrick(Request $request, UploadImage $uploadImage, SaveImage $saveImage,Trick $trick)
     {
-        $form = $this->createForm(ImageType::class);
+        $form = $this->createForm(PictureType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){

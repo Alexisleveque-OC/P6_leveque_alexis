@@ -7,7 +7,7 @@ use App\Form\CommentType;
 use App\Form\DeleteCommentType;
 use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
-use App\Form\ImageType;
+use App\Form\PictureType;
 use App\Form\TrickCreateType;
 use App\Form\VideoType;
 use App\Service\Trick\CreateTrick;
@@ -71,7 +71,7 @@ class TrickController extends AbstractController
     {
         $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
-        $formUploadImage = $this->createForm(ImageType::class);
+        $formUploadImage = $this->createForm(PictureType::class);
         $formUploadVideo = $this->createForm(VideoType::class);
         $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
 
