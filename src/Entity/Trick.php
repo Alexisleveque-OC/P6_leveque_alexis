@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -36,8 +37,8 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="5",minMessage="La description de votre figure doit faire au moins 5 caractères")
+     * @Assert\NotBlank(message="Votre description ne peut pas être vide.")
+     * @CustomAssert\CountWithoutHtmlTag()
      */
     private $description;
 
