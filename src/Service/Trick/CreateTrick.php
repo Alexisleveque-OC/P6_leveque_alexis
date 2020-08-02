@@ -59,10 +59,17 @@ class CreateTrick
     {
         $trick = $formTrick->getData();
 
-        $images = $formTrick->get("photo")->getData();
-        $videos = $formTrick->get("iFrame")->getData();
-
-        $fileName = $this->uploadImage->saveImage($images);
+        $images = $formTrick->get("images")->getData();
+        $videos = $formTrick->get("videos")->getData();
+//        dd($images);
+//        for ($i=0; $i<=count($images);$i++)
+//        {
+//            $fileName = $this->uploadImage->saveImage($images[$i]);
+//        }
+        foreach ($images as $image){
+            dump($image);
+            $fileName = $this->uploadImage->saveImage($image);
+        }
         $this->saveImage->saveOnTrick($fileName, $trick);
 
         $this->saveVideoTrick->saveOnTrick($videos,$trick);

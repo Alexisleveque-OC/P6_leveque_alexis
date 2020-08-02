@@ -31,8 +31,11 @@ class UploadImage
 
     public function saveImage($uploadedFile)
     {
-        $originalImageName= pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME);
-        $safeFileName = $this->slugger->slug($originalImageName);
+//        $originalImageName = $uploadedFile[0]->getFileName();
+//        dd($uploadedFile[0]);
+//        $originalImageName= pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME);
+        dump($uploadedFile);
+        $safeFileName = $this->slugger->slug($uploadedFile->getFileName());
         $newFileName = $safeFileName.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
         try{

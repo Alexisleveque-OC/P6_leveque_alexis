@@ -58,12 +58,12 @@ class Trick
     private $groupName;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
      */
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="tricks", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="tricks", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
@@ -169,7 +169,8 @@ class Trick
             $this->videos[] = $video;
             $video->setTrick($this);
         }
-
+        $video->setTrick($this);
+        $this->videos->add($video);
         return $this;
     }
 
@@ -200,6 +201,8 @@ class Trick
             $this->images[] = $image;
             $image->setTricks($this);
         }
+        $image->setTricks($this);
+        $this->images->add($image);
 
         return $this;
     }
@@ -271,4 +274,5 @@ class Trick
 
         return $this;
     }
+
 }

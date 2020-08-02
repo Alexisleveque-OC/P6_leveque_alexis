@@ -3,16 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\DeleteCommentType;
 use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
-use App\Form\PictureType;
+use App\Form\ImageType;
 use App\Form\TrickCreateType;
 use App\Form\VideoType;
 use App\Service\Trick\CreateTrick;
 use App\Service\Trick\DeleteTrick;
 use App\Service\Trick\TrickShow;
+use App\Service\Upload\SaveImage;
+use App\Service\Upload\UploadImage;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,20 +32,42 @@ class TrickController extends AbstractController
      * @param CreateTrick $createTrick
      * @return Response
      */
-    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick)
+    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick,UploadImage $uploadImage,SaveImage $saveImage)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         if (!$trick) {
             $trick = new Trick();
         }
+
+        $originalImages = new ArrayCollection();
+
+        foreach ($trick->getImages() as $image){
+            $originalImages->add($image);
+        }
+
+
         $formTrick = $this->createForm(TrickCreateType::class, $trick);
         $formTrick->handleRequest($request);
-
+dump($formTrick);
+foreach ($formTrick->get("images")->getData() as $image){
+    dump($image);
+}
         $formGroup = $this->createForm(GroupType::class);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $user = $this->getUser();
+            foreach ($originalImages as $image){
+                if(false === $trick->getImages()->contains($image)){
+                    $image->setTrick(null);
+                }
+                $uploadedImage = $formTrick->get("image")->getData();
+
+                if($uploadedImage) {
+                    $newFileName = $uploadImage->saveImage($uploadedImage);
+                    $saveImage->saveOnTrick($newFileName, $trick);
+                }
+            }
 
             $trick = $createTrick->saveTrick($formTrick, $user);
 
@@ -71,7 +97,7 @@ class TrickController extends AbstractController
     {
         $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
-        $formUploadImage = $this->createForm(PictureType::class);
+        $formUploadImage = $this->createForm(ImageType::class);
         $formUploadVideo = $this->createForm(VideoType::class);
         $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
 
