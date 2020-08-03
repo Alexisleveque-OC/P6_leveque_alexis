@@ -9,7 +9,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrickCreateType extends AbstractType
@@ -32,10 +31,14 @@ class TrickCreateType extends AbstractType
             ])
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
-                'entry_options' => ['label' => false],
+                'prototype' => true,
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
+                'entry_options' => [
+                    'label' => false,
+                    'required' => false
+                ],
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,

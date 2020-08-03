@@ -5,6 +5,7 @@ namespace App\Service\Upload;
 
 
 use App\Entity\Image;
+use App\Entity\Trick;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -18,40 +19,46 @@ class SaveImage
      * @var ImageRepository
      */
     private $imageRepository;
+    /**
+     * @var string $imageDirectory
+     */
+    private $imageDirectory;
 
-    public function __construct(EntityManagerInterface $manager, ImageRepository $imageRepository)
+    /**
+     * SaveImage constructor.
+     * @param EntityManagerInterface $manager
+     * @param ImageRepository $imageRepository
+     * @param string $imageDirectory
+     */
+    public function __construct(EntityManagerInterface $manager, ImageRepository $imageRepository, string $imageDirectory)
     {
         $this->manager = $manager;
         $this->imageRepository = $imageRepository;
+        $this->imageDirectory = $imageDirectory;
     }
 
-    public function saveOnUser($fileName, $user)
+    public function saveOnUser(Image $image, $user)
     {
-        $image = new Image();
-        if($user->getImage()){
-            $user->setImage(null);
-            $image = $this->imageRepository->findOneBy(['user' => $user->getId()]);
-            $image->setUser(null);
-            $this->manager->remove($image);
-            $this->manager->flush();
+        if ($oldImage = $user->getImage()) {
+
+            $this->deleteImage($oldImage);
         }
         $image->setUser($user);
-        $image->setFileName($fileName);
-        $image->setUrl('/image/'.$fileName);
-
         $this->manager->persist($image);
         $this->manager->flush();
-
     }
 
-    public function saveOnTrick($fileName,$trick)
+
+    public function deleteImage(Image $image)
     {
-        $image = new Image();
+        $image->setUser(null);
+        unlink($this->imageDirectory . '/' . $image->getFileName());
+        $this->manager->remove($image);
+        $this->manager->flush();
+    }
 
-        $image->setTricks($trick);
-        $image->setFileName($fileName);
-        $image->setUrl('/image/'.$fileName);
-
+    public function saveOnTrick(Trick $trick, Image $image)
+    {
         $this->manager->persist($image);
     }
 

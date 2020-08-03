@@ -1,7 +1,7 @@
 var $collectionHolder;
 
 var $addImageButton = $('<button type="button" class="add_image_link btn-success btn">Ajouter une Image</button>');
-var $newLinkLi = $('<li class="col-8"></li>').append($addImageButton);
+var $newLinkLi = $('<li ></li>').append($addImageButton);
 
 jQuery(document).ready(function () {
     $collectionHolder = $('ul.images');
@@ -30,7 +30,7 @@ function addImageForm($collectionHolder, $newLinkLi) {
 
     $collectionHolder.data('index', index + 1);
 
-    var $newFormLi = $('<li></li>').append(newForm);
+    var $newFormLi = $('<li class="fieldImage"></li>').append(newForm);
     $newLinkLi.before($newFormLi);
 
     addImageFormDeleteLink($newFormLi);

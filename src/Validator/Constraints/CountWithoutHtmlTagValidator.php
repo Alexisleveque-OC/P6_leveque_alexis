@@ -21,8 +21,7 @@ class CountWithoutHtmlTagValidator extends ConstraintValidator
         if (!$constraint instanceof CountWithoutHtmlTag) {
             throw new UnexpectedTypeException($constraint, CountWithoutHtmlTag::class);
         }
-//        $newValue = str_replace('<','',$value);
-        $newValue = preg_replace('#<[^>]+>#', '', $value);
+        $newValue = strip_tags($value);
 
         if(!is_string($newValue)){
             throw new UnexpectedValueException($newValue,'string');

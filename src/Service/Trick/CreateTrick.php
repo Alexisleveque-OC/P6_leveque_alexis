@@ -55,19 +55,12 @@ class CreateTrick
     }
 
 
-    public function saveTrick($trick, $user)
+    public function saveTrick($formTrick, $user)
     {
 
-        $images = $trick->getImages();
-        $videos = $trick->getVideos();
-        foreach ($images as $image){
-            dump($image);
-            $fileName = $this->uploadImage->saveImage($image);
-        }
-        $this->saveImage->saveOnTrick($fileName, $trick);
-
-        $this->saveVideoTrick->saveOnTrick($videos,$trick);
-
+//        $videos = $trick->getVideos();
+//        $this->saveVideoTrick->saveOnTrick($videos,$trick);
+        $trick = $formTrick->getData();
         $slug = $this->slugger->slug($trick->getName());
         $trick->setSlug($slug);
 
@@ -79,6 +72,14 @@ class CreateTrick
             $trick->setCreatedAt(new DateTime());
         }
         $this->manager->persist($trick);
+
+        foreach ($formTrick->get("images")->getData() as $image){
+            $image = $this->uploadImage->saveImage($image);
+            dump($image);
+            $this->saveImage->saveOnTrick($trick, $image);
+            $this->manager->persist($image);
+        }
+
         $this->manager->flush();
 
         return $trick;

@@ -3,8 +3,10 @@
 
 namespace App\Service\Upload;
 
+use App\Entity\Image;
 use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UploadImage
@@ -29,23 +31,26 @@ class UploadImage
         $this->imageDirectory = $imageDirectory;
     }
 
-    public function saveImage($uploadedFile)
+    public function saveImage(Image $image): Image
     {
-//        $originalImageName = $uploadedFile[0]->getFileName();
-//        dd($uploadedFile[0]);
-//        $originalImageName= pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME);
-        dump($uploadedFile);
-        $safeFileName = $this->slugger->slug($uploadedFile->getFileName());
-        $newFileName = $safeFileName.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+        if ($image->getFile() instanceof UploadedFile) {
+            $uploadedFile = $image->getFile();
+            $originalImageName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
 
-        try{
-            $uploadedFile->move(
-                $this->imageDirectory,
-                $newFileName
-            );
-        }catch(FileException $e){
-            throw new Exception('Le fichier n\a pas pus être enregistrer.');
+            $safeFileName = $this->slugger->slug($originalImageName);
+            $newFileName = $safeFileName . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+            try {
+                $uploadedFile->move(
+                    $this->imageDirectory,
+                    $newFileName
+                );
+            } catch (FileException $e) {
+                throw new Exception('Le fichier n\a pas pus être enregistrer.');
+            }
+
+            $image->setFileName($newFileName);
         }
-        return $newFileName;
+        return $image;
+
     }
 }

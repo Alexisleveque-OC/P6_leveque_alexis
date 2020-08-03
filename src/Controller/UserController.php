@@ -33,8 +33,6 @@ class UserController extends AbstractController
         $form = $this->createForm(RegisterUserType::class);
         $form->handleRequest($request);
 
-        $formImage = $this->createForm(ImageType::class);
-dd($formImage);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $token = $registerService->register($form);
@@ -46,8 +44,7 @@ dd($formImage);
         }
 
         return $this->render('security/registration.html.twig', [
-            'formUser' => $form->createView(),
-            'formImage' => $formImage->createView()
+            'formUser' => $form->createView()
         ]);
     }
     /**

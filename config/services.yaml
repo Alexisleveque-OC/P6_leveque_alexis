@@ -32,5 +32,9 @@ services:
     arguments:
       $imageDirectory: '%images_directory%'
 
+  App\Service\Upload\SaveImage:
+    arguments:
+      $imageDirectory: '%images_directory%'
+
   App\Validator\Constraints\CountWithoutHtmlTagValidator:
-    tags : ['validator.constraint_validator' ]
+    tags: ['validator.constraint_validator' ]

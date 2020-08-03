@@ -9,6 +9,7 @@
             </p>
 
         {% else %}
+            {% dump trick.images %}
             {% for image in trick.images[0:1] %}
                 <img id="img-top-trick" src="{{ image.url }}" alt="{{ image.fileName }}">
             {% endfor %}

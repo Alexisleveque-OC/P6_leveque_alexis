@@ -49,10 +49,15 @@
             <div class="row">
                 <div class="col-6">
                     <ul class="images"
-                        data-prototype="{{ form_widget(formTrick.images.vars.prototype)|e('html_attr') }}">
-                        {% for image in formTrick.images %}
-                            <li id="fieldimage">{{ form_row(image.image) }}</li>
-                        {% endfor %}
+                        data-prototype="{{ form_widget(formTrick.images.vars.prototype)|e('html_attr') }}"
+                        data-index="{{ formTrick.images|length }}">
+                        {% if formTrick.images|length == 0 %}
+                            {{ form_widget(formTrick.images) }}
+                        {% else %}
+                            {% for image in formTrick.images %}
+                                <li class="fieldImage">{{ form_row(image) }}</li>
+                            {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="col-6">
