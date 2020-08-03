@@ -199,9 +199,9 @@ class Trick
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
-            $image->setTricks($this);
+            $image->setTrick($this);
         }
-        $image->setTricks($this);
+        $image->setTrick($this);
         $this->images->add($image);
 
         return $this;
@@ -212,8 +212,8 @@ class Trick
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($image->getTricks() === $this) {
-                $image->setTricks(null);
+            if ($image->getTrick() === $this) {
+                $image->setTrick(null);
             }
         }
 

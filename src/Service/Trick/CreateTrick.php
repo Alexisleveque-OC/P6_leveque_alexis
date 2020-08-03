@@ -55,17 +55,11 @@ class CreateTrick
     }
 
 
-    public function saveTrick($formTrick, $user)
+    public function saveTrick($trick, $user)
     {
-        $trick = $formTrick->getData();
 
-        $images = $formTrick->get("images")->getData();
-        $videos = $formTrick->get("videos")->getData();
-//        dd($images);
-//        for ($i=0; $i<=count($images);$i++)
-//        {
-//            $fileName = $this->uploadImage->saveImage($images[$i]);
-//        }
+        $images = $trick->getImages();
+        $videos = $trick->getVideos();
         foreach ($images as $image){
             dump($image);
             $fileName = $this->uploadImage->saveImage($image);

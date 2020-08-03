@@ -23,13 +23,13 @@ class Image
     private $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $tricks;
+    private $trick;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="image")
      */
     private $user;
 
@@ -56,14 +56,14 @@ class Image
         return $this;
     }
 
-    public function getTricks(): ?Trick
+    public function getTrick(): ?Trick
     {
-        return $this->tricks;
+        return $this->trick;
     }
 
-    public function setTricks(?Trick $tricks): self
+    public function setTrick(?Trick $trick): self
     {
-        $this->tricks = $tricks;
+        $this->trick = $trick;
 
         return $this;
     }
@@ -91,5 +91,12 @@ class Image
     public function getFileName()
     {
         return $this->fileName;
+    }
+
+    public function addTricks(Trick $trick)
+    {
+        if(!$this->tricks->contains($trick)){
+            $this->tricks->add($trick);
+        }
     }
 }

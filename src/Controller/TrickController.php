@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\DeleteCommentType;
 use App\Form\DeleteConfirmationType;
@@ -32,7 +31,7 @@ class TrickController extends AbstractController
      * @param CreateTrick $createTrick
      * @return Response
      */
-    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick,UploadImage $uploadImage,SaveImage $saveImage)
+    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick, UploadImage $uploadImage, SaveImage $saveImage)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -40,36 +39,44 @@ class TrickController extends AbstractController
             $trick = new Trick();
         }
 
-        $originalImages = new ArrayCollection();
-
-        foreach ($trick->getImages() as $image){
-            $originalImages->add($image);
-        }
-
+//        $originalImages = new ArrayCollection();
+//
+//        foreach ($trick->getImages() as $image) {
+//            $originalImages->add($image);
+//        }
 
         $formTrick = $this->createForm(TrickCreateType::class, $trick);
         $formTrick->handleRequest($request);
-dump($formTrick);
-foreach ($formTrick->get("images")->getData() as $image){
-    dump($image);
-}
+
+
+//        dump($formTrick);
+//        foreach ($formTrick->get("images")->getData() as $image) {
+//            $originalImages->add($image);
+//            dump($image);
+//        }
+//        $images = $formTrick->get("images")->getData();
+//        foreach ($images as $image){
+//            dd($image);
+//        }
         $formGroup = $this->createForm(GroupType::class);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $user = $this->getUser();
-            foreach ($originalImages as $image){
-                if(false === $trick->getImages()->contains($image)){
-                    $image->setTrick(null);
-                }
-                $uploadedImage = $formTrick->get("image")->getData();
+//            foreach ($originalImages as $image) {
+//                if (false === $trick->getImages()->contains($image)) {
+//                    $image->getImage()->removeElement($trick);
+//                    dd($image);
+//                }
+//                $uploadedImages = $formTrick->get("images")->getData();
+//        dd($uploadedImages);
 
-                if($uploadedImage) {
-                    $newFileName = $uploadImage->saveImage($uploadedImage);
-                    $saveImage->saveOnTrick($newFileName, $trick);
-                }
-            }
+//                 foreach($uploadedImages as $uploadedImage) {
+//                    $newFileName = $uploadImage->saveImage($uploadedImage);
+//                    $saveImage->saveOnTrick($newFileName, $trick);
+//                }
+//            }
 
-            $trick = $createTrick->saveTrick($formTrick, $user);
+            $trick = $createTrick->saveTrick($formTrick->getData(), $user);
 
             $this->addFlash('success', 'Votre figure à bien été crée, ajoutez vos images et/ou vidéos.');
 
@@ -93,7 +100,7 @@ foreach ($formTrick->get("images")->getData() as $image){
      * @param int $page
      * @return Response
      */
-    public function show($trick_slug, TrickShow $TrickShow,$page = 1)
+    public function show($trick_slug, TrickShow $TrickShow, $page = 1)
     {
         $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);

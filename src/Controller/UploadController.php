@@ -8,6 +8,7 @@ use App\Form\VideoType;
 use App\Service\Upload\SaveImage;
 use App\Service\Upload\SaveVideoTrick;
 use App\Service\Upload\UploadImage;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,6 @@ class UploadController extends AbstractController
 
         $form = $this->createForm(ImageType::class);
         $form->handleRequest($request);
-        dd($form);
 
         if($form->isSubmitted() && $form->isValid()){
 
@@ -67,6 +67,13 @@ class UploadController extends AbstractController
      */
     public function uploadImageTrick(Request $request, UploadImage $uploadImage, SaveImage $saveImage,Trick $trick)
     {
+
+        $originalImages = new ArrayCollection();
+
+        foreach ($trick->getImages() as $image){
+            $originalImages->add($image);
+        }
+
         $form = $this->createForm(ImageType::class);
         $form->handleRequest($request);
 
