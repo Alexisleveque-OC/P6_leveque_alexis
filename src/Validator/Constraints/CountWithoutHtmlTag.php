@@ -6,6 +6,7 @@ namespace App\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+
 /**
  * Class CountWithoutHtmlTag
  * @package App\Validator
@@ -13,5 +14,16 @@ use Symfony\Component\Validator\Constraint;
  */
 class CountWithoutHtmlTag extends Constraint
 {
-    public $message = "Votre texte doit contenir au moins 5 caractères";
+    public $message = 'Votre texte n\'est pas assez long. Vous devez rentrer au moins {{limit}} caractères.';
+    public $min;
+
+    public function __construct($options = null)
+    {
+        if (null !== $options && !\is_array($options)) {
+            $options = [
+                'min' => $options,
+            ];
+        }
+        parent::__construct($options);
+    }
 }

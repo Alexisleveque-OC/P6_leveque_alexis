@@ -165,3 +165,12 @@ article .card-footer {
 ul{
   list-style: none;
 }
+.custom-file-input{
+  opacity: 1;
+}
+.custom-file-label{
+  opacity: 0;
+}
+.add_image_link{
+  margin-top: 0.5em;
+}

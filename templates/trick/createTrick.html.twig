@@ -48,6 +48,7 @@
             </div>
             <div class="row">
                 <div class="col-6">
+                    <p>La première image dans ce formulaire sera l'image principale.</p>
                     <ul class="images"
                         data-prototype="{{ form_widget(formTrick.images.vars.prototype)|e('html_attr') }}"
                         data-index="{{ formTrick.images|length }}">
@@ -55,22 +56,27 @@
                             {{ form_widget(formTrick.images) }}
                         {% else %}
                             {% for image in formTrick.images %}
-                                <li class="fieldImage">{{ form_row(image) }}</li>
+                                <li class="fieldImage">
+                                    {{ form_row(image) }}
+                                </li>
                             {% endfor %}
                         {% endif %}
                     </ul>
                 </div>
                 <div class="col-6">
-                    <ol class="videos"
-                        data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}">
-                        {% for video in formTrick.videos %}
-                            <li id="fieldIFrame">{{ form_row(video.iFrame) }}</li>
-                        {% endfor %}
-                    </ol>
-
                     <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur
-                        partager ->
-                        intégrer, copiez le lien afficher commençant par "iframe". </p>
+                        partager -> intégrer, copiez le lien afficher commençant par "iframe". </p>
+                    <ul class="videos"
+                        data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"
+                        data-index="{{ formTrick.videos|length }}">
+                        {% if formTrick.videos|length == 0 %}
+                            {{ form_widget(formTrick.videos) }}
+                        {% else %}
+                            {% for video in formTrick.videos %}
+                                <li class="fieldIFrame">{{ form_row(video.iFrame) }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
             <button class="btn btn-outline-success ">
@@ -101,7 +107,6 @@
             selector: 'textarea.tinymce',
         });
     </script>
-    <script src="{{ asset('JS/initiateVideoCollection.js') }}"></script>
-    <script src="{{ asset('JS/initiateImageCollection.js') }}"></script>
+    <script src="{{ asset('JS/initiateCollection.js') }}"></script>
 {% endblock %}
 

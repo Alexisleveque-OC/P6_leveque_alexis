@@ -20,7 +20,7 @@ class Image
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $trick;
@@ -89,13 +89,13 @@ class Image
 
     public function addTricks(Trick $trick)
     {
-        if(!$this->tricks->contains($trick)){
-            $this->tricks->add($trick);
+        if(!$this->trick->contains($trick)){
+            $this->trick->add($trick);
         }
     }
 
     /**
-     * @return ?File
+     * @return File|null ?File
      */
     public function getFile(): ?File
     {
@@ -103,7 +103,7 @@ class Image
     }
 
     /**
-     * @param ?File $file
+     * @param File|null $file
      */
     public function setFile(?File $file): void
     {

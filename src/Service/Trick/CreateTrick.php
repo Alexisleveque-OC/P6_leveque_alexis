@@ -58,8 +58,6 @@ class CreateTrick
     public function saveTrick($formTrick, $user)
     {
 
-//        $videos = $trick->getVideos();
-//        $this->saveVideoTrick->saveOnTrick($videos,$trick);
         $trick = $formTrick->getData();
         $slug = $this->slugger->slug($trick->getName());
         $trick->setSlug($slug);
@@ -75,7 +73,6 @@ class CreateTrick
 
         foreach ($formTrick->get("images")->getData() as $image){
             $image = $this->uploadImage->saveImage($image);
-            dump($image);
             $this->saveImage->saveOnTrick($trick, $image);
             $this->manager->persist($image);
         }

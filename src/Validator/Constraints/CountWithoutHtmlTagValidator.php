@@ -21,16 +21,16 @@ class CountWithoutHtmlTagValidator extends ConstraintValidator
         if (!$constraint instanceof CountWithoutHtmlTag) {
             throw new UnexpectedTypeException($constraint, CountWithoutHtmlTag::class);
         }
-        $newValue = strip_tags($value);
+        $lenght = strlen(strip_tags($value));
 
-        if(!is_string($newValue)){
-            throw new UnexpectedValueException($newValue,'string');
+        if(!is_int($lenght)){
+            throw new UnexpectedValueException($lenght,'string');
         }
-        $counter = strlen($newValue);
 
-        if ($counter < 5) {
+        if ($lenght < $constraint->min) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('%string%',$newValue)
+                ->setParameter('%string%',$lenght)
+                ->setParameter('{{limit}}',$constraint->min)
                 ->addViolation();
         }
     }

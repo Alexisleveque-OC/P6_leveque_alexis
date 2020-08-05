@@ -14,8 +14,6 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('iFrame', null, [
-                'label' => "Ajouter une Url vers votre vidéo",
-                'mapped' => false,
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Exemple : <iframe ......> </iframe>'

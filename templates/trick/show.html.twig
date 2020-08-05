@@ -9,7 +9,6 @@
             </p>
 
         {% else %}
-            {% dump trick.images %}
             {% for image in trick.images[0:1] %}
                 <img id="img-top-trick" src="{{ image.url }}" alt="{{ image.fileName }}">
             {% endfor %}
@@ -23,60 +22,60 @@
                 }) }}" class="col-3">
                     <span class="oi oi-pencil"></span>
                 </a>
-                <button class="btn btn-secondary disabled col-3" data-toggle="modal"
+                <button class="btn btn-secondary col-3" data-toggle="modal"
                         data-target="#deleteTrickConfModal">
                     <span class="oi oi-delete"></span>
                 </button>
             </div>
             {% include 'modal/deleteTrickConfModal.html.twig' %}
         {% endif %}
-        {#        {% if trick.images is not empty or trick.videos is not empty %}#}
-        <div class="row">
-            <div class="col-6">
-                <div id="carouselImage" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for image in trick.images[0:] %}
-                            <li data-target=".carouselImage" data-slide-to="{{ loop.index }}"></li>
-                        {% endfor %}
-                    </ol>
-                    <div class="carousel-inner">
-                        {% for image in trick.images[0:] %}
-                            <div class="carousel-item {% if  loop.index0 == 0 %} active {% endif %}">
-                                <img class="d-block w-100" src="{{ asset(image.url) }}"
-                                     alt="image du trick {{ asset(trick.name) }} ">
-                            </div>
-                        {% endfor %}
+        {% if trick.images is not empty or trick.videos is not empty %}
+            <div class="row">
+                <div class="col-6">
+                    <div id="carouselImage" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for image in trick.images[0:] %}
+                                <li data-target=".carouselImage" data-slide-to="{{ loop.index }}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for image in trick.images[0:] %}
+                                <div class="carousel-item {% if  loop.index0 == 0 %} active {% endif %}">
+                                    <img class="d-block w-100" src="{{ asset(image.url) }}"
+                                         alt="image du trick {{ asset(trick.name) }} ">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if trick.images is not empty %}
+                            <a class="carousel-control-prev" href="#carouselImage" data-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselImage" data-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </a>
+                        {% endif %}
                     </div>
-                    {% if trick.images is not empty %}
-                        <a class="carousel-control-prev" href="#carouselImage" data-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselImage" data-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </a>
-                    {% endif %}
-                </div>
 
-            </div>
-            <div class="col-6">
-                <div id="carousel" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for video in trick.videos[0:] %}
-                            <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
-                        {% endfor %}
-                    </ol>
-                    <div class="carousel-inner">
-                        {% for video in trick.videos[0:] %}
-                            <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                                {{ video.iFrame|raw }}
-                            </div>
-                        {% endfor %}
+                </div>
+                <div class="col-6">
+                    <div id="carousel" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for video in trick.videos[0:] %}
+                                <li data-target=".carousel" data-slide-to="{{ loop.index }}"></li>
+                            {% endfor %}
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for video in trick.videos[0:] %}
+                                <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
+                                    {{ video.iFrame|raw }}
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
-        {#        {% endif %}#}
+        {% endif %}
         <div class="card">
             <h2 class="card-title">{{ trick.name }}</h2>
             <h3 id="cardGroup" class="card-title">
@@ -202,4 +201,5 @@
         {{ trick.name }}
     {% endblock %}
 {% block javascripts %}
+    {{ parent() }}
 {% endblock %}

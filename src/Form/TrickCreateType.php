@@ -37,15 +37,19 @@ class TrickCreateType extends AbstractType
                 'allow_delete' => true,
                 'entry_options' => [
                     'label' => false,
-                    'required' => false
+                    'required' => false,
                 ],
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,
-                'entry_options' => ['label' => false],
+                'prototype' => true,
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
+                'entry_options' => [
+                    'label' => false,
+                    'required' => false
+                ],
             ]);
     }
 

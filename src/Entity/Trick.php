@@ -37,8 +37,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Votre description ne peut pas être vide.")
-     * @CustomAssert\CountWithoutHtmlTag()
+     * @CustomAssert\CountWithoutHtmlTag(min="5")
      */
     private $description;
 
@@ -63,7 +62,7 @@ class Trick
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="tricks", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 

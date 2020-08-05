@@ -39,9 +39,14 @@ class TrickController extends AbstractController
         }
 
         $originalImages = new ArrayCollection();
+        $originalVideos = new ArrayCollection();
 
         foreach ($trick->getImages() as $image) {
             $originalImages->add($image);
+        }
+
+        foreach ($trick->getVideos() as $video){
+            $originalVideos->add($video);
         }
 
         $formTrick = $this->createForm(TrickCreateType::class, $trick);
@@ -51,14 +56,17 @@ class TrickController extends AbstractController
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $user = $this->getUser();
-//            foreach ($originalImages as $image) {
-//                if (false === $trick->getImages()->contains($image)) {
-//                    $image->getImage()->removeElement($trick);
-//                }
-//            }
+            foreach ($originalImages as $image) {
+                if (false === $trick->getImages()->contains($image)) {
+                    $trick->removeImage($image);
+                }
+            }
+            foreach ($originalVideos as $video) {
+                if (false === $trick->getVideos()->contains($video)) {
+                    $trick->removeVideo($video);
+                }
+            }
             $trick = $createTrick->saveTrick($formTrick, $user);
-
-            $this->addFlash('success', 'Votre figure à bien été crée, ajoutez vos images et/ou vidéos.');
 
             return $this->redirectToRoute('trick_show', [
                 'id' => $trick->getId(),
