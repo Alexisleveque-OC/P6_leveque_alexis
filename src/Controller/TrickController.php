@@ -11,6 +11,7 @@ use App\Form\TrickCreateType;
 use App\Service\Trick\CreateTrick;
 use App\Service\Trick\DeleteTrick;
 use App\Service\Trick\TrickShow;
+use App\Service\Upload\CollectionHelper;
 use App\Service\Upload\SaveImage;
 use App\Service\Upload\UploadImage;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,26 +29,19 @@ class TrickController extends AbstractController
      * @param Trick|null $trick
      * @param Request $request
      * @param CreateTrick $createTrick
+     * @param CollectionHelper $collectionHelper
      * @return Response
      * @IsGranted("ROLE_USER")
      */
-    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick, UploadImage $uploadImage, SaveImage $saveImage)
+    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick, CollectionHelper $collectionHelper)
     {
 
         if (!$trick) {
             $trick = new Trick();
         }
 
-        $originalImages = new ArrayCollection();
-        $originalVideos = new ArrayCollection();
-
-        foreach ($trick->getImages() as $image) {
-            $originalImages->add($image);
-        }
-
-        foreach ($trick->getVideos() as $video){
-            $originalVideos->add($video);
-        }
+        $originalImages = $collectionHelper->addOldImage($trick);
+        $originalVideos = $collectionHelper->addOldVideo($trick);
 
         $formTrick = $this->createForm(TrickCreateType::class, $trick);
         $formTrick->handleRequest($request);
@@ -56,16 +50,9 @@ class TrickController extends AbstractController
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $user = $this->getUser();
-            foreach ($originalImages as $image) {
-                if (false === $trick->getImages()->contains($image)) {
-                    $trick->removeImage($image);
-                }
-            }
-            foreach ($originalVideos as $video) {
-                if (false === $trick->getVideos()->contains($video)) {
-                    $trick->removeVideo($video);
-                }
-            }
+
+            $collectionHelper->removeOld($trick, $originalImages, $originalVideos);
+
             $trick = $createTrick->saveTrick($formTrick, $user);
 
             return $this->redirectToRoute('trick_show', [

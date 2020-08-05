@@ -19,19 +19,25 @@ class UploadImage
      * @var string
      */
     private $imageDirectory;
+    /**
+     * @var SaveImage
+     */
+    private $saveImage;
 
     /**
      * UploadImage constructor.
      * @param SluggerInterface $slugger
      * @param string $imageDirectory
+     * @param SaveImage $saveImage
      */
-    public function __construct(SluggerInterface $slugger, string $imageDirectory)
+    public function __construct(SluggerInterface $slugger, string $imageDirectory,SaveImage $saveImage)
     {
         $this->slugger = $slugger;
         $this->imageDirectory = $imageDirectory;
+        $this->saveImage = $saveImage;
     }
 
-    public function saveImage(Image $image): Image
+    public function saveImageInServer(Image $image): Image
     {
         if ($image->getFile() instanceof UploadedFile) {
             $uploadedFile = $image->getFile();
@@ -47,7 +53,10 @@ class UploadImage
             } catch (FileException $e) {
                 throw new Exception('Le fichier n\a pas pus être enregistrer.');
             }
-
+            if($image->getFileName() != $newFileName && $image->getFileName() != null)
+            {
+                $this->saveImage->deleteImageInServer($image);
+            }
             $image->setFileName($newFileName);
         }
         return $image;

@@ -40,7 +40,8 @@ class SaveImage
     public function saveOnUser(Image $image, $user)
     {
         if ($oldImage = $user->getImage()) {
-            $this->deleteImage($oldImage);
+            $this->deleteImageInServer($oldImage);
+            $this->manager->remove($oldImage);
         }
         $image->setUser($user);
         $this->manager->persist($image);
@@ -48,18 +49,10 @@ class SaveImage
     }
 
 
-    public function deleteImage(Image $image)
+    public function deleteImageInServer(Image $image)
     {
         $image->setUser(null);
         $image->setTrick(null);
         unlink($this->imageDirectory . '/' . $image->getFileName());
-        $this->manager->remove($image);
-        $this->manager->flush();
     }
-
-    public function saveOnTrick(Trick $trick, Image $image)
-    {
-        $this->manager->persist($image);
-    }
-
 }
