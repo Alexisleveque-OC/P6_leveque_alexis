@@ -7,12 +7,15 @@ use App\Form\CommentType;
 use App\Form\DeleteCommentType;
 use App\Form\DeleteConfirmationType;
 use App\Form\GroupType;
-use App\Form\ImageType;
 use App\Form\TrickCreateType;
-use App\Form\VideoType;
 use App\Service\Trick\CreateTrick;
 use App\Service\Trick\DeleteTrick;
 use App\Service\Trick\TrickShow;
+use App\Service\Upload\CollectionHelper;
+use App\Service\Upload\SaveImage;
+use App\Service\Upload\UploadImage;
+use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,15 +29,20 @@ class TrickController extends AbstractController
      * @param Trick|null $trick
      * @param Request $request
      * @param CreateTrick $createTrick
+     * @param CollectionHelper $collectionHelper
      * @return Response
+     * @IsGranted("ROLE_USER")
      */
-    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick)
+    public function create(Trick $trick = null, Request $request, CreateTrick $createTrick, CollectionHelper $collectionHelper)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
 
         if (!$trick) {
             $trick = new Trick();
         }
+
+        $originalImages = $collectionHelper->addOldImage($trick);
+        $originalVideos = $collectionHelper->addOldVideo($trick);
+
         $formTrick = $this->createForm(TrickCreateType::class, $trick);
         $formTrick->handleRequest($request);
 
@@ -43,9 +51,9 @@ class TrickController extends AbstractController
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $user = $this->getUser();
 
-            $trick = $createTrick->saveTrick($formTrick, $user);
+            $collectionHelper->removeOld($trick, $originalImages, $originalVideos);
 
-            $this->addFlash('success', 'Votre figure à bien été crée, ajoutez vos images et/ou vidéos.');
+            $trick = $createTrick->saveTrick($formTrick, $user);
 
             return $this->redirectToRoute('trick_show', [
                 'id' => $trick->getId(),
@@ -67,12 +75,10 @@ class TrickController extends AbstractController
      * @param int $page
      * @return Response
      */
-    public function show($trick_slug, TrickShow $TrickShow,$page = 1)
+    public function show($trick_slug, TrickShow $TrickShow, $page = 1)
     {
         $formComment = $this->createForm(CommentType::class);
         $formDeleteComment = $this->createForm(DeleteCommentType::class);
-        $formUploadImage = $this->createForm(ImageType::class);
-        $formUploadVideo = $this->createForm(VideoType::class);
         $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
 
         $trick = $TrickShow->showTrick($trick_slug);
@@ -81,8 +87,6 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'formComment' => $formComment->createView(),
             'formDeleteComment' => $formDeleteComment->createView(),
-            'formImage' => $formUploadImage->createView(),
-            'formVideo' => $formUploadVideo->createView(),
             'formDeleteTrick' => $formDeleteTrick->createView(),
             'page' => $page
         ]);
@@ -94,11 +98,10 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @return Response
+     * @IsGranted("ROLE_USER")
      */
     public function delete(DeleteTrick $deleteTrick, Trick $trick, Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
         $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
         $formDeleteTrick->handleRequest($request);
 

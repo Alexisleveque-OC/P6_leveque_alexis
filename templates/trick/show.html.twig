@@ -22,7 +22,7 @@
                 }) }}" class="col-3">
                     <span class="oi oi-pencil"></span>
                 </a>
-                <button class="btn btn-secondary disabled col-3" data-toggle="modal"
+                <button class="btn btn-secondary col-3" data-toggle="modal"
                         data-target="#deleteTrickConfModal">
                     <span class="oi oi-delete"></span>
                 </button>
@@ -55,12 +55,7 @@
                             </a>
                         {% endif %}
                     </div>
-                    {% if app.user %}
-                        {{ form_start(formImage, {'action':path('upload_trick_image',{'id':trick.id})}) }}
-                        {{ form_row(formImage.photo) }}
-                        <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
-                        {{ form_end(formImage) }}
-                    {% endif %}
+
                 </div>
                 <div class="col-6">
                     <div id="carousel" class="carousel slide" data-ride="carousel">
@@ -71,29 +66,13 @@
                         </ol>
                         <div class="carousel-inner">
                             {% for video in trick.videos[0:] %}
-                                <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
+                                <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
                                     {{ video.iFrame|raw }}
                                 </div>
                             {% endfor %}
                         </div>
-                        {% if trick.videos is not empty %}
-                            <a class="carousel-control-prev" href="#carousel" data-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#carousel" data-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </a>
-                        {% endif %}
                     </div>
-                    {% if app.user %}
-                        {{ form_start(formVideo, {'action':path('upload_trick_video',{'id':trick.id})}) }}
-                        {{ form_row(formVideo.iFrame) }}
-                        <button class="btn btn-secondary offset-4 col-4 text-center">Enregister</button>
-                        <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur
-                            partager ->
-                            intégrer, copiez le lien afficher commençant par "iframe". </p>
-                        {{ form_end(formVideo) }}
-                    {% endif %}
+
                 </div>
             </div>
         {% endif %}
@@ -222,4 +201,5 @@
         {{ trick.name }}
     {% endblock %}
 {% block javascripts %}
+    {{ parent() }}
 {% endblock %}

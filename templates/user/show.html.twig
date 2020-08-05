@@ -22,7 +22,7 @@
                 {% if app.user == user %}
                     <h4>Changer de photo?</h4>
                     {{ form_start(formImage, {'action':path('upload_user_image',{'id':app.user.id})}) }}
-                    {{ form_row(formImage.photo) }}
+                    {{ form_row(formImage.file) }}
                     <button class="btn btn-secondary offset-2 col-8 text-center">Enregister</button>
                     {{ form_end(formImage) }}
                 {% endif %}

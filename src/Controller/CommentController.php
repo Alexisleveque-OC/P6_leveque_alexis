@@ -8,6 +8,7 @@ use App\Form\CommentType;
 use App\Service\Comment\AddComment;
 use App\Service\Comment\DeleteComment;
 use App\Service\Trick\TrickShow;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,12 +24,11 @@ class CommentController extends AbstractController
      * @param TrickShow $TrickShow
      * @param string $slug
      * @return RedirectResponse|Response
+     * @IsGranted("ROLE_USER")
      */
 
     public function addComment(Request $request, AddComment $addComment, TrickShow $TrickShow, $slug)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-
         $formComment = $this->createForm(CommentType::class);
         $formComment->handleRequest($request);
 
@@ -57,10 +57,10 @@ class CommentController extends AbstractController
      * @param Comment $comment
      * @param TrickShow $TrickShow
      * @return RedirectResponse
+     * @IsGranted("ROLE_USER")
      */
     public function deleteComment(DeleteComment $deleteComment, Comment $comment, TrickShow $TrickShow)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
 
         $trick = $TrickShow->showTrick($comment->getTrick()->getSlug());
 

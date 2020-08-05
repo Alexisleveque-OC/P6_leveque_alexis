@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  */
 class Image
 {
+    const DIR_PATH = '/image';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -18,18 +20,13 @@ class Image
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $url;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $tricks;
+    private $trick;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="image", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="image")
      */
     private $user;
 
@@ -38,32 +35,25 @@ class Image
      */
     private $fileName;
 
+    /**
+     * @var ?File
+     */
+    private $file;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getTrick(): ?Trick
     {
-        return $this->url;
+        return $this->trick;
     }
 
-    public function setUrl(string $url): self
+    public function setTrick(?Trick $trick): self
     {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    public function getTricks(): ?Trick
-    {
-        return $this->tricks;
-    }
-
-    public function setTricks(?Trick $tricks): self
-    {
-        $this->tricks = $tricks;
+        $this->trick = $trick;
 
         return $this;
     }
@@ -91,5 +81,32 @@ class Image
     public function getFileName()
     {
         return $this->fileName;
+    }
+
+    public function getUrl(){
+        return self::DIR_PATH.'/'.$this->fileName;
+    }
+
+    public function addTricks(Trick $trick)
+    {
+        if(!$this->trick->contains($trick)){
+            $this->trick->add($trick);
+        }
+    }
+
+    /**
+     * @return File|null ?File
+     */
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param File|null $file
+     */
+    public function setFile(?File $file): void
+    {
+        $this->file = $file;
     }
 }

@@ -3,8 +3,10 @@
 
 namespace App\Service\Upload;
 
+use App\Entity\Image;
 use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UploadImage
@@ -17,32 +19,47 @@ class UploadImage
      * @var string
      */
     private $imageDirectory;
+    /**
+     * @var SaveImage
+     */
+    private $saveImage;
 
     /**
      * UploadImage constructor.
      * @param SluggerInterface $slugger
      * @param string $imageDirectory
+     * @param SaveImage $saveImage
      */
-    public function __construct(SluggerInterface $slugger, string $imageDirectory)
+    public function __construct(SluggerInterface $slugger, string $imageDirectory,SaveImage $saveImage)
     {
         $this->slugger = $slugger;
         $this->imageDirectory = $imageDirectory;
+        $this->saveImage = $saveImage;
     }
 
-    public function saveImage($uploadedFile)
+    public function saveImageInServer(Image $image): Image
     {
-        $originalImageName= pathinfo($uploadedFile->getClientOriginalName(),PATHINFO_FILENAME);
-        $safeFileName = $this->slugger->slug($originalImageName);
-        $newFileName = $safeFileName.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+        if ($image->getFile() instanceof UploadedFile) {
+            $uploadedFile = $image->getFile();
+            $originalImageName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
 
-        try{
-            $uploadedFile->move(
-                $this->imageDirectory,
-                $newFileName
-            );
-        }catch(FileException $e){
-            throw new Exception('Le fichier n\a pas pus être enregistrer.');
+            $safeFileName = $this->slugger->slug($originalImageName);
+            $newFileName = $safeFileName . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+            try {
+                $uploadedFile->move(
+                    $this->imageDirectory,
+                    $newFileName
+                );
+            } catch (FileException $e) {
+                throw new Exception('Le fichier n\a pas pus être enregistrer.');
+            }
+            if($image->getFileName() != $newFileName && $image->getFileName() != null)
+            {
+                $this->saveImage->deleteImageInServer($image);
+            }
+            $image->setFileName($newFileName);
         }
-        return $newFileName;
+        return $image;
+
     }
 }

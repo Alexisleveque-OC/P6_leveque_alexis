@@ -37,8 +37,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Votre description ne peut pas être vide.")
-     * @CustomAssert\CountWithoutHtmlTag()
+     * @CustomAssert\CountWithoutHtmlTag(min="5")
      */
     private $description;
 
@@ -58,12 +57,12 @@ class Trick
     private $groupName;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
      */
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="tricks", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
@@ -169,7 +168,8 @@ class Trick
             $this->videos[] = $video;
             $video->setTrick($this);
         }
-
+        $video->setTrick($this);
+        $this->videos->add($video);
         return $this;
     }
 
@@ -198,8 +198,10 @@ class Trick
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
-            $image->setTricks($this);
+            $image->setTrick($this);
         }
+        $image->setTrick($this);
+        $this->images->add($image);
 
         return $this;
     }
@@ -209,8 +211,8 @@ class Trick
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($image->getTricks() === $this) {
-                $image->setTricks(null);
+            if ($image->getTrick() === $this) {
+                $image->setTrick(null);
             }
         }
 
@@ -271,4 +273,5 @@ class Trick
 
         return $this;
     }
+
 }

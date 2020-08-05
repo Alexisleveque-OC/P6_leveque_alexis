@@ -27,6 +27,5 @@ class SaveVideoTrick
         $video->setTrick($trick);
 
         $this->manager->persist($video);
-        $this->manager->flush();
     }
 }

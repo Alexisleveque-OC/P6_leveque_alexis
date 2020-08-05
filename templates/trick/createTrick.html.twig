@@ -44,7 +44,40 @@
             </div>
             {{ form_row(formTrick.name,{'label':"Nom du trick",'attr':{'placeholder':"Nom du trick"}}) }}
             <div id="descriptionTextArea">
-            {{ form_row(formTrick.description) }}
+                {{ form_row(formTrick.description) }}
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p>La première image dans ce formulaire sera l'image principale.</p>
+                    <ul class="images"
+                        data-prototype="{{ form_widget(formTrick.images.vars.prototype)|e('html_attr') }}"
+                        data-index="{{ formTrick.images|length }}">
+                        {% if formTrick.images|length == 0 %}
+                            {{ form_widget(formTrick.images) }}
+                        {% else %}
+                            {% for image in formTrick.images %}
+                                <li class="fieldImage">
+                                    {{ form_row(image) }}
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur
+                        partager -> intégrer, copiez le lien afficher commençant par "iframe". </p>
+                    <ul class="videos"
+                        data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"
+                        data-index="{{ formTrick.videos|length }}">
+                        {% if formTrick.videos|length == 0 %}
+                            {{ form_widget(formTrick.videos) }}
+                        {% else %}
+                            {% for video in formTrick.videos %}
+                                <li class="fieldIFrame">{{ form_row(video.iFrame) }}</li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
             <button class="btn btn-outline-success ">
                 {% if editMode %}
@@ -61,17 +94,19 @@
 
     {% block title %}
         {% if editMode %}
-        Modification d'un trick
+            Modification d'un trick
         {% else %}
-        Création d'un trick
+            Création d'un trick
         {% endif %}
     {% endblock %}
 
-{% block javascripts%}
-<script>
-    tinymce.init({
-        selector: 'textarea.tinymce',
-    });
-</script>
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        tinymce.init({
+            selector: 'textarea.tinymce',
+        });
+    </script>
+    <script src="{{ asset('JS/initiateCollection.js') }}"></script>
 {% endblock %}
 
