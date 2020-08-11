@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerTest extends ConfigNewEnvForTest
+class UserControllerTest extends ConfigNewVarForTest
 {
 
     public function testUserRegistration()

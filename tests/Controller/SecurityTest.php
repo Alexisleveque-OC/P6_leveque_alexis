@@ -11,7 +11,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class SecurityTest extends ConfigNewEnvForTest
+class SecurityTest extends ConfigNewVarForTest
 
 {
     public function setUp()
@@ -119,9 +119,9 @@ class SecurityTest extends ConfigNewEnvForTest
         $client->submit($form);
 
         $userRepository = static::$container->get(UserRepository::class);
-        $testUserafter = $userRepository->findOneBy(['email' => $this->email]);
+        $testUserAfter = $userRepository->findOneBy(['email' => $this->email]);
 
-        static::assertNotEquals($testUserafter->getPassword(),$testUser->getPassword());
+        static::assertNotEquals($testUserAfter->getPassword(),$testUser->getPassword());
 
         $crawler = $client->followRedirect();
 

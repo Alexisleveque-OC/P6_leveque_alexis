@@ -4,7 +4,7 @@
 namespace App\Tests\Controller;
 
 
-class MainControllerTest extends ConfigNewEnvForTest
+class MainControllerTest extends ConfigNewVarForTest
 {
     public function testHomePage()
     {

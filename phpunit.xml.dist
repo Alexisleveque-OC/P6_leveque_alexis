@@ -22,6 +22,10 @@
             <file>tests/Controller/MainControllerTest.php</file>
             <file>tests/Controller/UserControllerTest.php</file>
             <file>tests/Controller/SecurityTest.php</file>
+            <file>tests/Controller/GroupControllerTest.php</file>
+            <file>tests/Controller/ImageControllerTest.php</file>
+            <file>tests/Controller/VideoControllerTest.php</file>
+<!--            <file>tests/Controller/TrickControllerTest.php</file>-->
             <directory>tests/Entity</directory>
         </testsuite>
     </testsuites>
