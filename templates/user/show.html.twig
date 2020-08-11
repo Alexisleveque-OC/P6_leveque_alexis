@@ -4,9 +4,9 @@
     <div class="container">
         <div class="title-user">
         {% if app.user == user %}
-            <h1>Les informations sur votre compte : {{ app.user.username }}</h1>
+            <h1 class="user_show">Les informations sur votre compte : {{ app.user.username }}</h1>
         {% else %}
-            <h1>Vous regarder le profil de : {{ user.username }}</h1>
+            <h1 class="user_show">Vous regarder le profil de : {{ user.username }}</h1>
         {% endif %}
         </div>
 

@@ -1,0 +1,18 @@
+<?php
+
+
+namespace App\Tests\Controller;
+
+
+class MainControllerTest extends ConfigNewEnvForTest
+{
+    public function testHomePage()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/');
+
+        static::assertSame(1, $crawler->filter('h1#homeSentence')->count());
+    }
+
+}

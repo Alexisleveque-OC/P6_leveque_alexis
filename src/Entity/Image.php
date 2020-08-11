@@ -72,7 +72,9 @@ class Image
 
     public function setFileName($fileName)
     {
-     $this->fileName = $fileName;
+        $this->fileName = $fileName;
+
+        return $this;
     }
 
     /**
@@ -83,16 +85,17 @@ class Image
         return $this->fileName;
     }
 
-    public function getUrl(){
-        return self::DIR_PATH.'/'.$this->fileName;
+    public function getUrl()
+    {
+        return self::DIR_PATH . '/' . $this->fileName;
     }
 
-    public function addTricks(Trick $trick)
-    {
-        if(!$this->trick->contains($trick)){
-            $this->trick->add($trick);
-        }
-    }
+//    public function addTricks(Trick $trick)
+//    {
+//        if (!$this->trick->contains($trick)) {
+//            $this->trick->add($trick);
+//        }
+//    }
 
     /**
      * @return File|null ?File
@@ -104,9 +107,12 @@ class Image
 
     /**
      * @param File|null $file
+     * @return Image
      */
-    public function setFile(?File $file): void
+    public function setFile(?File $file): Image
     {
         $this->file = $file;
+
+        return $this;
     }
 }
