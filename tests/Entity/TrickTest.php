@@ -15,43 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class TrickTest extends TestCase
 {
-    public function testTrickGetName()
-    {
-        $trick = new Trick();
-        $trick->setName('TrickTest');
-
-        $test = $trick->getName();
-
-        $this->assertSame('TrickTest', $test);
-    }
-
-    public function testTrickSetname()
-    {
-        $trick = new Trick();
-        $test = $trick->setName('UserTest');
-
-        $this->assertInstanceOf(Trick::class, $test);
-    }
-
-    public function testTrickGetDescription()
-    {
-        $trick = new Trick();
-        $trick->setDescription('TrickTest');
-
-        $test = $trick->getDescription();
-
-        $this->assertSame('TrickTest', $test);
-    }
-
-    public function testTrickSetDescription()
-    {
-        $trick = new Trick();
-        $test = $trick->setDescription('UserTest');
-
-        $this->assertInstanceOf(Trick::class, $test);
-    }
-
-    public function testTrickGetCreatedAt()
+        public function testTrickGetCreatedAt()
     {
         $trick = new Trick();
         $date = new DateTime();
@@ -71,26 +35,6 @@ class TrickTest extends TestCase
         $this->assertInstanceOf(Trick::class, $test);
     }
 
-    public function testTrickGetUpdatedAt()
-    {
-        $trick = new Trick();
-        $date = new DateTime();
-        $trick->setUpdatedAt($date);
-
-        $test = $trick->getUpdatedAt();
-
-        $this->assertInstanceOf(DateTime::class, $test);
-        $this->assertSame($date, $test);
-    }
-
-    public function testTrickSetUpdatedAt()
-    {
-        $trick = new Trick();
-        $date = new DateTime();
-        $test = $trick->setUpdatedAt($date);
-
-        $this->assertInstanceOf(Trick::class, $test);
-    }
     public function testTrickGetGroupName()
     {
         $trick = new Trick();
@@ -174,26 +118,6 @@ class TrickTest extends TestCase
         $test = $trick->getComments();
 
         $this->assertContainsOnlyInstancesOf(Comment::class, $test);
-
-    }
-
-    public function testTrickSetSlug()
-    {
-        $trick = new Trick();
-
-        $test = $trick->setSlug('coucou');
-
-        $this->assertInstanceOf(Trick::class, $test);
-    }
-    public function testTrickGetSlug()
-    {
-        $trick = new Trick();
-
-        $trick->setSlug('coucou');
-
-        $test = $trick->getSlug();
-
-        $this->assertSame('coucou', $test);
 
     }
 }

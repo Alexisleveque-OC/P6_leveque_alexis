@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
 
     $collectionHolder.find('li.fieldImage').each(function () {
         addImageFormDeleteLink($(this));
-    })
+    });
 
     $collectionHolder.append($newLinkLi);
 
