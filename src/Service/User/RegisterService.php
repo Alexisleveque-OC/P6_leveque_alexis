@@ -5,6 +5,7 @@ namespace App\Service\User;
 
 
 use App\Entity\Token;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -24,9 +25,8 @@ class RegisterService
         $this->manager = $manager;
         $this->encoder = $encoder;
     }
-    public function register($form)
+    public function register(User $user)
     {
-        $user = $form->getData();
         $hash = $this->encoder->encodePassword($user, $user->getPassword());
         $user->setPassword($hash);
         $this->manager->persist($user);

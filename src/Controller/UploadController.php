@@ -37,6 +37,7 @@ class UploadController extends AbstractController
                 $uploadImage->saveImageInServer($image);
                 $user = $this->getUser();
                 $saveImage->saveOnUser($image, $user);
+
                 $this->addFlash('success','Votre photo de profil à bien été modifié.');
 
                 return $this->redirectToRoute('user_show',['id' => $user->getId()]);

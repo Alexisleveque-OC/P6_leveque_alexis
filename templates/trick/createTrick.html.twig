@@ -53,10 +53,11 @@
                         data-prototype="{{ form_widget(formTrick.images.vars.prototype)|e('html_attr') }}"
                         data-index="{{ formTrick.images|length }}">
                         {% if formTrick.images|length == 0 %}
-                            {{ form_widget(formTrick.images) }}
+                            {{ form_label(formTrick.images) }}
                         {% else %}
                             {% for image in formTrick.images %}
                                 <li class="fieldImage">
+                                    <img src="{{ asset(image.vars.value.url) }}" alt="">
                                     {{ form_row(image) }}
                                 </li>
                             {% endfor %}

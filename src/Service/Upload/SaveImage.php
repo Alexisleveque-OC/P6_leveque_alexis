@@ -40,7 +40,7 @@ class SaveImage
     public function saveOnUser(Image $image, $user)
     {
         if ($oldImage = $user->getImage()) {
-           $this->deleteImageInServer($oldImage);
+            $this->deleteImageInServer($oldImage);
             $this->manager->remove($oldImage);
             $this->manager->flush();
         }

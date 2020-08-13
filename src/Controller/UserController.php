@@ -35,7 +35,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $token = $registerService->register($form);
+            $token = $registerService->register($form->getData());
 
             $mailer->sendUserTokenMail($token);
 
