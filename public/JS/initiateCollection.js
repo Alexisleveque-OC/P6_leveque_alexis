@@ -28,7 +28,7 @@ jQuery(document).ready(function () {
 
     $collectionVideoHolder.find('li.fieldIFrame').each(function () {
         addVideoFormDeleteLink($(this));
-    })
+    });
 
     $collectionVideoHolder.append($newLinkVideoLi);
 
