@@ -15,7 +15,7 @@
         {% endif %}
         {% if app.user == null %}
         <div class="container form_login">
-            <a class="offset-2 col-8 text-center oi oi-account-login icon-form "></a>
+            <a class="offset-sm-12 offset-sm-2 col-sm-8 text-center oi oi-account-login icon-form "></a>
 
             <div class="offset-2 col-8">
                 <h1 class="h3 mb-3 font-weight-normal">Connection</h1>
@@ -28,11 +28,11 @@
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}">
                 <hr>
-                <button class="btn btn-lg btn-success offset-2 col-8 text-center" type="submit">
+                <button class="btn btn-lg btn-success offset-sm-12 offset-sm-2 col-sm-8 text-center" type="submit">
                     Connexion
                 </button>
                 <hr>
-                <a class="btn btn-lg btn-outline-warning offset-4 col-4 text-center" href="{{ path('forgot_pass') }}">oups, j'ai oublié mon mot de passe !</a>
+                <a class="btn btn-lg btn-outline-warning offset-sm-12 offset-sm-2 col-sm-8 text-center" href="{{ path('forgot_pass') }}">oups, j'ai oublié mon mot de passe !</a>
             </div>
         </div>
         {% endif %}

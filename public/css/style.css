@@ -157,20 +157,115 @@ article .card-footer {
 #descriptionTextArea {
   min-height: 50%;
 }
-.arrowForHide{
+
+.arrowForHide {
   position: fixed;
   right: 5%;
-  bottom: 7%;
+  bottom: 10%;
 }
-ul{
+
+
+ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 15px;
 }
-.custom-file-input{
+
+.custom-file-input {
   opacity: 1;
 }
-.custom-file-label{
+
+.custom-file-label {
   opacity: 0;
 }
-.add_image_link{
+
+.add_image_link {
   margin-top: 0.5em;
+}
+
+.fieldImage {
+  width: 100%;
+  border: solid 1px aliceblue;
+  border-radius: 25px;
+  margin: 2%;
+  padding: 2%;
+}
+
+.fieldImage img {
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.fieldIFrame {
+  margin: 2%;
+  padding: 2%;
+}
+
+iframe {
+  max-width: 100%;
+}
+
+fieldset legend {
+  visibility: hidden;
+}
+
+.user_show {
+  font-size: 1.5em;
+}
+
+@media (max-width: 768px) {
+  #homeSentence {
+    top: 25%;
+  }
+
+  #logo {
+    width: 8%;
+  }
+
+  .arrowForHide h4 {
+    visibility: hidden;
+  }
+
+  .carousel-inner {
+    height: 375px;
+    margin-bottom: 2%;
+  }
+}
+
+@media (max-width: 425px) {
+  #homeSentence {
+    font-size: 1em;
+    top: 10%;
+  }
+
+  #logo {
+    width: 10%;
+  }
+
+  .arrowForHide a {
+    font-size: 3em;
+  }
+
+  #account-validated {
+    font-size: 2em;
+  }
+
+  .carousel-inner {
+    height: 300px;
+    margin-bottom: 2%;
+  }
+
+  .card h3 {
+    font-size: 1.5em;
+  }
+
+  .user-image {
+    max-width: 50%;
+  }
+
+  form .btn-secondary {
+    margin-bottom: 5%;
+  }
 }
