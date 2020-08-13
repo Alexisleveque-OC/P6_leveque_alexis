@@ -35,7 +35,13 @@ class UserControllerTest extends ConfigNewVarForTest
     public function testShowUser()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/user/1');
+
+        $userRepository = static::$container->get(UserRepository::class);
+
+        $testUser = $userRepository->findOneBy(['username'=>$this->userName]);
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/user/'.$testUser->getId());
 
         static::assertSame(1,$crawler->filter('h1.user_show')->count());
 

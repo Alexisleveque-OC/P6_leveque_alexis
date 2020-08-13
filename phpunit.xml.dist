@@ -18,14 +18,11 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-<!--            <directory>tests</directory>-->
-            <file>tests/Controller/MainControllerTest.php</file>
+            <file>tests/Controller/SmokeTest.php</file>
             <file>tests/Controller/UserControllerTest.php</file>
             <file>tests/Controller/SecurityTest.php</file>
             <file>tests/Controller/GroupControllerTest.php</file>
-            <file>tests/Controller/ImageControllerTest.php</file>
-            <file>tests/Controller/VideoControllerTest.php</file>
-<!--            <file>tests/Controller/TrickControllerTest.php</file>-->
+            <file>tests/Service/RegisterServiceTest.php</file>
             <directory>tests/Entity</directory>
         </testsuite>
     </testsuites>
