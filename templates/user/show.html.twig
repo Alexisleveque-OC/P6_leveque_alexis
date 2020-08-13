@@ -11,7 +11,7 @@
         </div>
 
         <div class="row">
-            <div class="col-3">
+            <div class="col-xs-12 col-sm-3">
                 {% if user.image == null %}
                     <h4>Image par défaut</h4>
                     <img class="profil-img" src="{{ asset('image/avatar.png') }}" alt="photo d'utilisateur par défaut">
@@ -27,7 +27,7 @@
                     {{ form_end(formImage) }}
                 {% endif %}
             </div>
-            <div class="offset-1 col-8 detail-profil">
+            <div class="col-xs-12 offset-sm-1 col-sm-8 detail-profil">
                 <h4>Résumé des informations</h4>
                 <p>Pseudo : <strong>{{ user.username }}</strong></p>
                 {% if app.user == user %}
