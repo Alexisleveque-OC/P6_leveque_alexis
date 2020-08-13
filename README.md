@@ -46,3 +46,5 @@ In your terminal, go to your directory of project and submit :
 
 - If you want test mail, you can use mailtrap. Create account or log in. In home page select your integration to "Php -> Symfony5+" and copy line "MAILER_DSN ...." in .env.local.
 - You can use other mail interceptor but you must configure it ;).
+
+- If you want to do some tests, go to tests/Controller/ConfigNewVarForTest.php , change information mostly a new User and in your console write this command : "php bin/phpunit".
