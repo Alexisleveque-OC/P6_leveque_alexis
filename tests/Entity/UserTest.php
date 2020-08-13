@@ -9,24 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testUserGetUsername()
-    {
-        $user = new User();
-        $user->setUsername('UserTest');
-
-        $test = $user->getUsername();
-
-        $this->assertSame('UserTest', $test);
-    }
-
-    public function testUserSetUsername()
-    {
-        $user = new User();
-        $test = $user->setUsername('UserTest');
-
-        $this->assertInstanceOf(User::class, $test);
-    }
-
     public function testUserGetRoles()
     {
         $user = new User();
@@ -34,7 +16,7 @@ class UserTest extends TestCase
 
         $test = $user->getRoles();
 
-        $this->assertEquals(['ROLE_USER'],$test);
+        $this->assertEquals(['ROLE_USER'], $test);
     }
 
     public function testUserSetRoles()
@@ -52,7 +34,7 @@ class UserTest extends TestCase
 
         $test = $user->getPassword();
 
-        $this->assertEquals('coucou',$test);
+        $this->assertEquals('coucou', $test);
     }
 
     public function testUserSetPassword()
@@ -73,14 +55,6 @@ class UserTest extends TestCase
         $this->assertEquals('userTest@test.com', $test);
     }
 
-    public function testUserSetEMail()
-    {
-        $user = new User();
-        $test = $user->setEMail('userTest@test.com');
-
-        $this->assertInstanceOf(User::class, $test);
-    }
-
     public function testUserGetValidation()
     {
         $user = new User();
@@ -90,6 +64,7 @@ class UserTest extends TestCase
 
         $this->assertEquals(true, $test);
     }
+
     public function testUserSetValidation()
     {
         $user = new User();
@@ -108,6 +83,7 @@ class UserTest extends TestCase
 
         $this->assertInstanceOf(Image::class, $test);
     }
+
     public function testUserSetImage()
     {
         $user = new User();

@@ -26,11 +26,13 @@ class DeleteTrick
 
     public function delete($trick)
     {
-        foreach ($images = $trick->getImages() as $image){
+        $images = $trick->getImages();
+        foreach ($images as $image){
             $this->saveImage->deleteImageInServer($image);
             $this->entityManager->remove($image);
         }
-        foreach ($videos = $trick->getVideos() as $video){
+        $videos = $trick->getVideos();
+        foreach ($videos as $video){
             $this->entityManager->remove($video);
         }
 
