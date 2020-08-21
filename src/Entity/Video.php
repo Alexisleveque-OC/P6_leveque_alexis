@@ -18,8 +18,8 @@ class Video
      */
     private $id;
 
+//     * @Assert\Regex("/^<iframe\s(.)*iframe>$/",message="Vous devez inclure la totalité du champ 'Intégrer la vidéo'.")
     /**
-     * @Assert\Regex("/^<iframe\s(.)*iframe>$/",message="Vous devez inclure la totalité du champ 'Intégrer la vidéo'.")
      * @ORM\Column(type="string", length=255)
      */
     private $iFrame;

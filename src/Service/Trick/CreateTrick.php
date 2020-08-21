@@ -3,6 +3,7 @@
 namespace App\Service\Trick;
 
 use App\Service\Upload\SaveImage;
+use App\Service\Upload\SaveVideoTrick;
 use App\Service\Upload\UploadImage;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,17 +28,23 @@ class CreateTrick
      * @var UploadImage
      */
     private $uploadImage;
+    /**
+     * @var SaveVideoTrick
+     */
+    private $saveVideo;
 
 
     public function __construct(EntityManagerInterface $manager,
                                 SluggerInterface $slugger,
                                 SaveImage $saveImage,
+                                SaveVideoTrick $saveVideo,
                                 UploadImage $uploadImage)
     {
         $this->manager = $manager;
         $this->slugger = $slugger;
         $this->saveImage = $saveImage;
         $this->uploadImage = $uploadImage;
+        $this->saveVideo = $saveVideo;
     }
 
 
@@ -63,7 +70,7 @@ class CreateTrick
             $this->manager->persist($image);
         }
         foreach ($formTrick->get("videos")->getData() as $video){
-            $this->manager->persist($video);
+            $this->saveVideo->saveOnTrick($video);
         }
 
         $this->manager->flush();

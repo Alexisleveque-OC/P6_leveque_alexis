@@ -19,12 +19,12 @@ class SaveVideoTrick
         $this->manager = $manager;
     }
 
-    public function saveOnTrick($iFrame, $trick)
+    public function saveOnTrick(Video $video)
     {
-        $video = new Video();
-
-        $video->setIFrame($iFrame);
-        $video->setTrick($trick);
+        $link = $video->getIFrame();
+        $link = str_replace('youtu.be','youtube.com/embed',$link);
+        $link = str_replace('dai.ly','dailymotion.com/embed/video',$link);
+        $video->setIFrame($link);
 
         $this->manager->persist($video);
     }

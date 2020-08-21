@@ -67,7 +67,12 @@
                         <div class="carousel-inner">
                             {% for video in trick.videos[0:] %}
                                 <div class="carousel-item {% if loop.index0 == 0 %} active {% endif %}">
-                                    {{ video.iFrame|raw }}
+                                    <iframe width="560" height="315" src="{{ video.iFrame }}"
+                                            frameborder="0"
+                                            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen>
+                                    </iframe>
+
                                 </div>
                             {% endfor %}
                         </div>
@@ -107,7 +112,9 @@
             {% if app.user %}
                 {{ form_start(formComment, {'action': path('add_comment', {'slug':trick.slug})}) }}
                 {{ form_row(formComment.content) }}
-                <input type="submit" class="btn btn-outline-success offset-xs-2 col-xs-8 offset-sm-4 col-sm-4 text-center" value="Envoyer">
+                <input type="submit"
+                       class="btn btn-outline-success offset-xs-2 col-xs-8 offset-sm-4 col-sm-4 text-center"
+                       value="Envoyer">
                 {{ form_end(formComment) }}
             {% endif %}
             <hr>
