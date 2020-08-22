@@ -17,7 +17,7 @@ See the project context just here >>> https://openclassrooms.com/fr/paths/59/pro
 
 ## How to install ?
 
-### Step 1 :
+### Step 1 (optional if you have composer) :
 You need to install composer in your workplace. For this, let's go here https://getcomposer.org/download/. 
 Download and install it on your computer.
 
@@ -28,12 +28,12 @@ Create a directory in your localserver (Exemple for Wamp : C:/wamp64/www). And c
 Copy file ".env" to ".env.local" (in directory App) whit your information.
 
 ### Step 4 :
-- Create Database MySql with your SGBD (You can choose the name you want).
-Or you can create Database with this command : "php bin/console doctrine:database:create" .
-- In your terminal create the all tables with this command : "php bin/console doctrine:migrations:migrate".
-- If you want a dataset, you can import Dataset.sql . This files was in project root.
+- For database and Fixtures, in your terminal enter this command "composer prepare".
+That's all, your Database is create and fixtures are load ! ;)
 
 ### Step 5 :
+Run App in your server if you have it or enter this command "symfony server:start"
+####(optional)
 Create a virtualhost, for this :
 - Go to your localhost
 - In tool tabs, click on "Create a Virtual Host"
@@ -41,10 +41,9 @@ Create a virtualhost, for this :
 
 #### Note 
 - If some extension doesn't work correctly you can do this :
-In your terminal, go to your directory of project and submit :
-- "composer install"
+In your terminal, go to your directory of project and submit : "composer install"
 
 - If you want test mail, you can use mailtrap. Create account or log in. In home page select your integration to "Php -> Symfony5+" and copy line "MAILER_DSN ...." in .env.local.
 - You can use other mail interceptor but you must configure it ;).
 
-- If you want to do some tests, go to tests/Controller/ConfigNewVarForTest.php , change information mostly a new User and in your console write this command : "php bin/phpunit".
+- If you want to do some tests, enter in console "composer make-test", the app will be test and fixtures back in original condition.

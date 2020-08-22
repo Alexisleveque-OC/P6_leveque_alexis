@@ -27,8 +27,12 @@ class UserControllerTest extends ConfigNewVarForTest
         $form['register_user[password][second]'] = $this->password;
         $client->submit($form);
 
-        $crawler = $client->followRedirect();
-        static::assertSame(1,$crawler->filter('h1#homeSentence')->count());
+        $userRepository = static::$container->get(UserRepository::class);
+        $testUser = $userRepository->findOneBy(['username' => $this->userName]);
+        $testUserName = $testUser->getUsername();
+
+        static::assertInstanceOf(User::class,$testUser);
+        static::assertSame($this->userName,$testUserName);
 
     }
 

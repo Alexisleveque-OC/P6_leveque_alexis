@@ -84,7 +84,22 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             $user->setPassword($hash);
             $manager->persist($user);
 
+            if ($i === 1 || $i === 2) {
+                $imageUser1 = new Image();
+                $imageUser1->setFileName('thumb-129186-5f1ace74e88f3.jpeg')
+                    ->setUser($user);
+                $manager->persist($imageUser1);
+            }
+            if ($i === 3 || $i === 4) {
+                $imageUser2 = new Image();
+                $imageUser2->setFileName('unknown-person-silhouette-whith-blue-tie-vector-3212981-5f23b56131c64.jpeg')
+                    ->setUser($user);
+                $manager->persist($imageUser2);
+            }
             $token = new Token();
+            if ($i === 1) {
+                $token->setToken('123456789');
+            }
             $token->setUser($user);
             $manager->persist($token);
 
@@ -247,11 +262,11 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
         $manager->persist($image13);
 
         $video1 = new Video();
-        $video1->setIFrame('https://youtube.com/embed/e5udJTjbYzw')
+        $video1->setIFrame('https://youtube.com/embed/FMHiSF0rHF8')
             ->setTrick($trick8);
         $manager->persist($video1);
         $video2 = new Video();
-        $video2->setIFrame('https://youtube.com/embed/JUm57sUkRdc')
+        $video2->setIFrame('https://youtube.com/embed/jTEQUyruKfE')
             ->setTrick($trick8);
         $manager->persist($video2);
 
