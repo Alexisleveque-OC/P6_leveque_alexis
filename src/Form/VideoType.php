@@ -16,7 +16,7 @@ class VideoType extends AbstractType
             ->add('iFrame', null, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Exemple : <iframe ......> </iframe>'
+                    'placeholder' => 'Exemple : https://youtu.be/xxxxxxxxxxxx'
             ]]);
     }
 

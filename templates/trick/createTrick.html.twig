@@ -67,15 +67,19 @@
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur
-                        partager -> intégrer, copiez le lien afficher commençant par "iframe". </p>
+                        partager -> Copiez le lien afficher. </p>
+                    <span class="oi oi-warning"></span> Pour des soucis de sécurité, seuls les lien youtube et dailymotion sont accéptés
                     <ul class="videos"
                         data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"
                         data-index="{{ formTrick.videos|length }}">
+
                         {% if formTrick.videos|length == 0 %}
                             {{ form_widget(formTrick.videos) }}
                         {% else %}
                             {% for video in formTrick.videos %}
-                                <li class="fieldIFrame">{{ form_row(video.iFrame) }}</li>
+                                <li class="fieldIFrame">
+                                    {{ form_row(video.iFrame) }}
+                                </li>
                             {% endfor %}
                         {% endif %}
                     </ul>

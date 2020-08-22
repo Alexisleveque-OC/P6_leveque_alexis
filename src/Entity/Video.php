@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator\Constraints as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -18,8 +19,9 @@ class Video
      */
     private $id;
 
+//     * @Assert\Regex("/^<iframe\s(.)*iframe>$/",message="Vous devez inclure la totalité du champ 'Intégrer la vidéo'.")
+//     * @CustomAssert\LinkIsValid()
     /**
-     * @Assert\Regex("/^<iframe\s(.)*iframe>$/",message="Vous devez inclure la totalité du champ 'Intégrer la vidéo'.")
      * @ORM\Column(type="string", length=255)
      */
     private $iFrame;
