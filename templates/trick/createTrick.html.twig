@@ -72,11 +72,14 @@
                     <ul class="videos"
                         data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"
                         data-index="{{ formTrick.videos|length }}">
+
                         {% if formTrick.videos|length == 0 %}
                             {{ form_widget(formTrick.videos) }}
                         {% else %}
                             {% for video in formTrick.videos %}
-                                <li class="fieldIFrame">{{ form_row(video.iFrame) }}</li>
+                                <li class="fieldIFrame">
+                                    {{ form_row(video.iFrame) }}
+                                </li>
                             {% endfor %}
                         {% endif %}
                     </ul>

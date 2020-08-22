@@ -8,6 +8,7 @@ use App\Entity\Image;
 use App\Entity\Token;
 use App\Entity\Trick;
 use App\Entity\User;
+use App\Entity\Video;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -91,7 +92,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
         }
 
         // trick creation and associated image
-        $loremDescription = '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur deleniti ea eius enim
+        $loremDescription = '<h3>Super figure</h3><p><strong>Lorem ipsum</strong> dolor sit amet, consectetur adipisicing elit. Consequuntur deleniti ea eius enim
     harum ipsum quia veritatis? Inventore, quae, quibusdam.</p>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur deleniti ea eius enim
     harum ipsum quia veritatis? Inventore, quae, quibusdam.</p>';
@@ -99,11 +100,11 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
         $trick1 = new Trick();
         $trick1->setName('Sad')
             ->setDescription($loremDescription)
-        ->setCreatedAt(new DateTime())
-        ->setGroupName($groups[0]);
+            ->setCreatedAt(new DateTime())
+            ->setGroupName($groups[0]);
         $slug = $this->slugger->slug($trick1->getName());
         $trick1->setSlug($slug);
-        $trick1->setUser($users[mt_rand(0,9)]);
+        $trick1->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick1);
         $tricks[] = $trick1;
 
@@ -124,7 +125,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             ->setGroupName($groups[0]);
         $slug = $this->slugger->slug($trick2->getName());
         $trick2->setSlug($slug);
-        $trick2->setUser($users[mt_rand(0,9)]);
+        $trick2->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick2);
         $tricks[] = $trick2;
 
@@ -144,7 +145,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             ->setGroupName($groups[1]);
         $slug = $this->slugger->slug($trick3->getName());
         $trick3->setSlug($slug);
-        $trick3->setUser($users[mt_rand(0,9)]);
+        $trick3->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick3);
         $tricks[] = $trick3;
 
@@ -160,7 +161,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             ->setGroupName($groups[1]);
         $slug = $this->slugger->slug($trick4->getName());
         $trick4->setSlug($slug);
-        $trick4->setUser($users[mt_rand(0,9)]);
+        $trick4->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick4);
         $tricks[] = $trick4;
 
@@ -176,7 +177,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             ->setGroupName($groups[2]);
         $slug = $this->slugger->slug($trick5->getName());
         $trick5->setSlug($slug);
-        $trick5->setUser($users[mt_rand(0,9)]);
+        $trick5->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick5);
         $tricks[] = $trick5;
 
@@ -196,7 +197,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             ->setGroupName($groups[2]);
         $slug = $this->slugger->slug($trick6->getName());
         $trick6->setSlug($slug);
-        $trick6->setUser($users[mt_rand(0,9)]);
+        $trick6->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick6);
         $tricks[] = $trick6;
 
@@ -212,7 +213,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             ->setGroupName($groups[3]);
         $slug = $this->slugger->slug($trick7->getName());
         $trick7->setSlug($slug);
-        $trick7->setUser($users[mt_rand(0,9)]);
+        $trick7->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick7);
         $tricks[] = $trick7;
 
@@ -232,7 +233,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
             ->setGroupName($groups[3]);
         $slug = $this->slugger->slug($trick8->getName());
         $trick8->setSlug($slug);
-        $trick8->setUser($users[mt_rand(0,9)]);
+        $trick8->setUser($users[mt_rand(0, 9)]);
         $manager->persist($trick8);
         $tricks[] = $trick8;
 
@@ -240,22 +241,31 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
         $image12->setFileName('fro-5f1e77cba481b.jpeg')
             ->setTrick($trick8);
         $manager->persist($image12);
-        $image11 = new Image();
-        $image11->setFileName('fr-5f1e77d3ab6ce.jpeg')
+        $image13 = new Image();
+        $image13->setFileName('fr-5f1e77d3ab6ce.jpeg')
             ->setTrick($trick8);
-        $manager->persist($image11);
+        $manager->persist($image13);
+
+        $video1 = new Video();
+        $video1->setIFrame('https://youtube.com/embed/e5udJTjbYzw')
+            ->setTrick($trick8);
+        $manager->persist($video1);
+        $video2 = new Video();
+        $video2->setIFrame('https://youtube.com/embed/JUm57sUkRdc')
+            ->setTrick($trick8);
+        $manager->persist($video2);
 
         //comment creation
-        $loremCommentContent = '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, unde!</p><p>Aliquam
-    debitis deserunt dolores dolorum iure! Commodi optio provident soluta?</p>';
+        $loremCommentContent = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit, unde! Aliquam
+    debitis deserunt dolores dolorum iure! Commodi optio provident soluta?';
 
-        foreach($tricks as $trick){
-            for ($j = 1 ; $j <= mt_rand(8,22) ; $j++){
+        foreach ($tricks as $trick) {
+            for ($j = 1; $j <= mt_rand(8, 22); $j++) {
                 $comment = new Comment();
-                $comment->setUser($users[mt_rand(0,9)])
-                ->setContent($loremCommentContent)
-                ->setCreatedAt(new DateTime())
-                ->setTrick($trick);
+                $comment->setUser($users[mt_rand(0, 9)])
+                    ->setContent($loremCommentContent)
+                    ->setCreatedAt(new DateTime())
+                    ->setTrick($trick);
                 $manager->persist($comment);
             }
         }

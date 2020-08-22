@@ -12,18 +12,12 @@ use Symfony\Component\Validator\Constraint;
  * @package App\Validator
  * @Annotation
  */
-class CountWithoutHtmlTag extends Constraint
+class LinkIsValid extends Constraint
 {
-    public $message = 'Votre texte n\'est pas assez long. Vous devez rentrer au moins {{limit}} caractères.';
-    public $min;
+    public $message = 'Votre lien n\'est pas valide, regardez les astuces pour intégrer votre vidéo';
 
     public function __construct($options = null)
     {
-        if (null !== $options && !\is_array($options)) {
-            $options = [
-                'min' => $options,
-            ];
-        }
         parent::__construct($options);
     }
 }
