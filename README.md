@@ -34,7 +34,7 @@ That's all, your Database is create and fixtures are load ! ;)
 ### Step 5 :
 Run App in your server if you have it or enter this command "symfony server:start"
 
-####(optional)
+#### optional
 Create a virtualhost, for this :
 - Go to your localhost
 - In tool tabs, click on "Create a Virtual Host"
