@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerTest extends ConfigNewVarForTest
+class UserControllerTest extends WebTestCase
 {
 
     public function testUserRegistration()
@@ -21,18 +21,18 @@ class UserControllerTest extends ConfigNewVarForTest
         static::assertSame(1, $crawler->filter('h1.registration')->count());
 
         $form = $crawler->selectButton('S\'inscrire')->form();
-        $form['register_user[username]'] = $this->userName;
-        $form['register_user[email]'] = $this->email;
-        $form['register_user[password][first]'] = $this->password;
-        $form['register_user[password][second]'] = $this->password;
+        $form['register_user[username]'] = 'UserTest';
+        $form['register_user[email]'] = 'UserTest@test.com';
+        $form['register_user[password][first]'] = 'passTest';
+        $form['register_user[password][second]'] = 'passTest';
         $client->submit($form);
 
         $userRepository = static::$container->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(['username' => $this->userName]);
+        $testUser = $userRepository->findOneBy(['username' => 'UserTest']);
         $testUserName = $testUser->getUsername();
 
         static::assertInstanceOf(User::class,$testUser);
-        static::assertSame($this->userName,$testUserName);
+        static::assertSame('UserTest',$testUserName);
 
     }
 
@@ -42,7 +42,7 @@ class UserControllerTest extends ConfigNewVarForTest
 
         $userRepository = static::$container->get(UserRepository::class);
 
-        $testUser = $userRepository->findOneBy(['username'=>$this->userName]);
+        $testUser = $userRepository->findOneBy(['username'=>'UserTest']);
         $client->loginUser($testUser);
 
         $crawler = $client->request('GET', '/user/'.$testUser->getId());

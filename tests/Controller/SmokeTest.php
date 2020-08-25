@@ -10,6 +10,11 @@ class SmokeTest extends WebTestCase
 {
     /**
      * @dataProvider provideUrls
+     * @param $pageName
+     * @param $url
+     * @param string $method
+     * @param int $expectedStatusCode
+     * @param bool $withLogin
      */
     public function testPageIsSuccessful($pageName, $url, $method = "GET", $expectedStatusCode = 200, $withLogin = true)
     {
