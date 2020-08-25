@@ -58,7 +58,7 @@ class Trick
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
-     * @CustomAssert\LinkIsValid()
+     * @Assert\Valid()
      */
     private $videos;
 
