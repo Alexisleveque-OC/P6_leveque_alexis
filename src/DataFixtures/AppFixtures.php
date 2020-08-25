@@ -284,8 +284,6 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
                 $manager->persist($comment);
             }
         }
-
-
         $manager->flush();
     }
 }

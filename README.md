@@ -29,7 +29,9 @@ Copy file ".env" to ".env.local" (in directory App) whit your information.
 
 ### Step 4 :
 - For database and Fixtures, in your terminal enter this command "composer prepare".
-That's all, your Database is create and fixtures are load ! ;)
+That's all, your Database is create and fixtures are load ! ;) 
+
+(Be careful, if you delete one trick of fixture, related images was delete too. If you want remake fixtures correctly you can download them on GitHub) 
 
 ### Step 5 :
 Run App in your server if you have it or enter this command "symfony server:start"
