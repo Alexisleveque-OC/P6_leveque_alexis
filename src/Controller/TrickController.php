@@ -47,6 +47,7 @@ class TrickController extends AbstractController
         $formTrick->handleRequest($request);
 
         $formGroup = $this->createForm(GroupType::class);
+        $formDeleteTrick = $this->createForm(DeleteConfirmationType::class);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $user = $this->getUser();
@@ -64,7 +65,9 @@ class TrickController extends AbstractController
         return $this->render('trick/createTrick.html.twig', [
             'formTrick' => $formTrick->createView(),
             'formGroup' => $formGroup->createView(),
-            'editMode' => $trick->getId() !== null
+            'formDeleteTrick' => $formDeleteTrick->createView(),
+            'editMode' => $trick->getId() !== null,
+            'trick' => $trick
         ]);
     }
 

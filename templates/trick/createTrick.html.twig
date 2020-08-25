@@ -57,7 +57,8 @@
                         {% else %}
                             {% for image in formTrick.images %}
                                 <li class="fieldImage">
-                                    <img src="{{ asset(image.vars.value.url) }}" alt="{{ asset(image.vars.value.fileName) }}">
+                                    <img src="{{ asset(image.vars.value.url) }}"
+                                         alt="{{ asset(image.vars.value.fileName) }}">
                                     {{ form_row(image) }}
 
                                 </li>
@@ -68,7 +69,8 @@
                 <div class="col-xs-12 col-sm-6">
                     <p>Astuce: Pour intégrer votre vidéo, allez sur votre site de vidéo préféré, cliquez sur
                         partager -> Copiez le lien afficher. </p>
-                    <span class="oi oi-warning"></span> Pour des soucis de sécurité, seuls les lien youtube et dailymotion sont accéptés
+                    <span class="oi oi-warning"></span> Pour des soucis de sécurité, seuls les lien youtube et
+                    dailymotion sont accéptés
                     <ul class="videos"
                         data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"
                         data-index="{{ formTrick.videos|length }}">
@@ -85,15 +87,26 @@
                     </ul>
                 </div>
             </div>
-            <button class="btn btn-outline-success ">
+            <div class="row">
+                <button type="submit" class="offset-3 col-3 btn btn-outline-success ">
+                    {% if editMode %}
+                        Modifier le trick
+                    {% else %}
+                        Créer le trick
+                    {% endif %}
+                </button>
                 {% if editMode %}
-                    Modifier le trick
-                {% else %}
-                    Créer le trick
+                    <button type="button"
+                            class="btn btn-danger col-3" data-toggle="modal"
+                            data-target="#deleteTrickConfModal">
+                        Supprimer le trick
+                    </button>
                 {% endif %}
-            </button>
-
+            </div>
             {{ form_end(formTrick) }}
+            {% if editMode %}
+                {% include 'modal/deleteTrickConfModal.html.twig' %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
